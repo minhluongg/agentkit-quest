@@ -7,6 +7,23 @@
 
 ---
 
+## Launch progress (2026-07-13)
+
+**Site is live at [agentkit.quest](https://agentkit.quest) — 37 indexable URLs in the sitemap, submitted to Search Console.**
+
+| Tier | Planned | Live | Notes |
+|---|---|---|---|
+| **W1 link engine** | repo + hooks guide | ✅ | [github.com/minhluongg/claude-code-hooks](https://github.com/minhluongg/claude-code-hooks), CI green 3 OS |
+| **P0 commercial** | 5 rows | ✅ 5/5 | vs-free, which-kit, review(=vs-free), migration, + which-kit. Row 2 (do-i-need) dropped — cannibalises row 1. |
+| **P1 pillars** | 6 rows | ✅ 6/6 | skills-vs-commands, how-to-write-skill, hooks, workflow-patterns, orchestration, vs-cursor |
+| **P2 skill pages** | 20 | ✅ 20/20 | all job-targeted, teach the free method, honest Buy/Don't-buy |
+| **P3 getting-started** | 4 | ✅ 4/4 | what-is, install, first-project, core-commands |
+| **P4 (68 skills + 13 agents)** | — | `noindex` by design | 81 stubs remain gated until they have real content |
+
+Every page: indexable, in sitemap, internal links audited (all resolve), affiliate CTA with `?ref=` + `rel=sponsored` + 20%-off lever. **The priority content is done.** What remains is distribution (W3 — human) and the measurement loop (Phase 04).
+
+---
+
 ## How to read this document
 
 **There are no search-volume numbers, deliberately.** Nothing available to this project returns volume (WebSearch does not; Ahrefs/SEMrush/Keyword Planner need paid accounts). Inventing them would mean scheduling months of work against fabricated inputs.
