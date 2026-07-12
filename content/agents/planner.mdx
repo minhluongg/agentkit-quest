@@ -1,0 +1,67 @@
+---
+title: 'The Planner Agent: Claude Code Planning in a Separate Context'
+description: AgentKit's planner is a Claude Code subagent that researches and writes a phased plan in its own context, returning just the plan. What it does, why it runs on Opus, and how to build your own.
+keywords:
+  - claude code planner agent
+  - claude code planning subagent
+  - agentkit planner
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `planner` is a [subagent](/guides/skills-vs-commands-vs-subagents) whose whole job is
+to turn a vague task into a phased, written plan — and it does that work in its *own*
+context, so all the research and codebase exploration it does never floods your main
+conversation. You get back the plan, not the fifty files it read to write it.
+
+## What it does
+
+Given a task, it researches the approach, scouts the relevant code, weighs trade-offs, and
+writes a phased plan to disk — the same artifact the [`/ak:plan` skill](/skills/plan)
+produces, but as a delegated worker rather than an inline command.
+
+## Why it's a subagent, not just a prompt
+
+Planning well means reading a lot — docs, existing code, alternatives. If that happens in
+your main context, you're left with a window full of exploration and a plan buried in it.
+As a subagent it explores in isolation and hands back only the conclusion. That
+context-isolation is the [core reason subagents exist](/guides/claude-code-agent-orchestration).
+
+## It runs on Opus — and that's deliberate
+
+AgentKit routes the planner to **Opus**, the most capable model, because planning is where
+model quality pays off most: a weak plan is expensive downstream. Cheaper agents (a
+git-manager, a researcher) run on faster models. Routing the *right* model to each job is a
+cost-and-quality lever subagents give you.
+
+## Build your own (it's free)
+
+A subagent is a file: `.claude/agents/planner.md`, with frontmatter and a system prompt.
+
+```md
+---
+name: planner
+description: Research a task and write a phased implementation plan. Delegate planning here.
+tools: Read, Grep, Glob, WebSearch
+model: opus
+---
+
+You are a software architect. Given a task: research the approach, read the relevant
+code, weigh trade-offs against alternatives, and write a phased plan to a file. Do not
+write implementation code — only the plan.
+```
+
+That's a working planner subagent, free. AgentKit's is a tuned, battle-tested version with
+research and adversarial-review passes built in.
+
+## When it earns its place
+
+- On any task big enough that planning-in-your-main-context would bury the plan.
+- When you want the plan *stress-tested* (its red-team pass) before committing to it — the
+  approach this whole site's build used.
+
+## Related
+
+- [Planning workflow (free method)](/skills/plan)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

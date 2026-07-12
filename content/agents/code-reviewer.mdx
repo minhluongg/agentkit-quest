@@ -1,0 +1,63 @@
+---
+title: 'The Code-Reviewer Agent: A Fresh Set of Eyes on Your Diff'
+description: AgentKit's code-reviewer is a Claude Code subagent that reviews a change in its own context — so it judges the code, not the code it just wrote. What it does and how to build your own.
+keywords:
+  - claude code code reviewer agent
+  - claude code review subagent
+  - ai code reviewer claude
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `code-reviewer` is a [subagent](/guides/skills-vs-commands-vs-subagents) that reviews a
+change from a *fresh* context — it never watched the code being written, so it judges the
+diff on its merits instead of defending choices it just made. That independence is the
+whole point of having a reviewer be a separate agent.
+
+## What it does
+
+It reviews a diff, PR, commit, or codebase for production-grade problems — race conditions,
+N+1 queries, trust-boundary violations, unhandled errors — with a scout pass that hunts
+edge cases and a verification step before reporting, so you get fewer false positives.
+(The [`/ak:code-review` skill](/skills/code-review) is the action; this is the worker.)
+
+## Why the separate context matters here specifically
+
+When one agent writes code *and* reviews it, the review is compromised — it's motivated to
+approve what it just built. A reviewer subagent with no memory of writing the code has no
+such bias. This is the single strongest argument for context isolation, and code review is
+where it pays off most.
+
+We saw this first-hand building this site: the code-reviewer subagent flagged real bugs the
+main thread had written, including a security-guard bypass, precisely because it looked at
+the code cold.
+
+## Build your own (free)
+
+```md
+---
+name: code-reviewer
+description: Review a diff or PR for production bugs. Delegate review here after implementing.
+tools: Read, Grep, Glob, Bash
+model: sonnet
+---
+
+You are a staff engineer reviewing for production readiness. Hunt bugs that pass CI but
+break in production: race conditions, N+1 queries, unhandled errors, missing authorization.
+For each: quote the line, say what breaks and under what input, rate severity. Ignore style.
+```
+
+Give it **read-only tools** and it *cannot* edit — a subagent's tool scoping enforces "review
+only" as a hard constraint, not a hope.
+
+## When it earns its place
+
+- Before merging anything non-trivial.
+- Especially after an agent (or you) just wrote the code — the fresh eyes catch what the
+  author can't.
+
+## Related
+
+- [Code review (free method)](/skills/code-review)
+- [Review a GitHub PR](/skills/review-pr)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)

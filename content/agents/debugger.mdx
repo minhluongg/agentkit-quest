@@ -1,0 +1,59 @@
+---
+title: 'The Debugger Agent: Investigation Without the Log Spam'
+description: AgentKit's debugger is a Claude Code subagent that investigates a failure — logs, traces, diagnostics — in its own context and returns the root cause. What it does and how to build your own.
+keywords:
+  - claude code debugger agent
+  - claude code debug subagent
+  - claude code investigation agent
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `debugger` is a [subagent](/guides/skills-vs-commands-vs-subagents) built for
+investigation — the kind of work that generates a mountain of logs, stack traces, and test
+output you'll never read twice. It does that in its own context and hands back the root
+cause, not the pile of evidence it waded through.
+
+## What it does
+
+It investigates issues methodically: analyzes system behavior, diagnoses performance
+problems, reads logs, traces call stacks, examines CI/CD failures, and inspects database
+state — root-cause-first, the way the [`/ak:debug` skill](/skills/debug) prescribes.
+
+## Why it's a subagent
+
+Debugging is the definition of "voluminous, disposable output." Grep the logs, dump the
+stack, run the failing test ten times — none of that belongs in your main conversation
+after you have the answer. The debugger absorbs all of it and returns the one thing you
+need: *why it failed.*
+
+## It runs on Sonnet
+
+AgentKit routes it to **Sonnet** — capable enough for real diagnosis, faster and cheaper
+than Opus for what is often an iterative, high-volume task. The right model for the job.
+
+## Build your own (free)
+
+```md
+---
+name: debugger
+description: Investigate a failure and find the root cause. Delegate debugging here.
+tools: Read, Grep, Glob, Bash
+model: sonnet
+---
+
+Investigate the reported failure. Reproduce it first, then isolate the cause with evidence
+(logs, a failing test, a trace). Do NOT propose a fix until the root cause is proven. Return
+the root cause and the evidence — not the raw logs.
+```
+
+## When it earns its place
+
+- Intermittent or multi-layer bugs where the investigation is large and messy.
+- CI/CD failures and performance issues, where reading a lot of output is the job.
+
+## Related
+
+- [Debugging workflow (free method)](/skills/debug)
+- [Reproduce-before-fix](/guides/claude-code-workflow-patterns)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)

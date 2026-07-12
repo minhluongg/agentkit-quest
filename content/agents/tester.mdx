@@ -1,0 +1,61 @@
+---
+title: 'The Tester Agent: Validation as a Delegated Job'
+description: AgentKit's tester is a Claude Code subagent that runs and reports on tests in its own context. What it does, why it runs on Haiku, and how to build your own.
+keywords:
+  - claude code tester agent
+  - claude code testing subagent
+  - claude code qa agent
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `tester` is a [subagent](/guides/skills-vs-commands-vs-subagents) that runs the test
+suite, analyzes coverage, and reports results — in its own context, so the verbose test
+output stays out of your main conversation and you get back the verdict.
+
+## What it does
+
+It validates: runs unit, integration, and e2e tests, analyzes coverage, verifies the build,
+checks error handling, and reports quality metrics. (The [`/ak:test` skill](/skills/test)
+is the action; this is the worker you hand validation to.)
+
+## Why it's a subagent
+
+Test runs are noisy — hundreds of lines of pass/fail, stack traces on failure, coverage
+tables. You want "12 passed, 1 failed, here's the failure," not the whole scroll. A tester
+subagent absorbs the noise and returns the signal.
+
+## It runs on Haiku
+
+AgentKit routes it to **Haiku** — running and parsing test output is mechanical, so the
+cheap fast model fits. Reserve the expensive models for [planning](/agents/planner) and
+[refactoring](/agents/code-simplifier).
+
+## Build your own (free)
+
+```md
+---
+name: tester
+description: Run the test suite and report results. Delegate validation here after changes.
+tools: Bash, Read, Grep
+model: haiku
+---
+
+Run the project's tests. Report: what passed, what failed, and the failure details for
+each failure. Analyze coverage if available. Do NOT weaken or skip tests to make them pass
+— report failures honestly.
+```
+
+The "do not weaken tests" line matters: a [hook](/guides/claude-code-hooks-examples)
+enforces it, but stating it in the agent's brief reinforces the honest behavior.
+
+## When it earns its place
+
+- After any change, as the validation step in a [plan → build → review](/guides/agentkit-first-project) loop.
+- When you want test results summarized, not scrolled through.
+
+## Related
+
+- [Generate tests (free method)](/skills/test)
+- [Web testing](/skills/web-testing)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)

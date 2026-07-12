@@ -1,0 +1,61 @@
+---
+title: 'The Researcher Agent: Deep Research That Stays Out of Your Context'
+description: AgentKit's researcher is a Claude Code subagent that investigates a technical topic across many sources and returns a synthesized report. What it does, why it runs on Haiku, and how to build your own.
+keywords:
+  - claude code research agent
+  - claude code researcher subagent
+  - claude code technical research
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `researcher` is a [subagent](/guides/skills-vs-commands-vs-subagents) that investigates
+a technical question — a library, a best practice, an approach — across many sources and
+returns a synthesized report, not the twenty pages it read to write it.
+
+## What it does
+
+It gathers and synthesizes: searches, documentation, technical sources, and existing
+solutions, producing a report with recommendations. It's the workhorse a
+[planner](/agents/planner) spawns to investigate options in parallel.
+
+## Why it's a subagent — and why parallel
+
+Research is high-volume reading that you want the *conclusion* from, not the raw material.
+And because research questions are usually independent ("evaluate auth options" vs
+"evaluate the UI framework"), you can spawn several researchers **at once** — each in its
+own context — and get all the answers in the time of the slowest one. That
+[parallel fan-out](/guides/claude-code-agent-orchestration) is exactly how this site's SEO
+research was done: two researchers mapped the landscape simultaneously.
+
+## It runs on Haiku
+
+AgentKit routes it to **Haiku** — fast and cheap, which suits research where you're
+covering breadth and running several in parallel. Spending Opus-level cost on a
+gather-and-summarize task would be waste; the model routing avoids it.
+
+## Build your own (free)
+
+```md
+---
+name: researcher
+description: Research a technical topic across sources and return a synthesized report.
+tools: WebSearch, WebFetch, Read
+model: haiku
+---
+
+Research the given topic thoroughly across multiple sources. Synthesize findings into a
+concise report with concrete recommendations and cite sources. Return the report only —
+not raw search dumps.
+```
+
+## When it earns its place
+
+- Evaluating unfamiliar tech before you commit to it.
+- Any time a [planner](/agents/planner) needs several independent questions answered fast.
+
+## Related
+
+- [The planner agent](/agents/planner) — spawns researchers
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
