@@ -16,6 +16,12 @@ export const siteConfig = {
     // linking to it would 404 for visitors.
     docs: 'https://docs.claudekit.cc',
     formerName: 'ClaudeKit',
+    // The exact build every count on this site was taken from. Stated publicly on
+    // the landing page: it is the cheapest proof we actually installed the thing.
+    // The vendor's site advertises "60+ skills" and "17 agents"; this kit has 88
+    // and 13. When we re-vendor the kit, this moves and the counts move with it.
+    kitVersion: 'v2.20.0', // claudekit-engineer/package.json
+    kitCountedAt: '2026-06-17', // SKILLS.yaml → metadata.last_updated
   },
   nav: [
     { title: 'Guides', href: '/guides' },
