@@ -1,0 +1,67 @@
+---
+title: 'Pack a Repo for an LLM with Claude Code (Repomix)'
+description: How to pack a whole codebase into a single AI-friendly file with Repomix, for LLM context, audits, or onboarding. The free method, and what AgentKit's repomix skill adds.
+keywords:
+  - repomix claude code
+  - pack repo for llm
+  - claude code codebase snapshot
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Sometimes you want to hand an entire codebase to an LLM at once — for a security audit, to
+understand an unfamiliar library, or to onboard. [Repomix](https://github.com/yamadashy/repomix)
+packs a whole repo into a single structured file for exactly that. It's free and open
+source; here's how to use it and what the skill adds.
+
+## The job
+
+Turn a repository into one AI-consumable file — XML, Markdown, or plain text — so a model
+can reason over the whole thing in one context.
+
+## How to do it without a kit
+
+Repomix is a free npm tool. Run it directly:
+
+```bash
+npx repomix                          # pack the current repo
+npx repomix --style markdown         # markdown output
+npx repomix --include "src/**"       # scope it
+```
+
+The output is one file with the directory tree and every file's contents, formatted for an
+LLM. Two things to get right:
+
+**1. Scope it.** Packing `node_modules` wastes the whole context window. Use `.repomixignore`
+(or `--include`) so you pack the code, not the dependencies.
+
+**2. Pick the format for the consumer.** XML parses most reliably for models; Markdown reads
+best for humans; plain text is smallest.
+
+Then paste (or attach) the packed file into your LLM of choice. This is a genuinely useful
+free tool for third-party library analysis and audits.
+
+## What the kit's skill adds
+
+AgentKit's `repomix` skill (`/ak:repomix`) wraps this with sensible defaults for the common
+jobs — codebase snapshots, LLM-context prep, security audits, third-party analysis — and
+the format flags, with scripts.
+
+```bash
+/ak:repomix . --style xml
+```
+
+*(Legacy prefix: `/ck:repomix`.)*
+
+Since Repomix itself is free and open source, the skill is convenience over the raw tool
+rather than new capability — worth knowing before you weigh it.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you already own the kit and want the packing patterns integrated.
+- **Skip it if** packing is all you need — `npx repomix` is free and does the whole job.
+
+## Related
+
+- [Explore a large codebase](/skills/scout)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

@@ -1,0 +1,61 @@
+---
+title: 'Exploring a Large Codebase with Claude Code'
+description: How to get oriented in an unfamiliar or large codebase with Claude Code without flooding your context. The free method with subagents, and what AgentKit's scout skill adds.
+keywords:
+  - claude code explore codebase
+  - claude code understand large codebase
+  - claude code find files
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Dropping Claude into a big, unfamiliar repo and asking it to "understand the codebase"
+fills your context with grep results and file dumps you'll never re-read — and buries the
+actual answer. The right move is to send the exploration somewhere else and keep just the
+map.
+
+## The job
+
+Get oriented in a large or unfamiliar codebase — find the relevant files, understand how
+they connect — without drowning your main conversation in raw search output.
+
+## How to do it without a kit
+
+**Send the exploration to a [subagent](/guides/skills-vs-commands-vs-subagents).** A
+subagent reads the files in its own context and returns only the summary:
+
+> Explore this codebase and tell me: where does authentication happen, which files handle
+> it, and how do they connect? Return a short map with file:line references — don't paste
+> the file contents.
+
+Claude Code's Explore/Task tooling does exactly this. You get the map; the fifty files it
+read stay out of your window. That single move — explore in a subagent, keep the summary —
+is the whole technique, and it's free.
+
+For targeted lookups, plain `grep`/`glob` (or the Grep/Glob tools) are faster than asking
+Claude to read broadly — use search to *find*, then read only what matters.
+
+## What the kit's skill adds
+
+AgentKit's `scout` skill (`/ak:scout`) packages fast, parallel codebase scouting — multiple
+explorer agents fanning out at once for file discovery and orientation — so a broad "where
+is X" resolves quickly without you orchestrating the subagents by hand.
+
+```bash
+/ak:scout "where is rate limiting implemented"
+```
+
+*(Legacy prefix: `/ck:scout`.)* This site's own build used scouting to map the vendored kit
+before writing anything — it's a genuine time-saver on large trees.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you work in large codebases often and want fast parallel scouting on tap.
+- **Skip it if** you can spawn an explore-subagent yourself — the free method above is the
+  same idea.
+
+## Related
+
+- [Explore-then-edit workflow](/guides/claude-code-workflow-patterns)
+- [Pack a repo for an LLM](/skills/repomix)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)

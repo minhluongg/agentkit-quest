@@ -1,0 +1,64 @@
+---
+title: 'Browser Automation with Claude Code'
+description: How to drive a browser from Claude Code — testing, screenshots, scraping, form automation. The free method with Playwright, and what AgentKit's agent-browser skill adds for autonomous sessions.
+keywords:
+  - claude code browser automation
+  - claude code playwright automation
+  - claude code control browser
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Sometimes the task lives in a browser, not the terminal — verifying a UI actually works,
+grabbing a screenshot, filling a form, scraping a page. Claude Code can drive a real
+browser for all of this. The free path is Playwright; the skill adds structure for longer,
+self-verifying sessions.
+
+## The job
+
+Have Claude operate a real browser to test, screenshot, scrape, or automate a flow — and
+confirm the result rather than assume it.
+
+## How to do it without a kit
+
+**Playwright is the free workhorse.** It's scriptable, headless-capable, and Claude writes
+and runs it well:
+
+```bash
+npx playwright screenshot https://example.com shot.png
+```
+
+For interactive automation, have Claude write a Playwright script for the flow (navigate,
+click, fill, assert) and *run it* — then read the result. The key discipline: make it
+**verify**, not assume. "Click submit and confirm the success message appears," not just
+"click submit."
+
+For scraping, prefer a real API if one exists; use browser automation only when the data
+is genuinely behind rendering. Respect robots and rate limits.
+
+If you need the browser to use your real logged-in session (cookies, accounts), that's a
+different setup — a profile-attached browser — and worth being deliberate about for
+security.
+
+## What the kit's skill adds
+
+AgentKit's `agent-browser` skill (`/ak:agent-browser`) is built for longer autonomous
+sessions with self-verification — context-efficient page snapshots, video recording, and
+cloud-browser support (Browserbase) — beyond one-off Playwright scripts.
+
+```bash
+/ak:agent-browser "log in and verify the dashboard loads"
+```
+
+*(Legacy prefix: `/ck:agent-browser`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you run long, self-verifying browser automations or need cloud browsers.
+- **Skip it if** you need occasional screenshots or a test — Playwright plus Claude Code is
+  free and plenty.
+
+## Related
+
+- [Web testing (Playwright/Vitest/k6)](/skills/web-testing)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

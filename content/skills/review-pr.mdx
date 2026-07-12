@@ -1,0 +1,71 @@
+---
+title: 'Review a GitHub PR with Claude Code'
+description: How to review a pull request with Claude Code — pulling the diff, checking against standards, catching AI slop. The free method with gh, and what AgentKit's review-pr skill adds.
+keywords:
+  - claude code review github pr
+  - claude code pull request review
+  - review pr with claude
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Reviewing someone else's PR (or an agent's) is a specific job: pull the diff, judge it
+against how *this* project does things, and catch the problems — including the increasingly
+common one of AI-generated code that looks plausible and is subtly wrong. Here's the free
+flow and what the skill adds.
+
+## The job
+
+Review a specific PR — its diff, its fit with project standards, its correctness — and
+surface the issues worth blocking on, not style nits.
+
+## How to do it without a kit
+
+**1. Pull the PR with `gh`:**
+
+```bash
+gh pr diff 142            # the diff
+gh pr view 142            # description + context
+```
+
+**2. Give Claude the project's standards.** A review is only as good as what it measures
+against. Point it at your conventions:
+
+> Review PR #142's diff against this project's standards: [link CONTRIBUTING or paste the
+> rules]. Flag correctness bugs, regressions, missing tests, and anything that doesn't
+> match how this codebase does things. Separate blocking issues from suggestions.
+
+**3. Hunt for AI slop specifically** — it's a real category now: plausible code that
+duplicates an existing helper, invents an API that doesn't exist, or adds an unowned TODO.
+Ask Claude to check for reinvented wheels and unverified assumptions.
+
+**4. Post it back** if you want: `gh pr review 142 --comment --body "..."`.
+
+## What the kit's skill adds
+
+AgentKit's `review-pr` skill (`/ak:review-pr`) runs this end to end — duplicate-prior-work
+check, project-standards check, correctness, breaking changes, and an explicit AI-slop
+pass — and can optionally `--fix` the issues and `--reply` on the PR.
+
+```bash
+/ak:review-pr 142
+/ak:review-pr https://github.com/org/repo/pull/142 --fix --reply
+```
+
+*(Legacy prefix: `/ck:review-pr`.)*
+
+The `--fix` and `--reply` automation and the anti-slop pass are the parts that save real
+time over a hand-driven review.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you review PRs constantly and want a standards-aware review with optional
+  auto-fix and reply.
+- **Skip it if** you review occasionally — `gh pr diff` plus a standards-aware prompt is
+  free and solid.
+
+## Related
+
+- [General code review](/skills/code-review)
+- [Git commits and PRs](/skills/git)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

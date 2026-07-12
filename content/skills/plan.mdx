@@ -1,0 +1,67 @@
+---
+title: 'Planning a Feature with Claude Code Before You Build'
+description: How to plan an implementation with Claude Code so the architecture is right before any code is written. The free method with plan mode, and what AgentKit's plan skill adds.
+keywords:
+  - claude code planning
+  - claude code plan a feature
+  - claude code plan before coding
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+The most expensive Claude Code mistakes are architectural — a wrong approach taken three
+files deep, which is cheap to fix in a plan and painful to unwind in code. Planning first
+is the single highest-leverage habit, and Claude Code has built-in support for it.
+
+## The job
+
+Turn a vague task ("add notifications") into a concrete plan — the steps, the files it will
+touch, the trade-offs — and review that plan *before* any code exists.
+
+## How to do it without a kit
+
+**1. Use plan mode.** Claude Code can explore and propose an approach without changing
+anything until you approve. Start there for anything non-trivial. Prompt:
+
+> Before writing any code, produce a plan: the approach, the files you'll create or modify,
+> the trade-offs of your chosen approach vs the alternatives, and the risks. Don't edit
+> anything until I approve.
+
+**2. Make it write the plan to a file.** A plan on disk survives context compaction and
+becomes the brief for the implementation step — the
+[handoff that keeps a workflow coherent](/guides/claude-code-agent-orchestration).
+
+**3. Attack the plan before you commit to it.** Ask Claude (or a fresh
+[subagent](/guides/skills-vs-commands-vs-subagents)) to argue *against* the plan — find the
+flaw, the missing case, the wrong assumption. A plan that survives an adversarial pass is
+worth building; one that doesn't just saved you the rework.
+
+That loop — plan, write it down, red-team it — is free and is most of the value.
+
+## What the kit's skill adds
+
+AgentKit's `plan` skill (`/ak:plan`) runs this as a structured workflow: research, codebase
+scouting, a written phased plan, an optional adversarial red-team pass, and validation —
+with modes for depth (`--hard`, `--deep`, `--parallel`) and TDD.
+
+```bash
+/ak:plan "add real-time notifications"
+/ak:plan --hard "refactor the auth layer"
+```
+
+*(Legacy prefix: `/ck:plan`.)* This entire site was planned with this skill — including a
+red-team pass that caught a wrong revenue figure the plan was built on, before any content
+was written. That's the value: the plan is stress-tested before you invest in it.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you plan substantial features regularly and want research + phased plans +
+  red-teaming as one command.
+- **Skip it if** you plan occasionally — plan mode plus a "red-team this" prompt is the same
+  discipline, free.
+
+## Related
+
+- [Plan-first workflow](/guides/claude-code-workflow-patterns)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
