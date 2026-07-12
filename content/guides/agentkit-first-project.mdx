@@ -1,9 +1,9 @@
 ---
 title: 'Your First Project with AgentKit: A Walkthrough'
-description: A start-to-finish walkthrough of building a feature with AgentKit in Claude Code — install, plan, cook, review, ship — and what each step actually does.
+description: A real start-to-finish run of the AgentKit loop — plan, cook, review, ship — with the actual plan file it wrote, the actual failures, and what each step really does.
 category: Start Here
 difficulty: beginner
-updated: '2026-07-12'
+updated: '2026-07-13'
 keywords:
   - agentkit tutorial
   - agentkit first project
@@ -14,47 +14,147 @@ relatedSkills:
   - code-review
 ---
 
-Here is the whole loop, once, so you know what working with AgentKit actually feels like —
-from nothing to a reviewed, shipped feature. The workflow is the same one this site was
-built with.
+Here is the whole loop, once, so you know what working with AgentKit actually feels like.
+
+**Everything below is real.** The site you are reading was planned, built, reviewed, and shipped
+with the commands on this page — so instead of describing what `/ak:plan` produces, we can show
+you the file it wrote, the failures it caused, and the commits that came out the other end.
 
 ## Before you start
 
 - Claude Code installed.
-- AgentKit installed — [see the install guide](/guides/install-agentkit) (it's the `ak`
-  binary; `ak kit init engineer --target claude-code`).
+- AgentKit installed, logged in, and the kit added — [the install guide](/guides/install-agentkit)
+  covers the three steps the official quick-start leaves out.
+
+<Callout type="tip" title="Install the kit once, not per project">
+```bash
+ak kit init engineer --global
+```
+
+`--global` writes the kit to the adapter user directory
+(`~/.agentkit/adapters/claude-code/engineer`), not into your repo — so the skills and agents are
+available in **every** project without installing them again. Drop `--global` only when you want
+one repo pinned to its own kit version.
+
+It also **replaces your existing `~/.claude`**, and tells you how to undo that:
+
+```
+╔════════════════════════════════════════════════════════╗
+║ Previous ~/.claude saved. Recover any time with:       ║
+║   ak backups restore 20260712T184108Z-5ddf1f52         ║
+╚════════════════════════════════════════════════════════╝
+[OK] engineer kit written to ...\adapters\claude-code\engineer (1444 files)
+[i] Hooks installed: 16 scripts across PostToolUse, PreToolUse, SessionStart, ...
+```
+
+Read that box before you move on. If you had a hand-tuned `~/.claude`, it is now the *previous*
+one.
+</Callout>
 
 ## Step 1 — Plan the work
 
-Don't start by asking it to code. Start by asking it to *think*:
+Do not start by asking it to code. Start by asking it to *think*:
 
 ```bash
-/ak:plan "add a contact form that emails submissions"
+/ak:plan "rewrite the landing page with real conversion copy"
 ```
 
-This researches, scouts your codebase, and writes a phased plan to disk — the approach,
-the files it will touch, the trade-offs. **Read it before continuing.** This is the step
-that prevents the expensive mistake: a wrong approach discovered after it's built. If the
-plan's approach is wrong, you find out now, for the cost of a minute's reading.
+This researches, scouts your codebase, and writes a **phased plan to disk**. Here is the actual
+opening of the plan it wrote for this site's landing page:
 
-([Why plan-first is the highest-leverage habit.](/guides/claude-code-workflow-patterns))
+```markdown
+# Landing Page — Conversion Copy & Design
+
+**Status:** READY
+**Route:** `src/app/[lang]/(marketing)/page.tsx`
+
+## Goal
+
+Turn the landing skeleton into a page that converts **without spending the
+trust that is the only asset this site has.**
+
+## Verified fact ledger
+
+Every number on the landing page must trace to a row here. Nothing else ships.
+
+| Fact | Value | Source (re-checkable) |
+|---|---|---|
+| Skills in the kit | **88** | `guide/SKILLS.yaml` → `total_skills: 88` |
+| Agents in the kit | **13** | `claude/agents/*.md` → 13 files |
+```
+
+Note what it did there. It did not just list files to change — it scouted the repo, found the
+numbers, and **wrote down where each one came from** so a later step could check them.
+
+<Callout type="warn" title="The plan catches the expensive mistake — and the plan itself can be wrong">
+That fact ledger says 88 skills and 13 agents. **Both numbers are wrong.** They were counted from
+the old ClaudeKit-era kit. The kit `ak` actually ships has 91 and 16 — we only found out when we
+installed the CLI and counted it ourselves, days later.
+
+A plan is an artifact you argue with, not an oracle you obey. This one was sharp enough to kill a
+false headline before it shipped, and still confidently wrong about a number. Both things are
+true at once, and the second one is why you read it.
+</Callout>
+
+**Read the plan before continuing.** This is the step that prevents the expensive mistake: a wrong
+approach discovered *after* it is built. If the approach is wrong, you find out now, for the cost
+of a minute's reading.
+
+Two flags most people never discover ([the full list](/guides/agentkit-core-commands)):
+
+- `/ak:plan --two` — generates **two competing approaches** and makes you choose
+- `/ak:plan red-team` — turns the planner hostile against a plan it just wrote
 
 ## Step 2 — Build it
 
 Hand the plan to `cook`:
 
 ```bash
-/ak:cook path/to/plans/.../plan.md
+/ak:cook plans/260713-0024-landing-conversion-copy/plan.md
 ```
 
 `cook` implements the plan — and because it runs testing and code review *as part of its
-workflow*, you're not manually stitching those steps together. It builds, tests, and
-reviews in one pass, stopping to show you the result.
+workflow*, you are not manually stitching those steps together.
 
-Watch what it does. You stay in the loop — approving, correcting — but the plumbing between
-build → test → review is handled.
+The real output from this repo's build assertions at the end of that run:
 
-## Step 3 — Review before it ships
+```
+Checked 127 prerendered pages.
+  skills: 91/91
+  agents: 16/16
+  noindex (stub) pages: 74
+
+✓ all build assertions passed
+```
+
+And the commit it produced:
+
+```
+feat(landing): conversion copy that survives the second click
+```
+
+## Step 3 — What actually went wrong
+
+This is the part a README will never tell you, and it is the reason to trust the rest of this page.
+
+**The build was green and the page was still broken.** `cook` shipped a headline that wrapped to
+four lines of monospace at 1440px, pushing the search box — the element that does the actual
+persuading — down toward the fold. No test catches that. It was caught by taking a screenshot and
+*looking at it*, which is a step you have to ask for.
+
+**The plan contradicted itself.** Its acceptance criteria said the string `$99` must appear exactly
+once, in the closing call to action. But the plan's own copy deck deliberately put `$99` earlier,
+inside a sentence arguing *against* buying impulsively. Verification caught the conflict — and the
+right fix was to correct the criterion, not to mangle the page to satisfy a rule that was wrong.
+
+**Vendoring the new kit broke the typecheck.** The moment the kit landed in the repo, TypeScript
+began type-checking the kit's own example files and failed on imports it could not resolve. One
+line in `tsconfig.json` fixed it. Obvious afterwards; invisible in advance.
+
+None of these are failures of the tool. They are what using the tool actually looks like: the loop
+gets fast enough that your job shifts from writing the code to **checking the work.**
+
+## Step 4 — Review before it ships
 
 Even after `cook`'s built-in review, a final look at the diff is cheap insurance:
 
@@ -62,35 +162,40 @@ Even after `cook`'s built-in review, a final look at the diff is cheap insurance
 /ak:code-review --pending
 ```
 
-This reviews the uncommitted changes for the bugs that pass CI and break in production —
-race conditions, unhandled errors, missing checks. Fix what it finds.
+This reviews uncommitted changes for the bugs that pass CI and break in production — race
+conditions, unhandled errors, missing checks.
 
-## Step 4 — Ship
-
-Clean commit and PR:
+## Step 5 — Ship
 
 ```bash
 /ak:git cm      # conventional commit, no AI-attribution noise
 /ak:git pr      # open a PR with a generated description
 ```
 
-That's the loop: **plan → cook → review → ship.**
+That is the loop: **plan → cook → review → ship.**
 
 ## What just happened
 
-You used four skills that hand off to each other — the planner wrote a brief the builder
-read, the builder invoked the reviewer, the git skill packaged the result. That
-*coherence* — pieces designed to connect — is the thing AgentKit sells over a pile of
-individual tools. ([The orchestration underneath.](/guides/claude-code-agent-orchestration))
+You used four skills that hand off to each other. [`plan`](/skills/plan) wrote a brief that
+[`cook`](/skills/cook) read; `cook` invoked [`code-review`](/skills/code-review);
+[`git`](/skills/git) packaged the result. Underneath, those skills delegate to subagents —
+[`planner`](/agents/planner) does the planning, [`code-reviewer`](/agents/code-reviewer) the
+review — each in [its own context window](/guides/skills-vs-commands-vs-subagents), so heavy work
+does not flood your main conversation.
 
-And every step here has a [free equivalent](/guides/agentkit-vs-free-alternatives) — plan
-mode, a review prompt, `gh` for PRs. The kit's value is that they're pre-wired and
-consistent, not that they're otherwise impossible. Whether that's worth $99 is
-[the honest question](/guides/agentkit-vs-free-alternatives) — but now you know what the
-loop feels like.
+That *coherence* — pieces designed to connect — is the thing AgentKit sells.
+([The orchestration underneath.](/guides/claude-code-agent-orchestration))
+
+And every step here has a [free equivalent](/guides/agentkit-vs-free-alternatives): plan mode, a
+review prompt, `gh` for PRs. The kit's value is that they are pre-wired and consistent, not that
+they are otherwise impossible. Whether that is worth $99 is
+[the honest question](/guides/agentkit-vs-free-alternatives) — but now you know what the loop
+feels like, including the parts that go wrong.
 
 ## Next
 
-- [The core commands, as a reference](/guides/agentkit-core-commands)
-- [Browse all 91 skills](/skills)
-- [The 16 agents](/agents)
+- [The core commands, with their real flags](/guides/agentkit-core-commands)
+- [The complete guide](/guides/agentkit-complete-guide)
+- [Browse all 91 skills](/skills) · [The 16 agents](/agents)
+
+<KitCta showDisclosure />
