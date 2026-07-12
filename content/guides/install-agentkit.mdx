@@ -74,16 +74,157 @@ sh install.sh
 blocks by default — worth setting up if you let Claude Code run install commands.)
 </Callout>
 
-## Add a kit to Claude Code
+## What the installer actually does
 
-Installing `ak` gives you the CLI; you then add a **kit**. For the Engineer kit
-(the developer one this site documents), targeting Claude Code, installed globally:
+We ran this on Windows 11 on 2026-07-13. The real output:
 
-```bash
-ak kit init engineer --target claude-code --global
+```
+[i] AgentKit signed installer
+[i]   verifier: 2.2.0-beta.8 (windows/amd64)
+[i]   channel:  stable
+[i] downloading pinned bootstrap verifier
+[OK] bootstrap verifier pin verified
+[OK] verified release archive written to ...\verified-release.zip
+[i] extracting authenticated release
+[OK] installed ak.exe -> C:\Users\Admin\bin\ak.exe
+WARNING: C:\Users\Admin\bin was added to your user PATH. Open a NEW terminal for it to take effect.
+[i] ak 2.1.0
+[OK] done. Run 'ak --help' to get started.
 ```
 
-Drop `--global` to install it into the current project only instead of for every project.
+Two things worth knowing that the one-liner does not tell you:
+
+- **You must open a new terminal.** The installer edits your user PATH; your current shell
+  does not see `ak` until you restart it. Until then, call it by full path.
+- **No admin rights are needed.** It installs to your user directory, not `Program Files`.
+
+The installer is genuinely careful, which is worth saying because most `curl | sh` scripts
+are not: it pins the SHA-256 and byte size of a bootstrap verifier, and that verifier checks
+an Ed25519-signed release chain before a single byte of the CLI is trusted. It also **refuses
+to run** if you try to skip checksum verification.
+
+## `ak doctor` — read it, do not skip it
+
+```
+|  ENVIRONMENT
+|  [!]  AgentKit CLI              current: 2.1.0
+|  [OK] Network                   reachable: https://api.github.com (200)
+|
+|  CONFIGURATION
+|  [X]  API keys                  provider: anthropic, missing key(s): anthropic_api_key
+|                              -> run: ak setup
+|
+|  OTHER
+|  [!]  install provenance        content present in C:\Users\Admin\.claude without an AK marker
+|                                 — this may be a ClaudeKit install ... Run `ak setup`
+|  [!]  agentkit auth session     not logged in; remote kit install/update requires an
+|                                 AgentKit account session  -> run: ak login
+|  [!]  ck shim collision         legacy ck collision detected: ck resolves to
+|                                 C:\nvm4w\nodejs\ck.cmd, but the current ak executable is
+|                                 C:\Users\Admin\bin\ak.exe
+|
+|  Summary: 6 [OK]  6 [!]  1 [X]
+```
+
+A fresh install is **not** ready to use. `doctor` is telling you three things must happen
+first, and none of them are in the quick-start.
+
+## The three steps the one-liner leaves out
+
+<Steps>
+  <Step>
+    ### Log in — kits are licence-gated
+
+    ```bash
+    ak login --email you@example.com          # emails you an OTP
+    ak login --license-key ak_license_...     # or activate with your licence key
+    ak login --api-key ak_live_... --no-interactive
+    ```
+
+    Without this, `ak kit init` cannot fetch a paid kit at all. Verify with `ak whoami`,
+    which lists the kits your account is licensed for.
+
+    <Callout type="warn" title="The OTP path needs a real terminal">
+    `ak login --email` prints `Enter OTP code:` and waits on stdin. Run it in an actual
+    terminal — piped through a script or a non-interactive runner it submits an empty code
+    and the server answers `400 Bad Request`, which looks like a rejected account but is not.
+    Use `--license-key` or `--api-key` with `--no-interactive` when scripting.
+    </Callout>
+  </Step>
+
+  <Step>
+    ### Configure your provider key
+
+    ```bash
+    ak setup
+    ```
+
+    `doctor` reports `[X] API keys ... missing key(s): anthropic_api_key` until you do.
+    `ak setup` is also what claims an existing `~/.claude` directory for AgentKit — see the
+    warning below before you run it on a machine that already has ClaudeKit.
+  </Step>
+
+  <Step>
+    ### Install the kit
+
+    ```bash
+    ak kit init engineer --target claude-code --global
+    ```
+
+    Drop `--global` to install into the current project only. The kit lands in
+    `~/.claude/plugins/ak-engineer/` — check with `ak kit install-path engineer --json`
+    before you commit to it.
+  </Step>
+</Steps>
+
+<Callout type="warn" title="Stable ak cannot install the kit from the remote registry (as of 2026-07-13)">
+Install the stable channel, then ask for the remote kit, and you get:
+
+```
+remote registry manifest requires newer ak: kit engineer requires
+ak >= 2.2.0-beta.14 (current 2.1.0); upgrade ak first
+```
+
+The stable installer ships **2.1.0**; the registry's engineer kit wants **2.2.0-beta.14**.
+The kits bundled inside the binary install fine — it is the `--remote` path that is blocked.
+If you hit this, you need the beta channel: set `AK_CHANNEL=beta` before running the
+installer, or run `ak self-update`.
+</Callout>
+
+<Callout type="warn" title="A global install takes over an existing ClaudeKit setup">
+`ak kit init --global` performs a pre-install snapshot **and a ClaudeKit takeover** — this
+is what the `--no-backup` flag exists to skip ("leaves CK content active", per its own help
+text). If you have a working `ck` install you care about, know that going in.
+
+To inspect a kit without touching your environment at all, build it to a scratch directory:
+
+```bash
+ak kit init engineer --target claude-code --build-only --out ./kit-inspect
+```
+
+That is exactly how we counted the kit for this site: 91 skills, 16 agents, 1,443 files
+written, and nothing in `~/.claude` touched.
+</Callout>
+
+## You already have `ck` installed — what happens?
+
+Nothing breaks. On our machine `ck` (claudekit-cli 4.5.0) still worked normally after
+installing `ak`, and both binaries coexist:
+
+```bash
+$ ck --version
+CLI Version: 4.5.0
+Local Kit Version: engineer@v2.20.0
+
+$ ak --version
+ak 2.1.0
+```
+
+But `ak doctor` flags it as a **`ck` shim collision**, because AgentKit also wants to own a
+`ck` shim for backwards compatibility and yours resolves to the old npm package. The fix is
+to remove or rename the legacy `claudekit-cli`, or to put AgentKit's shim earlier on PATH.
+Inspect what you actually have with `Get-Command ck -All` on Windows, or `which -a ck`
+elsewhere.
 
 ## Start using it
 

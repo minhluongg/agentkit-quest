@@ -59,14 +59,59 @@ For most people: **nothing urgent.** But two things are worth knowing.
   </Step>
 
   <Step>
-    ### Re-install or update to get the current version
+    ### Let `ak migrate` do the move for you
 
-    Grab the current kit so your local copy matches the AgentKit naming and gets the
-    latest skills. A fresh install from [agentkit.best](https://agentkit.best) is the
-    clean way; if you are on an older ClaudeKit checkout it keeps working, but new
-    features ship under the AgentKit name.
+    You do not have to migrate by hand. The CLI ships a command specifically for this, and
+    it is **dry-run by default** — it writes nothing until you explicitly opt in:
+
+    ```bash
+    ak migrate                  # scan and show the plan. Writes nothing.
+    ```
+
+    It scans `~/.claude/`, `~/.claudekit/`, and the current directory, classifies what it
+    finds, and prints the plan it *would* apply. Run on a machine with a real ClaudeKit
+    install, ours reported:
+
+    ```
+    [i] Legacy ClaudeKit kit preflight: 4 finding(s)
+      - claude-code global  engineer  confidence=high  hook-risk=none  artifacts=64
+        root: C:\Users\Admin\.claude
+      - claude-code project engineer  confidence=high  hook-risk=none  artifacts=84
+        root: ...\agentkit-quest-fe\.claude
+      - claude-code project unknown   confidence=low   hook-risk=manual-review  artifacts=1
+
+    [i] Legacy plan 2f492fd97239: archive=149 neutralize=149 install=3 preserve=1 conflict=0
+      archive: C:\Users\Admin\.agentkit\archives\legacy-kit-migration\20260712T183114Z
+      - preserve ...\.claude\settings.json (low-confidence or unknown legacy artifact
+        requires manual review)
+    ```
+
+    Read that plan before you apply it. **`archive=149 neutralize=149` means it will move
+    and deactivate 149 files** — including, in our case, a project-local `.claude/` we had
+    hand-tuned. It archives rather than deletes, and it kept `settings.json` back for manual
+    review rather than guessing. But "archive" still means "your current setup stops being
+    the live one".
+
+    When the plan looks right:
+
+    ```bash
+    ak migrate --from=ck --dry-run=false --yes
+    ```
+
+    And if it goes wrong, there is a way back:
+
+    ```bash
+    ak migrate rollback
+    ```
   </Step>
 </Steps>
+
+<Callout type="tip" title="Or just leave ClaudeKit alone">
+Both CLIs coexist. After installing `ak` on a machine with `ck` (claudekit-cli 4.5.0), `ck`
+kept working exactly as before — we checked. You are allowed to install `ak`, look around,
+and migrate later. `ak doctor` will nag you about a "ck shim collision" until you resolve it,
+but nothing is broken by having both.
+</Callout>
 
 <Callout type="warn" title="A quirk worth knowing">
 Some **internal** references in the shipped kit still say `ck:` even after the rename —
