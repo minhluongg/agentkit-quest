@@ -1,0 +1,101 @@
+---
+title: 'Claude Code vs Cursor (2026): An Honest Comparison'
+description: Claude Code is a terminal agent; Cursor is an AI IDE. They overlap but suit different ways of working. Here is the real difference, who each fits, and why it is not actually either-or.
+category: Deep Dives
+difficulty: beginner
+updated: '2026-07-12'
+keywords:
+  - claude code vs cursor
+  - cursor vs claude code
+  - claude code or cursor
+  - claude code vs cursor 2026
+relatedSkills: []
+---
+
+Most "Claude Code vs Cursor" comparisons pit them as rivals and pick a winner. That
+misframes it. They are different *shapes* of tool — one lives in your terminal, one is your
+editor — and the honest answer for a lot of developers is "both, for different things."
+Here is the real difference and how to decide.
+
+<Callout type="info" title="What each one actually is">
+**Claude Code** — Anthropic's agent that runs in your terminal. You talk to it; it reads,
+edits, and runs commands across your project. No editor of its own — it works alongside
+whatever you use.
+
+**Cursor** — an AI-first code editor (a fork of VS Code). Inline completions as you type,
+an agent mode for larger changes, and the familiar IDE surface — files, tabs, debugger.
+</Callout>
+
+## The core difference: where you live
+
+| | Claude Code | Cursor |
+|---|---|---|
+| **Form factor** | Terminal agent | Full IDE (VS Code fork) |
+| **Primary mode** | Conversational — describe the task, it executes | In-editor — completions + agent |
+| **Inline autocomplete** | No (it's not an editor) | Yes — its signature feature |
+| **Editor lock-in** | None — use any editor alongside | You switch to Cursor |
+| **Extensibility** | Skills, subagents, hooks, MCP | Extensions (VS Code ecosystem) + rules |
+| **Feels like** | Delegating to a teammate | A very smart pair-programmer in your editor |
+
+The split that actually predicts which you'll prefer: **do you want to *drive* (stay in
+the editor, AI assists your keystrokes) or *delegate* (describe the outcome, let the agent
+do it)?** Cursor is built for driving. Claude Code is built for delegating.
+
+## Where Claude Code is stronger
+
+- **Delegation of whole tasks.** "Add auth, write the tests, and open a PR" is squarely
+  its model — it plans, edits across files, runs commands, and reports back.
+- **It doesn't move your editor.** Keep Neovim, JetBrains, or VS Code; Claude Code works
+  in the terminal beside it.
+- **Deep extensibility.** [Skills, subagents, and hooks](/guides/skills-vs-commands-vs-subagents)
+  let you shape how it works to a degree an editor's rules files don't reach — including
+  [automated guardrails](/guides/claude-code-hooks-examples) that fire on every action.
+- **Scriptable / headless.** It runs in CI and scripts, not just interactively.
+
+## Where Cursor is stronger
+
+- **Inline autocomplete.** The as-you-type completion is genuinely excellent and is the
+  thing Claude Code simply doesn't do — it's not an editor.
+- **Visual, familiar surface.** Files, tabs, the debugger, extensions — if you think in an
+  IDE, Cursor meets you there.
+- **Lower context-switching for small edits.** Tweaking a function you're looking at is a
+  keystroke, not a described request.
+- **Model flexibility in one UI.** It routes across providers behind a single editor.
+
+## The honest verdict
+
+<Steps>
+  <Step>
+    ### Prefer Claude Code if…
+    - You want to *delegate* whole tasks, not autocomplete your own typing.
+    - You're attached to your editor and don't want to switch.
+    - You value deep, scriptable customization (skills/hooks/CI).
+    - Terminal-native workflows are how you already work.
+  </Step>
+  <Step>
+    ### Prefer Cursor if…
+    - You want AI *in* your editor, assisting as you type.
+    - Inline autocomplete is a daily-driver feature for you.
+    - You prefer a visual IDE over a conversation.
+    - You'd rather one integrated surface than a terminal agent + separate editor.
+  </Step>
+  <Step>
+    ### Honestly? Many people use both
+    Cursor (or any editor) for the tight edit loop, Claude Code for the "go build this
+    whole thing" tasks. They are not mutually exclusive — Claude Code doesn't replace your
+    editor, so running it *next to* Cursor is a common, sensible setup.
+  </Step>
+</Steps>
+
+## If you land on Claude Code
+
+The one thing worth knowing: a bare Claude Code install is powerful but unopinionated —
+you shape it with [skills, subagents, and hooks](/guides/skills-vs-commands-vs-subagents).
+You can build that setup yourself (all free), or buy a pre-built one. A kit like
+[AgentKit](https://agentkit.best) ships ~88 skills and 13 subagents wired into a
+plan-build-review workflow, which closes the "unopinionated" gap without a weekend of
+assembly. Whether that's worth it is its own question —
+[we compared it honestly against the free route](/guides/agentkit-vs-free-alternatives).
+
+This page is a snapshot; both tools move fast. The framing — *drive vs delegate* — is the
+part that stays true.

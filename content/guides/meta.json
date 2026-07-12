@@ -5,7 +5,11 @@
     "install-agentkit",
     "claudekit-to-agentkit",
     "skills-vs-commands-vs-subagents",
+    "how-to-write-a-claude-code-skill",
     "claude-code-hooks-examples",
+    "claude-code-workflow-patterns",
+    "claude-code-agent-orchestration",
+    "claude-code-vs-cursor",
     "agentkit-vs-free-alternatives",
     "which-agentkit-kit-to-buy"
   ]

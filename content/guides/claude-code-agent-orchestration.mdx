@@ -1,0 +1,134 @@
+---
+title: 'Claude Code Agent Orchestration: Patterns That Actually Work'
+description: How to coordinate multiple Claude Code subagents — sequential chaining, parallel fan-out, context isolation, and the file-based handoff that keeps them in sync. With the rules for when parallel helps and when it corrupts.
+category: Deep Dives
+difficulty: advanced
+updated: '2026-07-12'
+keywords:
+  - claude code agent orchestration
+  - claude code multi agent
+  - claude code parallel subagents
+  - claude code subagent patterns
+relatedSkills:
+  - plan
+  - cook
+  - code-review
+---
+
+Orchestration is the difference between one agent doing everything in a crowded context
+and several agents each doing one thing in their own. Done well, a reviewer subagent
+catches bugs the builder wrote, and a research subagent reads fifty files without putting
+any of them in your main window. Done badly, parallel agents trample each other's edits.
+
+This is the set of patterns that hold up, why each works, and the rules for not corrupting
+your own work.
+
+## The one thing orchestration buys you: context
+
+A [subagent](/guides/skills-vs-commands-vs-subagents) runs in its own context window and
+returns only a summary. That single property is what every pattern below exploits:
+
+- The heavy, disposable work (searching, reading logs, exploring) happens *elsewhere*.
+- A fresh context has no accumulated confusion — a reviewer that never saw the code being
+  written judges it on its merits.
+- Different agents can have different tools and even different models.
+
+## Pattern 1 — Sequential chaining
+
+Use when each step depends on the last. Plan → build → review → ship:
+
+```text
+plan          → writes a plan to disk
+  └─ build     → reads the plan, implements it
+      └─ review → reads the diff, finds problems
+          └─ ship → commits once review passes
+```
+
+Each stage is a fresh context that picks up where the last left off — through a
+**file on disk**, not through conversation memory. The planner writes `plan.md`; the
+builder reads it. This is why the handoff survives even when the conversation is
+compacted or restarted.
+
+**When it's worth it:** any task big enough that doing plan+build+review in one context
+means the review step is judging code it just wrote, with all the motivated reasoning that
+implies. Separating them removes that bias.
+
+## Pattern 2 — Parallel fan-out
+
+Use when the work splits into independent pieces. Spawn several subagents at once, each
+on a different slice, then merge:
+
+```text
+             ┌─ researcher: database options
+controller ──┼─ researcher: auth approaches
+             └─ researcher: UI frameworks
+             (all run at once, each returns a summary)
+```
+
+Wall-clock time is the *slowest single agent*, not the sum. Three researchers finish in
+the time of one. The controller reads three summaries instead of doing three
+investigations in one context.
+
+**This page was built this way** — a planning pass spawned two research subagents in
+parallel to map the SERP landscape, and later a reviewer and a red-team subagent
+independently attacked the plan. The red-team caught a wrong number the plan was built on.
+That is orchestration earning its keep: an independent context has no stake in the
+conclusion.
+
+## Pattern 3 — Adversarial verification
+
+Use when being *confident* matters more than being fast. Spawn a subagent whose only job
+is to **refute** a finding or a plan:
+
+```text
+finding ──→ verifier 1 (try to prove it wrong)
+       └──→ verifier 2 (try to prove it wrong)
+       └──→ verifier 3 (try to prove it wrong)
+kill the finding if a majority refute it
+```
+
+A single agent that produced a plausible-but-wrong answer will defend it. Three fresh
+agents told to attack it will not. This is how you stop confident-sounding mistakes from
+surviving.
+
+## The rules — when parallel corrupts
+
+Parallelism is not free, and used wrong it destroys work. The hard rules:
+
+| Rule | Why |
+|---|---|
+| **Clear file ownership.** Two agents must never edit the same file at once. | Concurrent edits clobber each other; the last writer wins and the other's work vanishes. |
+| **No shared mutable state.** Not the same config, not the same migration sequence, not the same generated artifact. | The same failure mode as file edits, harder to see. |
+| **Integration points known up front.** | If agent A's output feeds agent B, that's *sequential*, not parallel — don't fake it. |
+| **Controller keeps the decisions.** Merges, approvals, and conflict resolution stay in one place. | Distributed decision-making across agents produces incoherent results. |
+
+The test: if you can't say in one sentence which files each agent owns, you are not ready
+to run them in parallel. Do it sequentially instead.
+
+## Context isolation — the discipline that makes it work
+
+When you hand a task to a subagent, do **not** hand it your whole conversation. Give it:
+
+- the specific task,
+- the exact files to read (not "look around the repo"),
+- the files it may modify,
+- what "done" looks like,
+- where to write its report.
+
+A subagent with a clean, scoped brief does better work than one drowning in your history —
+the whole point was a fresh context, so don't refill it.
+
+## How AgentKit does this
+
+[AgentKit](https://agentkit.best)'s value in this area is that its 13 subagents come
+pre-scoped: a `code-reviewer` with read-only tools, a `researcher`, a `planner`, a
+`debugger`, each already configured with the right tool access and a focused system
+prompt. You *can* build these yourself — the patterns above are all free — but "already
+built and tuned to hand off to each other" is the thing the kit sells. Whether that's
+worth $99 depends on how much of this you'd otherwise assemble; we wrote an
+[honest comparison](/guides/agentkit-vs-free-alternatives).
+
+## Related
+
+- [Skills vs commands vs subagents](/guides/skills-vs-commands-vs-subagents) — the primitive underneath all of this
+- [Claude Code workflow patterns](/guides/claude-code-workflow-patterns) — single-agent workflows, for when orchestration is overkill

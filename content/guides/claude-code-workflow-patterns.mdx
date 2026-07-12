@@ -1,0 +1,118 @@
+---
+title: 'Claude Code Workflow Patterns (and When to Use Each)'
+description: Six repeatable ways to work with Claude Code — from plan-first to test-driven to explore-then-edit — with a decision guide for picking the right one and the failure each avoids.
+category: Commands & Workflows
+difficulty: intermediate
+updated: '2026-07-12'
+keywords:
+  - claude code workflow
+  - claude code workflow patterns
+  - claude code plan mode
+  - claude code best practices workflow
+relatedSkills:
+  - plan
+  - cook
+  - debug
+---
+
+Most people use Claude Code one way — type a request, watch it edit — and hit the same
+wall: on anything non-trivial it makes a confident wrong turn three files deep. The fix is
+matching the *workflow* to the *task*. Here are six patterns that hold up, and a guide for
+picking one.
+
+## The decision guide
+
+```text
+What are you doing?
+│
+├─ A one-line fix you're sure about?         → Just ask. No ceremony. (Pattern 6)
+│
+├─ Touches several files, or a real design    → Plan first. (Pattern 1)
+│  choice exists?
+│
+├─ Fixing a bug?                              → Reproduce before fixing. (Pattern 3)
+│
+├─ Behavior you can pin down with a test?     → Test-first. (Pattern 2)
+│
+├─ Working in a codebase you don't know?      → Explore, then edit. (Pattern 4)
+│
+└─ A large disposable investigation?          → Send it to a subagent. (Pattern 5)
+```
+
+## Pattern 1 — Plan first (plan mode)
+
+Before writing code on anything sizeable, have Claude produce a **plan** — the steps, the
+files it will touch, the trade-offs — and read it *before* it starts editing. Claude Code
+has a plan mode for exactly this; it explores and proposes without changing anything until
+you approve.
+
+**Why it works:** the expensive mistakes are architectural, and they are cheap to fix in a
+plan and expensive to fix in code three files deep. Reading a plan takes a minute; unwinding
+a wrong approach takes an hour.
+
+**When to skip it:** genuinely small, obvious changes. Planning a typo fix is overhead.
+
+## Pattern 2 — Test first (TDD)
+
+When the behavior is something you can express as a test, write the test first (or have
+Claude write it), watch it fail, then implement until it passes.
+
+**Why it works:** the test is an unambiguous spec. "Make this pass" is a far tighter brief
+than a paragraph of prose, and you get a regression guard for free. It also stops the
+most common dishonesty — an agent declaring success without running anything.
+
+**When to skip it:** exploratory or UI work where the "correct" output isn't yet known.
+
+## Pattern 3 — Reproduce before you fix
+
+For a bug: do **not** let Claude jump to a fix. Make it reproduce the failure first — a
+failing test, a script, the exact steps — then find the root cause, *then* change code.
+
+**Why it works:** a fix for an unproven cause is a guess, and guesses often "fix" the
+symptom while the bug moves. A reproduction turns debugging from opinion into evidence.
+This is the whole idea behind a [dedicated debug workflow](/skills/debug).
+
+## Pattern 4 — Explore, then edit
+
+In an unfamiliar codebase, spend the first move *understanding*, not editing. Have Claude
+map the relevant files and how they connect before it touches anything.
+
+**Why it works:** an edit made without knowing the conventions fights the codebase — it
+duplicates a helper that already exists, or breaks an invariant it never saw. Exploring
+first is cheaper than the cleanup. Do the exploring in a [subagent](/skills/scout) and it
+doesn't even cost your main context.
+
+## Pattern 5 — Delegate the heavy lookup
+
+When a step will flood your context with output you'll never re-read — a wide search, a
+log dump, reading twenty files — hand it to a subagent that returns just the answer. See
+[agent orchestration](/guides/claude-code-agent-orchestration) for the full set.
+
+**Why it works:** your main conversation stays about the task, not the raw material. A
+context full of grep results is a context that has lost the plot.
+
+## Pattern 6 — Just ask
+
+Not everything needs a workflow. A one-line change you're certain about: just ask for it.
+The skill is knowing *which* tasks are actually this small — most "quick" changes that
+touch state, auth, or data are not.
+
+## The meta-rule
+
+**Match the ceremony to the risk.** Plan mode on a typo wastes your time; a bare "just fix
+it" on an auth change wastes your afternoon. The patterns above aren't a hierarchy — they
+are a toolbox, and picking the wrong tool is its own failure.
+
+## Where a kit fits
+
+A paid kit like [AgentKit](https://agentkit.best) packages these as commands — a planning
+skill, an implement skill, a debug skill that already reproduces-first — so you invoke a
+pattern instead of remembering to run it. Useful if you want the discipline built in;
+unnecessary if you'll apply the patterns yourself. The
+[honest worth-it comparison](/guides/agentkit-vs-free-alternatives) has the details.
+
+## Related
+
+- [Agent orchestration](/guides/claude-code-agent-orchestration) — multi-agent versions of these
+- [Skills vs commands vs subagents](/guides/skills-vs-commands-vs-subagents) — the primitives
+- [26 free hooks](/guides/claude-code-hooks-examples) — automate the guardrails these workflows rely on
