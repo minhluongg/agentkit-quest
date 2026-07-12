@@ -1,0 +1,75 @@
+---
+title: 'Claude Code Code Review: How to Do It Well (Free and Paid)'
+description: How to run an effective AI code review in Claude Code — the free prompt-based method, and what AgentKit's code-review skill adds. Reviews diffs, PRs, and commits for real bugs.
+keywords:
+  - claude code code review
+  - ai code review claude
+  - claude code review pull request
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Getting Claude Code to review code is easy. Getting it to review code *well* — to find
+the race condition instead of suggesting you rename a variable — is about scoping and
+prompting. Here is how, free first, then what the paid skill adds.
+
+## The job
+
+Have Claude review a change for the things that pass CI but break in production: bugs,
+regressions, unhandled errors, trust-boundary mistakes — not cosmetic nitpicks.
+
+## How to do it without a kit
+
+The free method is a well-scoped prompt. The two things that make it work:
+
+**1. Scope it to the diff, not the repo.**
+
+```bash
+git diff main...HEAD          # or: git diff --staged
+```
+
+Ask Claude to review *that* output. A review of "the whole codebase" is shallow because
+attention is spread thin; a review of a focused diff is deep.
+
+**2. Tell it what to hunt for.** Generic "review this" gets generic results. Point it:
+
+> Review this diff as a staff engineer looking for production bugs: race conditions,
+> N+1 queries, unhandled promise rejections, missing authorization checks, and state
+> mutation side effects. For each finding, quote the line, say what breaks and under what
+> input, and rate severity. Ignore style.
+
+You can save that as a [reusable skill](/guides/how-to-write-a-claude-code-skill) so you
+don't retype it. That's the whole free method — a scoped diff plus a sharp prompt.
+
+## What the kit's skill adds
+
+AgentKit's `code-review` skill (`/ak:code-review`) packages this and goes further: it
+handles multiple input modes (pending changes, a PR number, a commit hash, or a full
+codebase scan) and runs the review with a scout pass that hunts edge cases, then verifies
+findings before reporting so you get fewer false positives.
+
+```bash
+/ak:code-review --pending        # review uncommitted changes
+/ak:code-review 142              # review PR #142
+/ak:code-review codebase parallel # full scan, parallel subagents
+```
+
+*(Legacy prefix: `/ck:code-review`.)*
+
+We used this skill's underlying reviewer throughout building this site — it caught real
+bugs a hand-written prompt missed, including a security-guard bypass. That's the value:
+not that you *can't* prompt a review yourself, but that a tuned, verifying reviewer with
+edge-case scouting catches more.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you review changes constantly and want a consistent, verifying reviewer
+  across PRs, commits, and diffs without re-prompting each time.
+- **Skip it if** an occasional scoped-diff prompt covers you — the free method above is
+  genuinely most of the value for light use.
+
+## Related
+
+- [Review a GitHub PR](/skills/review-pr) — PR-specific workflow
+- [Debug workflow](/skills/debug) — for when the review finds a bug you need to trace
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

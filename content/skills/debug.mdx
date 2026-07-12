@@ -1,0 +1,70 @@
+---
+title: 'Debugging with Claude Code: Root Cause Before the Fix'
+description: How to debug effectively with Claude Code — reproduce first, prove the cause, then fix. The free method, and what AgentKit's debug skill adds for systematic root-cause analysis.
+keywords:
+  - claude code debugging
+  - claude code debug workflow
+  - debug with claude code
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+The fastest way to debug slowly is to let Claude jump straight to a fix. It patches the
+symptom, the bug moves, and you're two changes deeper with no idea what's actually wrong.
+Effective debugging — with or without a kit — is a discipline: reproduce, prove the cause,
+*then* fix.
+
+## The job
+
+Turn "it's broken" into a proven root cause and a fix that addresses it — not a guess that
+happens to quiet the symptom.
+
+## How to do it without a kit
+
+The free method is a prompt that forbids the shortcut. Tell Claude, explicitly:
+
+> Before proposing any fix: (1) reproduce this failure with a minimal test or script,
+> (2) trace it to a specific root cause and show me the evidence, (3) only then suggest a
+> change. Do not edit code until the cause is proven.
+
+Then work the layers with it:
+
+1. **Reproduce.** A failing test or a script that triggers it every time. If you can't
+   reproduce it, you can't know you fixed it.
+2. **Isolate.** Bisect — comment out, add logging, narrow the input — until the failure
+   is localized to a few lines.
+3. **Explain.** Have Claude state *why* it fails, in one sentence, citing the evidence.
+   If it can't, it hasn't found the cause yet.
+4. **Fix, then re-run the reproduction.** Green means done. Still red means the cause was
+   wrong — back to step 2.
+
+That discipline is 90% of debugging value, and it's free. The
+[reproduce-before-fix workflow](/guides/claude-code-workflow-patterns) generalizes it.
+
+## What the kit's skill adds
+
+AgentKit's `debug` skill (`/ak:debug`) builds this loop in — root-cause-first by default,
+with support for the harder cases the free prompt handles clumsily: call-stack tracing,
+multi-layer validation, log analysis, CI/CD failure diagnosis, and database diagnostics.
+
+```bash
+/ak:debug "login returns 500 intermittently under load"
+```
+
+*(Legacy prefix: `/ck:debug`.)*
+
+It ships with scripts, so it's doing more than prompting — it's a structured investigation
+rather than a one-shot ask.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you debug gnarly, multi-layer issues often and want the reproduce-first
+  discipline enforced rather than remembered.
+- **Skip it if** the prompt above is enough — for most bugs, "prove the cause first" typed
+  into a bare Claude Code session gets you there.
+
+## Related
+
+- [Reproduce-before-fix workflow](/guides/claude-code-workflow-patterns)
+- [Generate tests](/skills/test) — to lock in the reproduction as a regression guard
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

@@ -1,0 +1,67 @@
+---
+title: 'Generating Tests with Claude Code (Without the Slop)'
+description: How to get Claude Code to write tests that actually catch bugs, not tests that assert the code does what it does. The free method, and what AgentKit's test skill adds.
+keywords:
+  - claude code generate tests
+  - claude code write tests
+  - claude code unit tests
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+AI-generated tests have a failure mode: they assert that the code does exactly what it
+currently does. Every test passes, coverage looks great, and not one of them would catch
+a bug — because they were written *from* the implementation, not from the intended
+behavior. Here's how to get tests worth having.
+
+## The job
+
+Produce tests that would fail if the behavior broke — including the edge cases and error
+paths, not just the happy path.
+
+## How to do it without a kit
+
+Two moves make Claude's tests actually useful:
+
+**1. Test behavior, not implementation.** Prompt for the *contract*, not a mirror:
+
+> Write tests for what this function should GUARANTEE, from its signature and docstring —
+> not from its current implementation. Cover: the happy path, boundary values, empty and
+> null inputs, and every error it can throw. For each test, the name should state the
+> behavior being verified.
+
+**2. Prove they can fail.** A test that can't fail is theater. Ask Claude to break the
+implementation deliberately and confirm the relevant test goes red — then revert. If no
+test catches the break, the tests are worthless and you've learned it cheaply.
+
+For a bug, invert it: [write the failing test first](/guides/claude-code-workflow-patterns),
+then fix until green. The test *is* the reproduction.
+
+## What the kit's skill adds
+
+AgentKit's `test` skill (`/ak:test`) runs the whole validation surface, not just
+generation: unit, integration, e2e, coverage analysis, build verification, visual
+regression, and QA reports.
+
+```bash
+/ak:test                 # run the suite, report results
+/ak:test ui https://...  # UI / visual testing against a URL
+```
+
+*(Legacy prefix: `/ck:test`.)*
+
+The generation prompt above is free and gets you good tests; the skill's value is being a
+consistent test *runner* and reporter across types.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you want one command that runs and reports across unit/integration/e2e/
+  visual, repeatedly.
+- **Skip it if** you mostly need well-written tests — the behavior-first prompt above is
+  the part that matters, and it's free.
+
+## Related
+
+- [Test-first workflow](/guides/claude-code-workflow-patterns)
+- [Web testing (Playwright/Vitest/k6)](/skills/web-testing)
+- [Debug workflow](/skills/debug)

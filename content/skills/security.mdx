@@ -1,0 +1,70 @@
+---
+title: 'Claude Code Security Audit: Finding Real Vulnerabilities'
+description: How to run a security audit with Claude Code — threat-modeling by attacker perspective, not a generic scan. The free method, and what AgentKit's STRIDE/OWASP security skill adds.
+keywords:
+  - claude code security audit
+  - claude code security scan
+  - claude code find vulnerabilities
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Asking Claude to "check this for security issues" gets you a list of generic advice — use
+HTTPS, validate input — that applies to any codebase and helps none. A useful audit thinks
+like specific attackers against your specific code. Here's how to run one.
+
+## The job
+
+Find the vulnerabilities that actually exist in *this* code — the missing authorization
+check, the injection point, the leaked secret — categorized by severity, not a checklist
+of best practices.
+
+## How to do it without a kit
+
+The free method is threat-modeling by perspective. Instead of one vague pass, run several
+sharp ones:
+
+> Audit this code as each of these attackers in turn, and report concrete findings only:
+> 1. **An unauthenticated user** — what can I reach without logging in?
+> 2. **A logged-in user attacking other users** — can I access data that isn't mine (IDOR)?
+> 3. **An injection attacker** — where does untrusted input reach a query, shell, or eval?
+> 4. **A secrets hunter** — are credentials in code, logs, or error messages?
+> For each finding: the file and line, the exploit, the severity, and the fix.
+
+Frame it with **STRIDE** (Spoofing, Tampering, Repudiation, Info disclosure, Denial of
+service, Elevation of privilege) or the **OWASP Top 10** if you want structured coverage.
+The perspective-per-attacker approach is what turns "generic advice" into "here is the
+IDOR on line 44."
+
+For secrets specifically, a [pre-write hook](/guides/claude-code-hooks-examples) catches
+them before they're ever committed — cheaper than auditing for them later.
+
+## What the kit's skill adds
+
+AgentKit's `security` skill (`/ak:security`) automates exactly this: a STRIDE + OWASP audit
+run from multiple attacker personas (auth attacker, supply chain, insider, infrastructure),
+severity-categorized, with an optional red-team discovery loop and an auto-fix mode.
+
+```bash
+/ak:security full                       # audit everything
+/ak:security "src/api/**" --fix         # audit + fix a scope
+/ak:security full --red-team --iterations 3
+```
+
+*(Legacy prefix: `/ck:security`.)*
+
+The multi-persona loop and iterative red-team are the real add — hard to reproduce by hand
+without a lot of prompting.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you audit regularly and want threat-modeled, multi-persona coverage with
+  auto-fix rather than assembling the prompts yourself each time.
+- **Skip it if** an occasional perspective-based prompt (above) meets your needs — for
+  light use it's most of the value, free.
+
+## Related
+
+- [Block secrets before they're written (free hook)](/guides/claude-code-hooks-examples)
+- [Code review](/skills/code-review)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
