@@ -1,0 +1,137 @@
+---
+title: 'Is AgentKit Worth It? An Honest Look vs the Free Alternatives'
+description: AgentKit is a paid ($99) kit of Claude Code skills and agents. There are large free alternatives with more agents. Here is what the paid kit actually gives you that they do not — and the cases where you should not pay.
+category: Is It Worth It?
+difficulty: beginner
+updated: '2026-07-12'
+keywords:
+  - is agentkit worth it
+  - agentkit vs free
+  - claudekit worth it
+  - agentkit review
+  - agentkit alternatives
+relatedSkills:
+  - plan
+  - cook
+  - code-review
+---
+
+Short version, up front, because you came here for a decision and not a sales page:
+
+> **If you would enjoy assembling your own Claude Code setup, the free alternatives
+> below are genuinely enough and you should use them. If you want a coherent,
+> maintained workflow that works on day one and your time is worth more than $99, the
+> paid kit earns its price. Most of the "which is better" arguments miss that this is
+> the actual axis.**
+
+The rest of this page is the evidence for that, including a section where the free
+option clearly wins.
+
+<Callout type="info" title="Disclosure, and why it matters here">
+This site earns an affiliate commission if you buy AgentKit through our links. That is
+exactly why the verdict below has a "don't buy" column with real entries in it — a
+comparison that only ever says "buy" is worthless to you and, frankly, to us. We
+document AgentKit because we use it; we are telling you when not to.
+</Callout>
+
+## What is actually being compared
+
+**AgentKit** (formerly ClaudeKit) is a paid kit for Claude Code: at the time of writing,
+the Engineer kit is **$99** (one-time), with a Marketing kit at $99 and a bundle at $149.
+It installs ~88 skills, 13 specialised subagents, and a set of hooks, all pre-wired into
+a plan → implement → review → ship workflow.
+
+The serious **free** alternatives:
+
+| Option | What it is | Scale | Cost |
+|---|---|---|---|
+| **awesome-claude-code-toolkit** | Curated GitHub collection | 135 agents, 35 skills, 42 commands | Free |
+| **Anthropic's bundled skills** | First-party, built into Claude Code | Core set (`/debug`, `/code-review`, …) | Free |
+| **aitmpl.com** | Marketplace of components | 1000+ agents/commands/skills | Free |
+| **Build your own** | Your `.claude/` directory | However much you write | Free |
+
+Notice the free options have **more** agents. If you are counting agents, the paid kit
+loses. Which is the first sign that agent *count* is the wrong thing to compare.
+
+## Where the free option clearly wins
+
+**If you need one or two specific capabilities, do not buy a kit.** Say you want a good
+code-review command and a test-runner. Copy those two from awesome-claude-code-toolkit,
+or write them — a `SKILL.md` is a title, a description, and a body of instructions. You
+will spend an hour and pay nothing. Buying an 88-skill kit for two skills is like buying
+a toolbox for one screwdriver.
+
+**If assembling the setup is the part you enjoy,** the free primitives are the whole
+game. Skills, subagents and hooks are all free, first-party Claude Code features. A kit
+does not unlock anything the platform withholds — everything AgentKit does, you *can*
+build.
+
+That is the honest free case, and for a lot of developers it is the right answer. Now the
+other side.
+
+## What the paid kit actually gives you
+
+Having used AgentKit's workflow to build real things, the value is not the 88 skills. It
+is three things that a folder of 135 loose agents does not have:
+
+**1. Coherence — the pieces hand off to each other.** The planning skill produces a plan
+file in a specific shape; the implementation skill reads exactly that shape; the review
+step knows where the plan is. With a collection of independently-authored free agents,
+you get 135 good pieces that do not share a contract, and you spend your time being the
+integration layer between them. The paid kit's real product is the *wiring*, not the
+parts.
+
+**2. The subagents are genuinely useful, and pre-configured.** Claude Code subagents run
+in their own context and return a summary — the value is context isolation (see
+[skills vs subagents](/guides/skills-vs-commands-vs-subagents)). AgentKit ships a
+code-reviewer, a researcher, a red-team reviewer and others already scoped to the right
+tools. In practice these catch things: a review subagent flags bugs the main thread
+wrote; a red-team subagent argues against a plan before you commit to it. You can build
+these yourself — but "already built and tuned" is the thing you are paying for.
+
+**3. It is maintained.** The kit is on version 2.20.0 and ships regular releases. The
+large free awesome-lists are excellent snapshots that go stale — Claude Code changed how
+commands and skills work in 2026, and a maintained kit tracks that while a starred-but-
+abandoned repo does not.
+
+## The honest catch
+
+Two things the sales pages will not lead with:
+
+- **The kit is a small vendor.** It is a one-person operation that has already renamed
+  itself once (ClaudeKit → AgentKit). That is fine for a $99 one-time purchase, but do
+  not expect enterprise-grade longevity guarantees.
+- **You still have to learn it.** A kit of 88 skills has its own conventions to absorb.
+  It is faster than building from scratch, but it is not zero-effort — budget an
+  afternoon to get productive.
+
+## The verdict
+
+<Steps>
+  <Step>
+    ### Buy AgentKit if…
+
+    - You want a working plan → build → review → ship workflow on day one, not after a
+      weekend of assembly.
+    - You bill more than ~$60/hour, so $99 is under two hours of your time.
+    - You will use Claude Code seriously and repeatedly — the value compounds across
+      projects.
+    - You would rather refine a working setup than design one from a blank directory.
+  </Step>
+
+  <Step>
+    ### Don't buy it if…
+
+    - You need only a couple of specific skills — copy those free and move on.
+    - You enjoy building and tuning your own `.claude/` setup (many developers do).
+    - You are new to Claude Code — learn the free primitives first
+      ([skills vs commands vs subagents](/guides/skills-vs-commands-vs-subagents)); buy a
+      kit only once you know what you would otherwise build.
+    - A one-person vendor's longevity is a dealbreaker for you.
+  </Step>
+</Steps>
+
+If you land in the first column, this is the kit: **[AgentKit](https://agentkit.best)**.
+If you land in the second, you have not lost anything — the [free hooks](/guides/claude-code-hooks-examples)
+and the primitives guide above are a real starting point, and you can always buy later
+once you know exactly what you would be replacing.
