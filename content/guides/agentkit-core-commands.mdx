@@ -1,9 +1,9 @@
 ---
 title: 'AgentKit Core Commands: The Ones You Use Every Day'
-description: A quick reference to AgentKit's core Claude Code commands — plan, cook, fix, debug, test, review, docs — what each does and when to reach for it, with the free method behind each.
+description: A reference to AgentKit's core Claude Code commands — plan, cook, fix, debug, test, docs, watzup — with the real flags each one takes, read from the installed kit.
 category: Start Here
 difficulty: beginner
-updated: '2026-07-12'
+updated: '2026-07-13'
 keywords:
   - agentkit commands
   - agentkit core commands
@@ -14,9 +14,39 @@ relatedSkills:
   - debug
 ---
 
-AgentKit ships ~88 skills, but a handful carry the daily workflow. If you learn these, you
+AgentKit ships **91 skills**, but a handful carry the daily workflow. If you learn these, you
 have the loop: plan it, build it, check it, ship it. Each is invoked with the `/ak:` prefix
 in Claude Code (the old `/ck:` still works as a legacy alias).
+
+<Callout type="info" title="The flags below are read from the installed kit, not invented">
+Every argument list on this page comes from the `argument-hint` field in that skill's own
+`SKILL.md`, in the Engineer kit (v0.2.0) we installed on 2026-07-13. Most of these flags are
+not documented anywhere else — and several of them change what the command *does*, not just
+how loudly it talks.
+</Callout>
+
+## The flags nobody tells you about
+
+This is the part worth the read. These commands are not one-shot verbs; they have modes.
+
+| Command | Arguments it actually accepts |
+|---|---|
+| `/ak:plan` | `[task] [--fast \| --hard \| --deep \| --parallel \| --two] [--tdd] [--no-tasks] [--html] [--github] [--wiki]` — or a subcommand: `archive`, `red-team`, `validate` |
+| `/ak:cook` | `[task \| plan-path] [--interactive \| --fast \| --parallel \| --auto \| --no-test] [--tdd]` |
+| `/ak:fix` | `[issue] [--auto \| --review \| --quick \| --parallel]` |
+| `/ak:debug` | `[error or issue description]` |
+| `/ak:test` | `[context]` — or `ui [url]` for browser testing |
+| `/ak:docs` | `init \| update \| summarize` |
+| `/ak:watzup` | *(no arguments)* |
+
+Three that are worth knowing immediately:
+
+- **`/ak:plan --two`** generates *two competing approaches* and makes you pick. For a design
+  fork you cannot resolve by arguing with yourself, this is the whole feature.
+- **`/ak:plan red-team`** turns the planner hostile against a plan it already wrote. Cheap
+  insurance on anything expensive.
+- **`/ak:cook --auto`** removes the human approval gates. Fast, and exactly as dangerous as it
+  sounds — the gates are the point on anything you have not scoped tightly.
 
 ## The daily loop
 
@@ -82,4 +112,4 @@ pre-built, consistent workflow. Whether that's worth paying for is
 
 - [Your first AgentKit project — a full walkthrough](/guides/agentkit-first-project)
 - [Install AgentKit](/guides/install-agentkit)
-- [Browse all 88 skills](/skills)
+- [Browse all 91 skills](/skills)
