@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: override?.title ?? `${agent.name} — AgentKit agent`,
     description: override?.description ?? agent.description,
     path: `/agents/${slug}`,
-    noindex: !isPublished('agent', slug),
+    noindex: !isPublished('agent', slug) || override?.noindex === true,
+    keywords: override?.keywords,
   });
 }
 

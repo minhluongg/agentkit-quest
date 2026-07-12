@@ -28,14 +28,20 @@ export function getAgentOverride(slug: string) {
  * land on them from search of the exact skill name) but they carry `noindex` until
  * a content plan gives them substance.
  */
+/**
+ * "Published" = has an override AND is not opted out via `noindex`. The sitemap and
+ * the page's robots directive both key off this, so a `noindex: true` override
+ * pulls a page from the index without deleting the file — the kill-rule mechanism.
+ */
 export function isPublished(kind: 'skill' | 'agent', slug: string): boolean {
-  return kind === 'skill' ? skillMap.has(slug) : agentMap.has(slug);
+  const entry = kind === 'skill' ? skillMap.get(slug) : agentMap.get(slug);
+  return entry !== undefined && entry.noindex !== true;
 }
 
 export function publishedSkillSlugs(): string[] {
-  return [...skillMap.keys()];
+  return [...skillMap.entries()].filter(([, e]) => e.noindex !== true).map(([slug]) => slug);
 }
 
 export function publishedAgentSlugs(): string[] {
-  return [...agentMap.keys()];
+  return [...agentMap.entries()].filter(([, e]) => e.noindex !== true).map(([slug]) => slug);
 }

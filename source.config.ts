@@ -55,24 +55,33 @@ export const docs = defineDocs({
  * File name must match the generated slug (see skills.generated.json), e.g. the
  * skill invoked as `/ak:plan` has slug `plan` → `content/skills/plan.mdx`.
  */
+/** Shared shape for a reference-page override. */
+const overrideSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  updated: z.string().optional(),
+  // Overrides the vendor's invocation-flavoured keywords. A page that targets the
+  // *job* ("claude code code review") must not ship the invocation keyword
+  // ("ck:code-review") that nobody searches — see the content-map targeting rule.
+  keywords: z.array(z.string()).optional(),
+  // Lets a published page be pulled back out of the index without deleting the file
+  // (the kill-rule mechanism). Default false: an override exists to be indexed.
+  noindex: z.boolean().default(false),
+  // The kit version the worked examples were run against. Surfaced on the page so a
+  // reader knows how current it is; one `ak:` breaking change dates every example.
+  kitVersion: z.string().optional(),
+});
+
 export const skillOverrides = defineCollections({
   type: 'doc',
   dir: 'content/skills',
-  schema: z.object({
-    title: z.string().optional(),
-    description: z.string().optional(),
-    updated: z.string().optional(),
-  }),
+  schema: overrideSchema,
 });
 
 export const agentOverrides = defineCollections({
   type: 'doc',
   dir: 'content/agents',
-  schema: z.object({
-    title: z.string().optional(),
-    description: z.string().optional(),
-    updated: z.string().optional(),
-  }),
+  schema: overrideSchema,
 });
 
 export default defineConfig({

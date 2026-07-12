@@ -1,4 +1,9 @@
 {
   "title": "Guides",
-  "pages": ["what-is-agentkit", "install-agentkit", "claude-code-hooks-examples"]
+  "pages": [
+    "what-is-agentkit",
+    "install-agentkit",
+    "skills-vs-commands-vs-subagents",
+    "claude-code-hooks-examples"
+  ]
 }

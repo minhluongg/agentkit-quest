@@ -34,8 +34,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: override?.title ?? `${skill.invocation} — AgentKit skill`,
     description: override?.description ?? skill.description,
     path: `/skills/${slug}`,
-    noindex: !published,
-    keywords: skill.keywords,
+    // A stub is never indexed; a published page can still opt back out via `noindex`
+    // in its frontmatter (the kill-rule mechanism — no need to delete the file).
+    noindex: !published || override?.noindex === true,
+    // Prefer the override's job-targeted keywords over the vendor's invocation ones.
+    keywords: override?.keywords ?? skill.keywords,
   });
 }
 

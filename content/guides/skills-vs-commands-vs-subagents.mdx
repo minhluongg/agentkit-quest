@@ -1,0 +1,146 @@
+---
+title: 'Claude Code: Skills vs Commands vs Subagents (Decision Tree)'
+description: Skills, slash commands, and subagents solve three different problems. The axis that separates them is context. Here is the distinction, a decision tree, and when to reach for each — with the 2026 change most guides miss.
+category: Commands & Workflows
+difficulty: intermediate
+updated: '2026-07-12'
+keywords:
+  - claude code skill vs command
+  - claude code skill vs subagent
+  - claude code subagent vs skill
+  - claude code commands vs skills
+relatedSkills:
+  - plan
+  - code-review
+---
+
+If you have read three explanations of this and still cannot say which to use, it is
+because most of them list features instead of naming the one axis that actually
+separates these three things:
+
+> **Skills and commands load instructions _into_ your context. Subagents run in a
+> _separate_ context and hand back only a summary.**
+
+Get that, and every other difference falls out of it. The rest of this page is the
+detail, a decision tree, and the one change from 2026 that older guides get wrong.
+
+<Callout type="warn" title="The thing outdated guides miss">
+Custom commands have been **merged into skills**. A file at `.claude/commands/deploy.md`
+and a skill at `.claude/skills/deploy/SKILL.md` both create `/deploy` and behave the
+same way. Commands still work — they are now the *simple form* of a skill. Any guide
+that treats "commands vs skills" as two separate systems predates this and is out of date.
+</Callout>
+
+## The one-line version
+
+| | Skill | Command | Subagent |
+|---|---|---|---|
+| **Where it lives** | `.claude/skills/<name>/SKILL.md` | `.claude/commands/<name>.md` | `.claude/agents/<name>.md` |
+| **What it is** | Instructions Claude loads when relevant | A skill in its simplest shape | A worker with its own context window |
+| **Context** | Loads **into** your conversation | Loads **into** your conversation | Runs in a **separate** context |
+| **Invocation** | Auto when relevant, or `/name` | Usually `/name` | Auto-delegated by task match |
+| **Returns** | — (it is just instructions) | — | A **summary**, not the raw work |
+| **Own tools/permissions** | No | No | **Yes** |
+| **Can use a cheaper model** | No | No | **Yes** (e.g. route to Haiku) |
+
+## Skills — reusable instructions
+
+A skill is a `SKILL.md` file: frontmatter (a name and a description) plus a body of
+instructions. Claude loads it when the description matches what you are doing, or you
+invoke it directly with `/name`.
+
+The load-only-when-used part is the whole point. Reference material that would bloat
+`CLAUDE.md` and cost tokens on every turn instead sits in a skill and costs almost
+nothing until the moment it is relevant.
+
+**Reach for a skill when** you keep pasting the same checklist, procedure, or set of
+instructions into chat — or when a section of `CLAUDE.md` has quietly grown from a
+*fact* into a *procedure*.
+
+## Commands — skills with training wheels
+
+There is no longer a separate "commands system" to learn. A file at
+`.claude/commands/review.md` creates `/review`, exactly as a skill would. It is the
+right choice when all you want is a named shortcut for a prompt and you do not need the
+extra machinery — a supporting-files directory, invocation control, or automatic
+loading.
+
+If you outgrow it, promote the `.md` into a `SKILL.md` in a skill directory. Nothing
+about the invocation changes.
+
+## Subagents — a separate context that reports back
+
+This is the one that is genuinely different. A subagent runs in **its own context
+window**, with its own system prompt, its own tool access, and its own permissions. It
+does a job and returns *only the summary* — the search results, the logs, the file
+contents it waded through never touch your main conversation.
+
+That buys you four things a skill cannot:
+
+- **Context preservation.** A task that would flood your window with output you will
+  never re-read (a codebase search, a log dump) happens elsewhere.
+- **Constraint enforcement.** Give a review subagent read-only tools and it *cannot*
+  edit, no matter what it decides.
+- **Cost control.** Route a mechanical subtask to a cheaper, faster model.
+- **Specialisation.** A focused system prompt for one domain, without polluting your
+  main instructions.
+
+**Reach for a subagent when** the side work is voluminous and disposable, or when you
+want to *limit* what a worker can touch.
+
+## The decision tree
+
+Follow it top to bottom. The first "yes" is your answer.
+
+```text
+What are you trying to do?
+│
+├─ Reuse the same prompt/checklist/procedure across sessions?
+│   │
+│   ├─ Do you also need any of: a folder of supporting files,
+│   │  control over who invokes it, or auto-loading when relevant?
+│   │   │
+│   │   ├─ YES ──────────────────────────────────►  SKILL
+│   │   │                                            .claude/skills/<name>/SKILL.md
+│   │   └─ NO, just a named shortcut ─────────────►  COMMAND
+│   │                                                .claude/commands/<name>.md
+│   │
+│   └─ (not reuse — read on)
+│
+├─ Will this side task flood your context with output
+│  you won't reference again (search, logs, file dumps)?
+│   └─ YES ──────────────────────────────────────►  SUBAGENT
+│
+├─ Do you need to LIMIT which tools a worker can use,
+│  or run it on a cheaper model?
+│   └─ YES ──────────────────────────────────────►  SUBAGENT
+│
+└─ None of the above?
+    └─ You probably don't need any of them yet.
+       Put the fact in CLAUDE.md and move on.
+```
+
+## The mistake almost everyone makes
+
+Cramming a subagent's job into a skill. You write a big `SKILL.md` that says "search the
+whole codebase, read every match, then summarise" — and it runs *in your main context*,
+so all that output lands in your conversation anyway. You built the thing a subagent
+exists to avoid, minus the context isolation. If the job produces a pile of output you
+won't re-read, it wants a separate context. That means a subagent.
+
+## Where kits fit in
+
+All three are free, first-party Claude Code features. You do not need to buy anything to
+use them — everything above works with a plain Claude Code install and a text editor.
+
+What a kit sells is not the mechanism but the **curation**: a pre-built, maintained set
+of skills and subagents that already fit together into a workflow, so you are not
+authoring and tuning 20 `SKILL.md` files yourself. That is a real time-saver for some
+people and unnecessary for others — if you enjoy building your own setup, the free
+features on this page are the whole toolkit. [AgentKit](https://agentkit.best) is the
+paid kit this site documents; it is worth reading about *after* you understand the three
+primitives it is built from, which is what this page was for.
+
+## Related
+
+- [Claude Code hooks: 26 tested examples](/guides/claude-code-hooks-examples) — the fourth extension point, for *automated* guardrails that fire on tool use rather than instructions you invoke
