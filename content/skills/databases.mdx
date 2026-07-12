@@ -1,0 +1,65 @@
+---
+title: 'Database Schema Design with Claude Code (Postgres & MongoDB)'
+description: How to design schemas and write queries with Claude Code — the free method for PostgreSQL and MongoDB, and what AgentKit's databases skill adds for migrations and aggregation.
+keywords:
+  - claude code database schema
+  - claude code sql
+  - claude code postgres mongodb
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Claude Code is good at SQL and schema design — but it will happily generate a schema that
+works for the query you mentioned and falls apart on the three you didn't. Good database
+work is about modeling the *access patterns*, and that's a prompting discipline.
+
+## The job
+
+Design a schema (relational or document) and write queries that fit how the data is
+actually read and written — with the right indexes and no N+1 traps.
+
+## How to do it without a kit
+
+**1. Give it the access patterns, not just the entities.** A schema designed from "users
+have orders" differs from one designed for "show a user's last 10 orders by status." Tell
+Claude *how the data will be queried*:
+
+> Here are the entities and the top read/write patterns: [list them]. Design a Postgres
+> schema optimized for these queries, with the indexes each one needs, and flag any query
+> that would N+1.
+
+**2. Ask for the indexes explicitly** — and *why* each exists. An index without a query
+behind it is dead weight; a query without an index is a table scan. Have Claude tie each
+index to the pattern it serves.
+
+**3. For MongoDB**, the question is embed vs reference — driven by whether the sub-data is
+read with the parent and how it grows. Make Claude justify the choice, not default to one.
+
+**4. Review the query plan.** `EXPLAIN ANALYZE` (Postgres) turns opinion into evidence.
+Have Claude read the plan and confirm indexes are used.
+
+## What the kit's skill adds
+
+AgentKit's `databases` skill (`/ak:databases`) covers schema design, SQL/NoSQL queries,
+aggregation pipelines, indexes, migrations, replication, and performance work across
+MongoDB and PostgreSQL, with scripts (including psql CLI use).
+
+```bash
+/ak:databases "design a schema for a multi-tenant SaaS"
+```
+
+*(Legacy prefix: `/ck:databases`.)*
+
+The migration and aggregation-pipeline help is where it saves the most hand-holding.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you do frequent schema/migration/query work and want it structured across
+  Postgres and Mongo.
+- **Skip it if** you design a schema occasionally — the access-pattern prompt above is the
+  core skill, free.
+
+## Related
+
+- [Backend auth (Better Auth)](/skills/better-auth)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

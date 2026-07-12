@@ -1,0 +1,64 @@
+---
+title: 'AI UI/UX Design with Claude Code (Avoiding the Generic Look)'
+description: How to get Claude Code to produce polished, non-generic UI — style systems, color, typography, accessibility. The free method, and what AgentKit's ui-ux-pro-max design-intelligence skill adds.
+keywords:
+  - claude code ui design
+  - claude code ui ux
+  - claude code design system
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Ask Claude Code to "make a nice UI" and you get the same thing everyone gets: the generic
+AI look — a purple gradient, a centered card, system fonts. Getting *distinctive*,
+accessible UI is about giving it a real design system to work from, not a vibe.
+
+## The job
+
+Produce UI that looks intentional and professional — a coherent style, a real color and
+type system, accessible by default — instead of the default AI slop.
+
+## How to do it without a kit
+
+**1. Give it a system, not an adjective.** "Modern and clean" means nothing. Specify:
+- a **style** (e.g. dark OLED, neo-brutalist, editorial),
+- a **color system** (a primary, a background, text, with contrast that passes WCAG),
+- a **type pairing** (a heading font + a body font that suit the product),
+- **spacing and radius** tokens.
+
+Feed Claude those as constraints and the output stops being generic. This site's own
+design system was chosen exactly this way — a named style, a five-color palette, a
+two-font pairing.
+
+**2. Demand accessibility as a rule, not an afterthought:** 4.5:1 contrast on body text,
+visible focus states, 44px touch targets, `prefers-reduced-motion` respected. Put these in
+the prompt and Claude honors them.
+
+**3. Avoid the tells** of AI UI: emoji used as icons (use an SVG set), hover effects that
+shift layout, invisible borders in light mode. Ask Claude to avoid each explicitly.
+
+## What the kit's skill adds
+
+AgentKit's `ui-ux-pro-max` skill (`/ak:ui-ux-pro-max`) is a design-intelligence database —
+dozens of styles, color palettes, font pairings, and layout/accessibility guidance — that
+Claude searches to pick a coherent system for your product type, rather than you supplying
+one.
+
+```bash
+/ak:ui-ux-pro-max "design a dashboard for a fintech SaaS"
+```
+
+*(Legacy prefix: `/ck:ui-ux-pro-max`.)* We used this exact skill to choose this site's
+design system — it returns a full system (style + palette + fonts + anti-patterns), which
+is faster than assembling one from scratch.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you build UIs often and want a curated design system chosen for you each
+  time instead of specifying one.
+- **Skip it if** you already have a design system — feed it to Claude directly, free.
+
+## Related
+
+- [React performance](/skills/react-best-practices)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

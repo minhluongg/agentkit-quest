@@ -1,0 +1,66 @@
+---
+title: 'React Performance with Claude Code: Best Practices'
+description: How to use Claude Code to find and fix React and Next.js performance problems — unnecessary re-renders, waterfalls, bundle bloat. The free method, and what AgentKit's react-best-practices skill adds.
+keywords:
+  - claude code react performance
+  - claude code react best practices
+  - claude code nextjs optimization
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+React performance problems are rarely where you think — the slow part is usually a
+re-render cascade or a data waterfall, not the code you're staring at. Claude Code is a
+strong tool for finding these *if* you point it at the right symptoms.
+
+## The job
+
+Find and fix the real performance issues in a React/Next.js app: unnecessary re-renders,
+request waterfalls, oversized bundles — not premature micro-optimizations.
+
+## How to do it without a kit
+
+**1. Measure first, don't guess.** Prompt Claude to reason from evidence:
+
+> Review this component tree for performance issues that would show up in production:
+> unnecessary re-renders (unstable props, missing memoization where it matters), data
+> fetching waterfalls, and anything that inflates the bundle. Rank by likely impact and
+> ignore micro-optimizations that won't move the needle.
+
+**2. Know the usual suspects** and have Claude check them specifically:
+- **Re-renders:** unstable object/function props passed to memoized children; context that
+  changes too often; state lifted higher than it needs to be.
+- **Waterfalls:** sequential `await`s that could be parallel; fetching in a child that
+  could hoist to the parent or a server component.
+- **Bundle:** heavy libraries imported eagerly that could be lazy; barrel files pulling in
+  everything.
+
+**3. In Next.js**, the biggest wins are usually rendering strategy — Server Components vs
+Client, and correct caching. Have Claude justify each `'use client'`.
+
+**4. Verify with numbers** — React DevTools Profiler, a Lighthouse run — not vibes.
+
+## What the kit's skill adds
+
+AgentKit's `react-best-practices` skill (`/ak:react-best-practices`) applies React and
+Next.js optimization patterns (the kind Vercel's engineering documents) as a repeatable
+review — component structure, rendering, bundle analysis.
+
+```bash
+/ak:react-best-practices "src/components/Dashboard.tsx"
+```
+
+*(Legacy prefix: `/ck:react-best-practices`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you optimize React/Next apps regularly and want a consistent
+  performance-review pass.
+- **Skip it if** you profile occasionally — the evidence-first prompt above covers most of
+  it, free.
+
+## Related
+
+- [Next.js frameworks (RSC, SSR, ISR)](/skills/web-frameworks)
+- [UI/UX design](/skills/ui-ux-pro-max)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

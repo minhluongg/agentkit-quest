@@ -1,0 +1,66 @@
+---
+title: 'Setting Up Authentication with Claude Code (Better Auth)'
+description: How to add auth to a TypeScript app with Claude Code and Better Auth — email/password, OAuth, 2FA, passkeys. The free method, and what AgentKit's better-auth skill adds.
+keywords:
+  - better auth claude code
+  - claude code authentication
+  - claude code auth setup
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Auth is the code you least want an AI to improvise. Session handling, OAuth flows, and
+token storage have sharp edges where "looks fine" and "actually secure" diverge. The safe
+path is to use a real auth library — [Better Auth](https://better-auth.com) is a good
+TypeScript one — and have Claude Code wire it correctly rather than hand-roll it.
+
+## The job
+
+Add authentication — email/password, OAuth, 2FA, passkeys, sessions — that's actually
+secure, not a homemade token scheme.
+
+## How to do it without a kit
+
+**1. Never let Claude hand-roll auth.** No custom JWT signing, no bespoke session logic.
+Use a maintained library. Prompt:
+
+> Set up authentication using Better Auth. Do not write custom crypto or token handling —
+> use the library's primitives. Configure email/password and Google OAuth to start.
+
+**2. Get the token storage right.** Sessions in httpOnly cookies, not localStorage
+(localStorage is readable by any XSS). Have Claude explain *where* tokens live and why —
+if it can't, don't ship it.
+
+**3. Secrets from the environment.** OAuth client secrets, signing keys — env vars only. A
+[free hook](/guides/claude-code-hooks-examples) blocks a secret from being written into a
+file if you slip.
+
+**4. Test the failure paths.** Expired tokens, revoked sessions, wrong password — these
+are where auth bugs hide. [Write tests for them](/skills/test).
+
+Better Auth's docs plus Claude Code cover email/password, OAuth, 2FA, and passkeys for
+free.
+
+## What the kit's skill adds
+
+AgentKit's `better-auth` skill (`/ak:better-auth`) packages the setup patterns — OAuth
+providers (Google, GitHub), 2FA/MFA, passkeys/WebAuthn, sessions, RBAC, rate limiting —
+with scripts, so each auth feature is a guided add rather than a docs-diving exercise.
+
+```bash
+/ak:better-auth "add Google OAuth and 2FA"
+```
+
+*(Legacy prefix: `/ck:better-auth`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you set up auth across projects and want the OAuth/2FA/passkey patterns
+  ready-made.
+- **Skip it if** it's one app — Better Auth's own docs plus Claude Code get you there free.
+
+## Related
+
+- [Database schema design](/skills/databases)
+- [Security audit](/skills/security)
+- [26 free hooks](/guides/claude-code-hooks-examples)

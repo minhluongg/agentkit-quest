@@ -1,0 +1,66 @@
+---
+title: 'Building with Next.js and Claude Code (RSC, SSR, ISR)'
+description: How to use Claude Code with Next.js App Router — Server Components, SSR, ISR, and Turborepo monorepos. The free method, and what AgentKit's web-frameworks skill adds.
+keywords:
+  - claude code nextjs
+  - claude code app router
+  - claude code next.js server components
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Next.js's App Router gives you several rendering strategies — Server Components, SSR, ISR,
+static — and the whole game is picking the right one per route. Claude Code knows the
+mechanics; the value you add is telling it the *constraints* so it chooses correctly.
+
+## The job
+
+Build Next.js features that use the right rendering strategy per route, with the caching
+and data-fetching that fits — not everything jammed into a client component.
+
+## How to do it without a kit
+
+**1. Default to the server; justify every `'use client'`.** The most common Next.js
+mistake is client-rendering things that should be Server Components. Prompt:
+
+> Build this as Server Components by default. Only add `'use client'` where there's genuine
+> interactivity, and tell me why each one needs it. Fetch data on the server where you can.
+
+**2. Pick the rendering strategy from the data's freshness needs:**
+- Static — content that rarely changes.
+- ISR (`revalidate`) — changes occasionally; serve cached, refresh in the background.
+- SSR — must be fresh per request.
+- Client — depends on the user/browser at runtime.
+
+Make Claude state the choice per route and the reason.
+
+**3. Get caching right** — it's where App Router surprises people. Have Claude be explicit
+about what's cached and how it's invalidated.
+
+**4. Monorepos:** Turborepo's value is the task cache and shared packages; ask Claude to
+set up the pipeline and workspace boundaries deliberately.
+
+## What the kit's skill adds
+
+AgentKit's `web-frameworks` skill (`/ak:web-frameworks`) packages Next.js App Router
+patterns (RSC, SSR, ISR), build optimization, caching strategies, and Turborepo monorepo
+setup, with scripts.
+
+```bash
+/ak:web-frameworks nextjs "add an ISR product page"
+```
+
+*(Legacy prefix: `/ck:web-frameworks`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you build Next.js apps often and want the RSC/caching/monorepo patterns
+  as a repeatable guide.
+- **Skip it if** you know App Router — the server-first prompt above keeps Claude honest,
+  free.
+
+## Related
+
+- [React performance](/skills/react-best-practices)
+- [Deploy to Vercel](/skills/deploy)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
