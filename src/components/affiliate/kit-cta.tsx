@@ -24,8 +24,10 @@ interface KitCtaProps {
 export function KitCta({
   campaign = 'article-cta',
   title = 'Get AgentKit Engineer',
-  body = '88 skills, 13 agents, and the workflow layer this site documents. One-time $99.',
-  action = 'View AgentKit Engineer',
+  // The referral link gives first-time buyers 20% off — a real reason to use it,
+  // stated plainly. Confirmed from the affiliate dashboard (20% commission / 20% buyer discount).
+  body = '88 skills, 13 agents, and the workflow layer this site documents. $99 one-time — 20% off through this link.',
+  action = 'Get AgentKit — 20% off',
   // Land on the product, not the homepage. The button says "View AgentKit
   // Engineer"; sending that click to agentkit.best/ makes the user find the
   // product again, and every extra click is conversion lost.

@@ -31,15 +31,27 @@ Rows are ranked on two things that *were* measured against live SERPs:
 
 The two disagree by ~3×. Unresolved: the vendor may use multiple processors, or the larger figure may aggregate several of the founder's products. **Both are recorded; neither is quietly preferred.**
 
-At the user's figure — $230k over ~9 months of selling (kit's first commit: 2025-10-02) ≈ $25k/mo ≈ **~250 sales/month at $99**. Affiliate commission is **$40/sale**:
+### Affiliate terms — confirmed from the dashboard (2026-07-12)
+
+| Term | Value |
+|---|---|
+| Commission rate | **20%** (Rookie tier). 40% is a *leaderboard* rate requiring $1,000+ GMV generated — not the starting rate. |
+| Per $99 sale | **≈ $19.80** (not the $40 assumed earlier) |
+| Buyer incentive | **20% off their first purchase** via the referral link — a genuine reason for the reader to click, not just "buy this" |
+| Approval | Commission holds through a **14-day refund window**, then approves |
+| Click-attribution cookie window | **Still not stated** on the dashboard — the 14 days is the refund hold, not the attribution duration. Confirm with the vendor before committing to the P2 tutorial tier. |
+
+**Revised arithmetic.** $230k over ~9 months ≈ $25k/mo ≈ **~250 sales/month at $99**, commission **~$20/sale**:
 
 | Share of vendor sales captured | Commission |
 |---|---|
-| 3% | **$300/mo** |
-| 5% | **$500/mo** |
-| 10% | **$1,000/mo** |
+| 3% | **~$160/mo** |
+| 5% | **~$260/mo** |
+| 10% | **~$500/mo** |
 
-That justifies the ~40-page investment. **If the $230k figure turns out to include other products, the realistic band drops to $100–300/mo** — confirm before committing the full effort.
+Lower than the earlier ($40/sale) estimate — that number was wrong. Still enough to justify the highest-value pages (link engine, the ranking-test pillar, the P0 conversion page), but **not** obviously enough to justify all 40. **If the $230k figure includes the founder's other products, halve again to ~$80–250/mo.** Let the measurement loop decide the tail rather than committing it up front.
+
+**Conversion lever the terms unlock:** every CTA can honestly say *"20% off through this link"*. The reader saves ~$20; you earn ~$20. That is a materially better pitch than a bare "buy" and should be worked into the P0 pages.
 
 ---
 
