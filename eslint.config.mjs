@@ -1,0 +1,38 @@
+import coreWebVitals from 'eslint-config-next/core-web-vitals';
+import typescript from 'eslint-config-next/typescript';
+
+const config = [
+  {
+    ignores: [
+      '.next/**',
+      '.source/**',
+      'node_modules/**',
+      // Not app code: the vendored kit, the local AgentKit tooling, and plan docs.
+      'claudekit-engineer/**',
+      '.claude/**',
+      'plans/**',
+    ],
+  },
+  ...coreWebVitals,
+  ...typescript,
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    // affiliate.ts owns the base URL; site.ts records it as reference metadata.
+    ignores: ['src/lib/affiliate.ts', 'src/lib/site.ts'],
+    rules: {
+      // A hand-written agentkit.best href silently drops the ?ref= param, and a
+      // dropped ref is commission that is never paid and never noticed.
+      // Everything must route through buildAffiliateUrl() / <AffiliateLink>.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Literal[value=/agentkit\\.best/]',
+          message:
+            'Do not link to agentkit.best directly. Use <AffiliateLink> or buildAffiliateUrl() so the ref and UTM params are always attached.',
+        },
+      ],
+    },
+  },
+];
+
+export default config;

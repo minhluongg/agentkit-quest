@@ -1,0 +1,57 @@
+[
+  {
+    "id": "ai-ml",
+    "label": "AI & Machine Learning",
+    "count": 3
+  },
+  {
+    "id": "frontend",
+    "label": "Frontend & Design",
+    "count": 12
+  },
+  {
+    "id": "backend",
+    "label": "Backend Development",
+    "count": 3
+  },
+  {
+    "id": "infrastructure",
+    "label": "Infrastructure & DevOps",
+    "count": 2
+  },
+  {
+    "id": "database",
+    "label": "Database & Storage",
+    "count": 1
+  },
+  {
+    "id": "dev-tools",
+    "label": "Development Tools",
+    "count": 24
+  },
+  {
+    "id": "multimedia",
+    "label": "Multimedia & Processing",
+    "count": 5
+  },
+  {
+    "id": "frameworks",
+    "label": "Frameworks & Platforms",
+    "count": 4
+  },
+  {
+    "id": "security",
+    "label": "Security & Intelligence",
+    "count": 1
+  },
+  {
+    "id": "utilities",
+    "label": "Utilities & Helpers",
+    "count": 32
+  },
+  {
+    "id": "other",
+    "label": "Other",
+    "count": 1
+  }
+]

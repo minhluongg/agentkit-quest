@@ -1,0 +1,1691 @@
+[
+  {
+    "slug": "agent-browser",
+    "name": "agent-browser",
+    "invocation": "/ak:agent-browser",
+    "legacyInvocation": "/ck:agent-browser",
+    "description": "Automate browsers and apps with agent-browser. Use for testing, screenshots, forms, scraping, Browserbase/cloud browsers, and Electron when real Chrome cookies are not required.",
+    "category": "dev-tools",
+    "keywords": [
+      "browser",
+      "automation",
+      "playwright",
+      "testing",
+      "e2e",
+      "browserbase",
+      "autonomous",
+      "headless",
+      "electron",
+      "slack",
+      "dogfood",
+      "agentcore",
+      "vercel-sandbox"
+    ],
+    "argumentHint": "[url or task]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/agent-browser/SKILL.md"
+  },
+  {
+    "slug": "agentize",
+    "name": "agentize",
+    "invocation": "/ak:agentize",
+    "legacyInvocation": "/ck:agentize",
+    "description": "Convert a codebase, feature, or module into an AI-agent-friendly CLI and/or MCP server. Covers npm packaging, stdio/SSE/Streamable HTTP surfaces, credential resolution, docs, tests, CI, and a companion Claude skill for users who need an existing capability exposed as a reusable agent tool.",
+    "category": "dev-tools",
+    "keywords": [
+      "agentize",
+      "mcp",
+      "cli",
+      "monorepo",
+      "npm",
+      "cloudflare",
+      "docker",
+      "agent-tool"
+    ],
+    "argumentHint": "[feature-or-module] [--both|--mcp|--cli] [--auto|--ask]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/agentize/SKILL.md"
+  },
+  {
+    "slug": "ai-artist",
+    "name": "ai-artist",
+    "invocation": "/ak:ai-artist",
+    "legacyInvocation": "/ck:ai-artist",
+    "description": "Generate product mockups, marketing assets, brand visuals, and concept art via Nano Banana with 129 curated prompts. Mandatory validation interview refines style/mood/colors (use --skip to bypass). 3 modes: search, creative, wild. Styles: Ukiyo-e, Bento grid, cyberpunk, cinematic, vintage patent.",
+    "category": "ai-ml",
+    "keywords": [
+      "image",
+      "generation",
+      "prompts",
+      "styles"
+    ],
+    "argumentHint": "[concept] [--mode search|creative|wild|all] [--provider auto|google|openrouter] [--skip]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ai-artist/SKILL.md"
+  },
+  {
+    "slug": "ai-multimodal",
+    "name": "ai-multimodal",
+    "invocation": "/ak:ai-multimodal",
+    "legacyInvocation": "/ck:ai-multimodal",
+    "description": "Analyze images/audio/video with Gemini API (better vision than Claude). Generate images (Imagen 4, Nano Banana 2, MiniMax), videos (Veo 3, Hailuo), speech (MiniMax TTS), music (MiniMax). Use for vision analysis, transcription, OCR, design extraction, multimodal AI.",
+    "category": "ai-ml",
+    "keywords": [
+      "vision",
+      "image",
+      "video",
+      "audio",
+      "Gemini"
+    ],
+    "argumentHint": "[file-path] [prompt]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ai-multimodal/SKILL.md"
+  },
+  {
+    "slug": "ask",
+    "name": "ask",
+    "invocation": "/ak:ask",
+    "legacyInvocation": "/ck:ask",
+    "description": "Answer technical and architectural questions with expert analysis. Use for design decisions, best practices evaluation, solution comparison.",
+    "category": "utilities",
+    "keywords": [
+      "questions",
+      "consultation",
+      "architecture"
+    ],
+    "argumentHint": "[technical-question]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ask/SKILL.md"
+  },
+  {
+    "slug": "autoresearch",
+    "name": "autoresearch",
+    "invocation": "/ak:autoresearch",
+    "legacyInvocation": "/ck:autoresearch",
+    "description": "Autoresearch is the upstream meta-framework (Udit Goenka, MIT) for autonomous goal-directed iteration with safety guardrails. Locally split into 4 specialized skills. Start here to learn the pattern, then route to the right specialized skill.",
+    "category": "utilities",
+    "keywords": [
+      "autoresearch",
+      "autonomous",
+      "iteration",
+      "karpathy",
+      "framework",
+      "lineage",
+      "router",
+      "umbrella"
+    ],
+    "argumentHint": null,
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-autoresearch/SKILL.md"
+  },
+  {
+    "slug": "backend-development",
+    "name": "backend-development",
+    "invocation": "/ak:backend-development",
+    "legacyInvocation": "/ck:backend-development",
+    "description": "Build backends with Node.js, Python, Go (NestJS, FastAPI, Django). Use for REST/GraphQL/gRPC APIs, auth (OAuth, JWT), databases, microservices, security (OWASP), Docker/K8s.",
+    "category": "backend",
+    "keywords": [
+      "nodejs",
+      "python",
+      "go",
+      "api",
+      "rest",
+      "graphql"
+    ],
+    "argumentHint": "[framework] [task]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/backend-development/SKILL.md"
+  },
+  {
+    "slug": "better-auth",
+    "name": "better-auth",
+    "invocation": "/ak:better-auth",
+    "legacyInvocation": "/ck:better-auth",
+    "description": "Add authentication with Better Auth (TypeScript). Use for email/password, OAuth providers (Google, GitHub), 2FA/MFA, passkeys/WebAuthn, sessions, RBAC, rate limiting.",
+    "category": "backend",
+    "keywords": [
+      "auth",
+      "oauth",
+      "2fa",
+      "passkeys",
+      "sessions"
+    ],
+    "argumentHint": "[auth-method or feature]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/better-auth/SKILL.md"
+  },
+  {
+    "slug": "bootstrap",
+    "name": "bootstrap",
+    "invocation": "/ak:bootstrap",
+    "legacyInvocation": "/ck:bootstrap",
+    "description": "Bootstrap new projects with research, tech stack, design, planning, and implementation. Modes: full (default interactive), auto (explicit autonomous), fast (skip research), parallel (multi-agent).",
+    "category": "utilities",
+    "keywords": [
+      "scaffold",
+      "project",
+      "setup",
+      "boilerplate"
+    ],
+    "argumentHint": "[requirements] [--full|--auto|--fast|--parallel]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/bootstrap/SKILL.md"
+  },
+  {
+    "slug": "brainstorm",
+    "name": "brainstorm",
+    "invocation": "/ak:brainstorm",
+    "legacyInvocation": "/ck:brainstorm",
+    "description": "Brainstorm solutions with trade-off analysis and brutal honesty. Use for ideation, architecture decisions, technical debates, feature exploration, feasibility assessment, design discussions, problem-first inversion, HTML editorial reports, and AgentWiki publishing.",
+    "category": "utilities",
+    "keywords": [
+      "ideation",
+      "tradeoffs",
+      "debate",
+      "decisions",
+      "problem-first",
+      "html",
+      "wiki",
+      "agentwiki",
+      "reports"
+    ],
+    "argumentHint": "[--html] [--wiki] [topic or problem]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/brainstorm/SKILL.md"
+  },
+  {
+    "slug": "chrome-profile",
+    "name": "chrome-profile",
+    "invocation": "/ak:chrome-profile",
+    "legacyInvocation": "/ck:chrome-profile",
+    "description": "Target a real Google Chrome profile for browser automation through Chrome DevTools MCP. Provides the chrome-profile CLI, profile discovery, live DevTools probing guidance, setup playbooks, and URL-anchor tab selection.",
+    "category": "dev-tools",
+    "keywords": [
+      "chrome",
+      "browser",
+      "profile",
+      "mcp",
+      "devtools",
+      "automation",
+      "cookies"
+    ],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/chrome-profile/SKILL.md"
+  },
+  {
+    "slug": "ckm-design",
+    "name": "ckm:design",
+    "invocation": "/akm:design",
+    "legacyInvocation": "/ckm:design",
+    "description": "Design brand identity, logos, banners, and visual assets. Use for brand systems, design tokens, corporate identity programs. Not for UI code patterns.",
+    "category": "frontend",
+    "keywords": [
+      "brand",
+      "logo",
+      "CIP",
+      "banners",
+      "identity"
+    ],
+    "argumentHint": "[design-type] [context]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/design/SKILL.md"
+  },
+  {
+    "slug": "code-review",
+    "name": "code-review",
+    "invocation": "/ak:code-review",
+    "legacyInvocation": "/ck:code-review",
+    "description": "Review code quality with evidence-based rigor. Supports input modes: pending changes, PR number, commit hash, and codebase scan. Focuses on bugs, regressions, maintainability, reliability, and verification gaps.",
+    "category": "utilities",
+    "keywords": [
+      "review",
+      "quality",
+      "verification",
+      "reliability"
+    ],
+    "argumentHint": "[#PR | COMMIT | --pending | codebase [parallel]]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-code-review/SKILL.md"
+  },
+  {
+    "slug": "coding-level",
+    "name": "coding-level",
+    "invocation": "/ak:coding-level",
+    "legacyInvocation": "/ck:coding-level",
+    "description": "Set coding experience level for tailored output. Use for adjusting explanation depth, code complexity, and response format to user expertise.",
+    "category": "utilities",
+    "keywords": [
+      "experience",
+      "level",
+      "explanation",
+      "format"
+    ],
+    "argumentHint": "[0-5]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/coding-level/SKILL.md"
+  },
+  {
+    "slug": "context-engineering",
+    "name": "context-engineering",
+    "invocation": "/ak:context-engineering",
+    "legacyInvocation": "/ck:context-engineering",
+    "description": "Check context usage limits, monitor time remaining, optimize token consumption, debug context failures. Use when asking about context percentage, rate limits, usage warnings, context optimization, agent architectures, memory systems.",
+    "category": "utilities",
+    "keywords": [
+      "context",
+      "tokens",
+      "limits",
+      "memory",
+      "optimization"
+    ],
+    "argumentHint": "[topic or question]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/context-engineering/SKILL.md"
+  },
+  {
+    "slug": "cook",
+    "name": "cook",
+    "invocation": "/ak:cook",
+    "legacyInvocation": "/ck:cook",
+    "description": "Implement features, plans, and fixes with structured workflow. Use for feature development, plan execution, code implementation pipelines.",
+    "category": "utilities",
+    "keywords": [
+      "implementation",
+      "workflow",
+      "feature",
+      "pipeline"
+    ],
+    "argumentHint": "[task|plan-path] [--interactive|--fast|--parallel|--auto|--no-test] [--tdd]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/cook/SKILL.md"
+  },
+  {
+    "slug": "copywriting",
+    "name": "copywriting",
+    "invocation": "/ak:copywriting",
+    "legacyInvocation": "/ck:copywriting",
+    "description": "Conversion copywriting formulas, headline templates, email copy patterns, landing page structures, CTA optimization, and writing style extraction. Activate for writing high-converting copy, crafting headlines, email campaigns, landing pages, or applying custom writing styles from assets/writing-styles/ directory.",
+    "category": "utilities",
+    "keywords": [
+      "copy",
+      "headlines",
+      "email",
+      "landing-page"
+    ],
+    "argumentHint": "[copy-type] [context]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/copywriting/SKILL.md"
+  },
+  {
+    "slug": "cti-expert",
+    "name": "cti-expert",
+    "invocation": "/ak:cti-expert",
+    "legacyInvocation": "/ck:cti-expert",
+    "description": "Analyze cyber threat intelligence and OSINT cases. Use for exposure reviews, domain recon, breach checks, username/email/phone research, image forensics, blockchain tracing, darknet checks, cloud tenant recon, vulnerability lookup, threat modeling, and structured reports.",
+    "category": "security",
+    "keywords": [
+      "osint",
+      "cti",
+      "threat-intelligence",
+      "recon",
+      "investigation",
+      "darknet",
+      "breach",
+      "forensics"
+    ],
+    "argumentHint": "[target] [--yolo] [--case|--sweep|--query|--flow]",
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/cti-expert/SKILL.md"
+  },
+  {
+    "slug": "databases",
+    "name": "databases",
+    "invocation": "/ak:databases",
+    "legacyInvocation": "/ck:databases",
+    "description": "Design schemas, write queries for MongoDB and PostgreSQL. Use for database design, SQL/NoSQL queries, aggregation pipelines, indexes, migrations, replication, performance optimization, psql CLI.",
+    "category": "database",
+    "keywords": [
+      "mongodb",
+      "postgresql",
+      "sql",
+      "schemas",
+      "queries"
+    ],
+    "argumentHint": "[query or schema task]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/databases/SKILL.md"
+  },
+  {
+    "slug": "debug",
+    "name": "debug",
+    "invocation": "/ak:debug",
+    "legacyInvocation": "/ck:debug",
+    "description": "Debug systematically with root cause analysis before fixes. Use for bugs, test failures, unexpected behavior, performance issues, call stack tracing, multi-layer validation, log analysis, CI/CD failures, database diagnostics, system investigation.",
+    "category": "utilities",
+    "keywords": [
+      "debug",
+      "root-cause",
+      "bugs",
+      "test-failures"
+    ],
+    "argumentHint": "[error or issue description]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-debug/SKILL.md"
+  },
+  {
+    "slug": "deploy",
+    "name": "deploy",
+    "invocation": "/ak:deploy",
+    "legacyInvocation": "/ck:deploy",
+    "description": "Deploy projects to any platform with auto-detection. Use when user says \"deploy\", \"publish\", \"ship\", \"go live\", \"push to production\", \"host this app\", or mentions any hosting platform (Vercel, Netlify, Cloudflare, Railway, Fly.io, Render, Heroku, TOSE, Github Pages, AWS, GCP, Digital Ocean, Vultr, Coolify, Dokploy). Auto-detects deployment target from config files and docs/deployment.md.",
+    "category": "infrastructure",
+    "keywords": [
+      "deploy",
+      "hosting",
+      "Vercel",
+      "Netlify",
+      "Cloudflare"
+    ],
+    "argumentHint": "[platform] [environment]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/deploy/SKILL.md"
+  },
+  {
+    "slug": "devops",
+    "name": "devops",
+    "invocation": "/ak:devops",
+    "legacyInvocation": "/ck:devops",
+    "description": "Deploy to Cloudflare (Workers, R2, D1), Docker, GCP (Cloud Run, GKE), Kubernetes (kubectl, Helm). Use for serverless, containers, CI/CD, GitOps, security audit.",
+    "category": "infrastructure",
+    "keywords": [
+      "cloudflare",
+      "docker",
+      "gcp",
+      "kubernetes",
+      "cicd"
+    ],
+    "argumentHint": "[platform] [task]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/devops/SKILL.md"
+  },
+  {
+    "slug": "docs",
+    "name": "docs",
+    "invocation": "/ak:docs",
+    "legacyInvocation": "/ck:docs",
+    "description": "Analyze codebase and manage project documentation. Use for doc initialization, updates, summaries, codebase analysis.",
+    "category": "utilities",
+    "keywords": [
+      "documentation",
+      "init",
+      "update",
+      "summarize"
+    ],
+    "argumentHint": "init|update|summarize",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/docs/SKILL.md"
+  },
+  {
+    "slug": "docs-seeker",
+    "name": "docs-seeker",
+    "invocation": "/ak:docs-seeker",
+    "legacyInvocation": "/ck:docs-seeker",
+    "description": "Search library/framework documentation via llms.txt (context7.com). Use for API docs, GitHub repository analysis, technical documentation lookup, latest library features.",
+    "category": "dev-tools",
+    "keywords": [
+      "docs",
+      "llms-txt",
+      "api",
+      "library",
+      "context7"
+    ],
+    "argumentHint": "[library-name] [topic]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/docs-seeker/SKILL.md"
+  },
+  {
+    "slug": "docx",
+    "name": "docx",
+    "invocation": "/ak:docx",
+    "legacyInvocation": "/ck:docx",
+    "description": "Create, edit, analyze .docx Word documents. Use for document creation, tracked changes, comments, formatting preservation, text extraction, template modification.",
+    "category": "multimedia",
+    "keywords": [
+      "docx",
+      "word",
+      "document",
+      "office"
+    ],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/docx/SKILL.md"
+  },
+  {
+    "slug": "excalidraw",
+    "name": "excalidraw",
+    "invocation": "/ak:excalidraw",
+    "legacyInvocation": "/ck:excalidraw",
+    "description": "Create Excalidraw diagrams — architecture, data flow, workflows, system design. Use when user wants to visualize, diagram, draw architecture, show data flow, create flowcharts, map components, or export .excalidraw files to PNG/SVG. Supports two modes: live MCP canvas (real-time) or file-based JSON + Playwright rendering. Also supports zero-config codebase auto-diagramming — just say \"diagram this repo\" or \"visualize the architecture\".",
+    "category": "dev-tools",
+    "keywords": [
+      "diagrams",
+      "architecture",
+      "flowcharts",
+      "whiteboard",
+      "SVG"
+    ],
+    "argumentHint": null,
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/excalidraw/SKILL.md"
+  },
+  {
+    "slug": "find-skills",
+    "name": "find-skills",
+    "invocation": "/ak:find-skills",
+    "legacyInvocation": "/ck:find-skills",
+    "description": "Helps users discover and install agent skills when they ask questions like \"how do I do X\", \"find a skill for X\", \"is there a skill that can...\", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.",
+    "category": "dev-tools",
+    "keywords": [
+      "discover",
+      "install",
+      "skills",
+      "search"
+    ],
+    "argumentHint": "[capability or task description]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/find-skills/SKILL.md"
+  },
+  {
+    "slug": "fix",
+    "name": "fix",
+    "invocation": "/ak:fix",
+    "legacyInvocation": "/ck:fix",
+    "description": "Fix bugs, errors, test failures, and CI/CD issues with intelligent routing. Use for type errors, lint issues, log errors, UI bugs, code problems.",
+    "category": "utilities",
+    "keywords": [
+      "bugfix",
+      "error",
+      "test-failure",
+      "CI",
+      "lint"
+    ],
+    "argumentHint": "[issue] --auto|--review|--quick|--parallel",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/fix/SKILL.md"
+  },
+  {
+    "slug": "frontend-design",
+    "name": "frontend-design",
+    "invocation": "/ak:frontend-design",
+    "legacyInvocation": "/ck:frontend-design",
+    "description": "Create polished frontend interfaces from designs/screenshots/videos. Use for web components, 3D experiences, replicating UI designs, quick prototypes, immersive interfaces, avoiding AI slop.",
+    "category": "frontend",
+    "keywords": [
+      "ui",
+      "design",
+      "screenshots",
+      "prototyping"
+    ],
+    "argumentHint": null,
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/frontend-design/SKILL.md"
+  },
+  {
+    "slug": "frontend-development",
+    "name": "frontend-development",
+    "invocation": "/ak:frontend-development",
+    "legacyInvocation": "/ck:frontend-development",
+    "description": "Build React/TypeScript frontends with modern patterns. Use for components, Suspense, lazy loading, useSuspenseQuery, MUI v7 styling, TanStack Router, performance optimization.",
+    "category": "frontend",
+    "keywords": [
+      "react",
+      "typescript",
+      "components",
+      "mui"
+    ],
+    "argumentHint": "[component or feature]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/frontend-development/SKILL.md"
+  },
+  {
+    "slug": "ghpm",
+    "name": "ghpm",
+    "invocation": "/ak:ghpm",
+    "legacyInvocation": "/ck:ghpm",
+    "description": "GitHub project management for humans and AI agents. Use for issue/task planning, Projects boards, handoff status, gh/API automation, and CI-driven work tracking.",
+    "category": "utilities",
+    "keywords": [
+      "github",
+      "project-management",
+      "issues",
+      "projects",
+      "tasks",
+      "handoff",
+      "handover",
+      "gh",
+      "actions",
+      "agents"
+    ],
+    "argumentHint": null,
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ghpm/SKILL.md"
+  },
+  {
+    "slug": "git",
+    "name": "git",
+    "invocation": "/ak:git",
+    "legacyInvocation": "/ck:git",
+    "description": "Manage git commits, pushes, PRs, branch merges, and PR review-and-merge automation. Use for commit, push, PR creation, PR merge, CI follow-up, and secret scanning.",
+    "category": "dev-tools",
+    "keywords": [
+      "git",
+      "commits",
+      "staging",
+      "PR",
+      "merge",
+      "merge-pr",
+      "ci"
+    ],
+    "argumentHint": "cm|cp|pr|merge|merge-pr [args]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/git/SKILL.md"
+  },
+  {
+    "slug": "gkg",
+    "name": "gkg",
+    "invocation": "/ak:gkg",
+    "legacyInvocation": "/ck:gkg",
+    "description": "Semantic code analysis with GitLab Knowledge Graph. Use for go-to-definition, find-usages, impact analysis, architecture visualization. Supports Ruby, Java, Kotlin, Python, TypeScript/JavaScript.",
+    "category": "dev-tools",
+    "keywords": [
+      "code-analysis",
+      "knowledge-graph",
+      "gitlab"
+    ],
+    "argumentHint": "[symbol or query]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/gkg/SKILL.md"
+  },
+  {
+    "slug": "google-adk-python",
+    "name": "google-adk-python",
+    "invocation": "/ak:google-adk-python",
+    "legacyInvocation": "/ck:google-adk-python",
+    "description": "Build AI agents with Google ADK Python. Multi-agent systems, A2A protocol, MCP tools, workflow agents, state/memory, callbacks/plugins, Vertex AI deployment, evaluation.",
+    "category": "ai-ml",
+    "keywords": [
+      "google-adk",
+      "agents",
+      "a2a",
+      "mcp",
+      "vertex-ai"
+    ],
+    "argumentHint": "[agent or feature]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/google-adk-python/SKILL.md"
+  },
+  {
+    "slug": "graphify",
+    "name": "graphify",
+    "invocation": "/ak:graphify",
+    "legacyInvocation": "/ck:graphify",
+    "description": "Build queryable knowledge graphs from code, docs, papers, and images. Use for codebase understanding, architecture analysis, cross-file relationship discovery, token-efficient navigation.",
+    "category": "dev-tools",
+    "keywords": [
+      "knowledge-graph",
+      "code-analysis",
+      "tree-sitter",
+      "codebase-understanding",
+      "ast"
+    ],
+    "argumentHint": "[path] [--mcp|--report|--watch]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-graphify/SKILL.md"
+  },
+  {
+    "slug": "html-video",
+    "name": "html-video",
+    "invocation": "/ak:html-video",
+    "legacyInvocation": "/ck:html-video",
+    "description": "Create local MP4 videos from HTML/CSS/JS templates with nexu-io/html-video. Covers source checkout setup, template discovery, studio customization, preview, and render verification.",
+    "category": "frontend",
+    "keywords": [
+      "html",
+      "video",
+      "mp4",
+      "templates",
+      "animation",
+      "chromium",
+      "ffmpeg",
+      "studio",
+      "hyperframes"
+    ],
+    "argumentHint": "[video brief, source URL, repo, template id, or project id]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/html-video/SKILL.md"
+  },
+  {
+    "slug": "journal",
+    "name": "journal",
+    "invocation": "/ak:journal",
+    "legacyInvocation": "/ck:journal",
+    "description": "Write technical journal entries analyzing recent changes. Use for session reflections, change analysis, decision documentation.",
+    "category": "utilities",
+    "keywords": [
+      "journal",
+      "reflection",
+      "changes",
+      "session"
+    ],
+    "argumentHint": "[topic or reflection]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/journal/SKILL.md"
+  },
+  {
+    "slug": "llms",
+    "name": "llms",
+    "invocation": "/ak:llms",
+    "legacyInvocation": "/ck:llms",
+    "description": "Generate llms.txt files from docs or codebase scanning. Follows llmstxt.org spec. Use for LLM-friendly site indexes, documentation summaries, AI context optimization.",
+    "category": "dev-tools",
+    "keywords": [
+      "llms-txt",
+      "documentation",
+      "AI-context"
+    ],
+    "argumentHint": "[path|url] [--full] [--output path]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/llms/SKILL.md"
+  },
+  {
+    "slug": "loop",
+    "name": "loop",
+    "invocation": "/ak:loop",
+    "legacyInvocation": "/ck:loop",
+    "description": "Autonomous iterative optimization loop — run N iterations against a mechanical metric, learn from git history, auto-keep/discard changes. Use for improving measurable metrics (coverage, performance, bundle size, etc.) through repeated experimentation.",
+    "category": "utilities",
+    "keywords": [
+      "optimization",
+      "iteration",
+      "metrics",
+      "loop"
+    ],
+    "argumentHint": "[Goal/Metric description] or inline config block",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-loop/SKILL.md"
+  },
+  {
+    "slug": "markdown-novel-viewer",
+    "name": "markdown-novel-viewer",
+    "invocation": "/ak:markdown-novel-viewer",
+    "legacyInvocation": "/ck:markdown-novel-viewer",
+    "description": "View markdown files in a calm, book-like reader served via HTTP. Use for long-form content review — RFCs, runbooks, design docs, reports, specs, novels — anywhere you want a distraction-free reading mode in the browser.",
+    "category": "utilities",
+    "keywords": [
+      "markdown",
+      "viewer",
+      "reading",
+      "preview"
+    ],
+    "argumentHint": "[file-or-directory]",
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/markdown-novel-viewer/SKILL.md"
+  },
+  {
+    "slug": "mcp-builder",
+    "name": "mcp-builder",
+    "invocation": "/ak:mcp-builder",
+    "legacyInvocation": "/ck:mcp-builder",
+    "description": "Build MCP servers for LLM-external service integration. Use for FastMCP (Python), MCP SDK (Node/TypeScript), tool design, API integration, resource providers.",
+    "category": "dev-tools",
+    "keywords": [
+      "MCP",
+      "server",
+      "tools",
+      "integration"
+    ],
+    "argumentHint": "[service or API to integrate]",
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mcp-builder/SKILL.md"
+  },
+  {
+    "slug": "media-processing",
+    "name": "media-processing",
+    "invocation": "/ak:media-processing",
+    "legacyInvocation": "/ck:media-processing",
+    "description": "Process media with FFmpeg (video/audio), ImageMagick (images), RMBG (AI background removal). Use for encoding, format conversion, filters, thumbnails, batch processing, HLS/DASH streaming.",
+    "category": "multimedia",
+    "keywords": [
+      "ffmpeg",
+      "imagemagick",
+      "video",
+      "audio",
+      "images"
+    ],
+    "argumentHint": "[input-file] [operation]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/media-processing/SKILL.md"
+  },
+  {
+    "slug": "mermaidjs-v11",
+    "name": "mermaidjs-v11",
+    "invocation": "/ak:mermaidjs-v11",
+    "legacyInvocation": "/ck:mermaidjs-v11",
+    "description": "Create diagrams with Mermaid.js v11 syntax. Use for flowcharts, sequence diagrams, class diagrams, ER diagrams, Gantt charts, state diagrams, architecture diagrams, timelines, user journeys.",
+    "category": "utilities",
+    "keywords": [
+      "mermaid",
+      "diagrams",
+      "flowcharts",
+      "charts"
+    ],
+    "argumentHint": "[diagram-type or description]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mermaidjs-v11/SKILL.md"
+  },
+  {
+    "slug": "mintlify",
+    "name": "mintlify",
+    "invocation": "/ak:mintlify",
+    "legacyInvocation": "/ck:mintlify",
+    "description": "Build and maintain Mintlify documentation sites. Covers docs.json, MDX components, navigation, page frontmatter, theming, OpenAPI/AsyncAPI, AI docs assets such as llms.txt and skill.md, deployment targets, and local validation CLI commands.",
+    "category": "dev-tools",
+    "keywords": [
+      "docs-site",
+      "API-docs",
+      "MDX",
+      "Mintlify"
+    ],
+    "argumentHint": "[task] [path]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mintlify/SKILL.md"
+  },
+  {
+    "slug": "mobile-development",
+    "name": "mobile-development",
+    "invocation": "/ak:mobile-development",
+    "legacyInvocation": "/ck:mobile-development",
+    "description": "Build mobile apps with React Native, Flutter, Swift/SwiftUI, Kotlin/Jetpack Compose. Use for iOS/Android, mobile UX, performance optimization, offline-first, app store deployment.",
+    "category": "frameworks",
+    "keywords": [
+      "react-native",
+      "flutter",
+      "swift",
+      "kotlin",
+      "ios"
+    ],
+    "argumentHint": "[platform] [feature]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mobile-development/SKILL.md"
+  },
+  {
+    "slug": "payment-integration",
+    "name": "payment-integration",
+    "invocation": "/ak:payment-integration",
+    "legacyInvocation": "/ck:payment-integration",
+    "description": "Integrate payments with SePay (VietQR), Polar, Stripe, Paddle (MoR subscriptions), Creem.io (licensing). Checkout, webhooks, subscriptions, QR codes, multi-provider orders.",
+    "category": "backend",
+    "keywords": [
+      "payments",
+      "stripe",
+      "polar",
+      "webhooks",
+      "qr"
+    ],
+    "argumentHint": "[provider] [task]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/payment-integration/SKILL.md"
+  },
+  {
+    "slug": "pdf",
+    "name": "pdf",
+    "invocation": "/ak:pdf",
+    "legacyInvocation": "/ck:pdf",
+    "description": "Extract text/tables, create, merge, split PDFs. Fill PDF forms programmatically. Use for PDF processing, generation, form filling, document analysis, batch operations.",
+    "category": "multimedia",
+    "keywords": [
+      "pdf",
+      "extract",
+      "text",
+      "pages"
+    ],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/pdf/SKILL.md"
+  },
+  {
+    "slug": "plan",
+    "name": "plan",
+    "invocation": "/ak:plan",
+    "legacyInvocation": "/ck:plan",
+    "description": "Plan implementations, design architectures, create technical roadmaps with detailed phases. Use for feature planning, system design, solution architecture, implementation strategy, phase documentation, editorial self-contained HTML plan artifacts with --html, and AgentWiki publishing with --wiki.",
+    "category": "utilities",
+    "keywords": [
+      "planning",
+      "architecture",
+      "phases",
+      "roadmap",
+      "html",
+      "github",
+      "wiki",
+      "agentwiki",
+      "publish"
+    ],
+    "argumentHint": "[task] [--fast|--hard|--deep|--parallel|--two] [--tdd|--no-tasks] [--html] [--github] [--wiki] OR [archive|red-team|validate]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-plan/SKILL.md"
+  },
+  {
+    "slug": "plans-kanban",
+    "name": "plans-kanban",
+    "invocation": "/ak:plans-kanban",
+    "legacyInvocation": "/ck:plans-kanban",
+    "description": "Open the ClaudeKit plans dashboard in the CLI config UI. Use for plan kanban views, progress tracking, timeline checks, and quick navigation into plan files.",
+    "category": "dev-tools",
+    "keywords": [
+      "plans",
+      "dashboard",
+      "kanban",
+      "progress",
+      "timeline"
+    ],
+    "argumentHint": "[deprecated flags are accepted with warnings]",
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/plans-kanban/SKILL.md"
+  },
+  {
+    "slug": "pptx",
+    "name": "pptx",
+    "invocation": "/ak:pptx",
+    "legacyInvocation": "/ck:pptx",
+    "description": "Create, edit, analyze .pptx PowerPoint files. Use for presentations, slides, layouts, speaker notes, template modification, content extraction, slide generation.",
+    "category": "multimedia",
+    "keywords": [
+      "pptx",
+      "powerpoint",
+      "slides",
+      "office"
+    ],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/pptx/SKILL.md"
+  },
+  {
+    "slug": "predict",
+    "name": "predict",
+    "invocation": "/ak:predict",
+    "legacyInvocation": "/ck:predict",
+    "description": "5 expert personas debate proposed changes before implementation. Catches architectural, security, performance, and UX issues early. Use before major features or risky changes.",
+    "category": "utilities",
+    "keywords": [
+      "prediction",
+      "debate",
+      "review",
+      "risk"
+    ],
+    "argumentHint": "<feature description or change proposal> [--files <glob>] [--chain reason|probe]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-predict/SKILL.md"
+  },
+  {
+    "slug": "preview",
+    "name": "preview",
+    "invocation": "/ak:preview",
+    "legacyInvocation": "/ck:preview",
+    "description": "View files or generate visual explanations, slides, and diagrams. Use for code walkthroughs, architecture visualization, HTML/Markdown presentations.",
+    "category": "utilities",
+    "keywords": [
+      "preview",
+      "visual",
+      "slides",
+      "diagrams",
+      "HTML"
+    ],
+    "argumentHint": "[path] OR [--html] --explain|--slides|--diagram|--ascii [topic] OR --html --diff|--plan-review|--recap",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/preview/SKILL.md"
+  },
+  {
+    "slug": "problem-solving",
+    "name": "problem-solving",
+    "invocation": "/ak:problem-solving",
+    "legacyInvocation": "/ck:problem-solving",
+    "description": "Apply systematic problem-solving techniques when stuck. Use for complexity spirals, innovation blocks, recurring patterns, assumption constraints, simplification cascades, scale uncertainty.",
+    "category": "utilities",
+    "keywords": [
+      "problem-solving",
+      "stuck",
+      "patterns",
+      "simplify"
+    ],
+    "argumentHint": "[problem description]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/problem-solving/SKILL.md"
+  },
+  {
+    "slug": "project-management",
+    "name": "project-management",
+    "invocation": "/ak:project-management",
+    "legacyInvocation": "/ck:project-management",
+    "description": "Track progress, update plan statuses, manage Claude Tasks, generate reports, coordinate docs updates. Use for project oversight, status checks, plan completion, task hydration, cross-session continuity.",
+    "category": "utilities",
+    "keywords": [
+      "project",
+      "progress",
+      "status",
+      "reports"
+    ],
+    "argumentHint": "[task: status, hydrate, sync, report]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/project-management/SKILL.md"
+  },
+  {
+    "slug": "project-organization",
+    "name": "project-organization",
+    "invocation": "/ak:project-organization",
+    "legacyInvocation": "/ck:project-organization",
+    "description": "Organize files, directories, and content structure in any project. Use when creating files, determining output paths, organizing existing assets, or standardizing project layout.",
+    "category": "utilities",
+    "keywords": [
+      "files",
+      "directories",
+      "structure",
+      "layout"
+    ],
+    "argumentHint": "[directories or files to organize]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/project-organization/SKILL.md"
+  },
+  {
+    "slug": "react-best-practices",
+    "name": "react-best-practices",
+    "invocation": "/ak:react-best-practices",
+    "legacyInvocation": "/ck:react-best-practices",
+    "description": "Apply React and Next.js performance optimization patterns from Vercel Engineering. Use for component optimization, rendering performance, bundle analysis.",
+    "category": "frontend",
+    "keywords": [
+      "react",
+      "nextjs",
+      "performance",
+      "vercel"
+    ],
+    "argumentHint": "[component or pattern]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/react-best-practices/SKILL.md"
+  },
+  {
+    "slug": "remotion",
+    "name": "remotion",
+    "invocation": "/ak:remotion",
+    "legacyInvocation": "/ck:remotion",
+    "description": "Build video content with Remotion in React. Use for programmatic video creation, animated sequences, data-driven video rendering.",
+    "category": "frontend",
+    "keywords": [
+      "video",
+      "react",
+      "remotion",
+      "rendering"
+    ],
+    "argumentHint": "[video or component]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/remotion/SKILL.md"
+  },
+  {
+    "slug": "repomix",
+    "name": "repomix",
+    "invocation": "/ak:repomix",
+    "legacyInvocation": "/ck:repomix",
+    "description": "Pack repositories into AI-friendly files with Repomix (XML, Markdown, plain text). Use for new-project onboarding, codebase snapshots, LLM context preparation, security audits, third-party library analysis.",
+    "category": "dev-tools",
+    "keywords": [
+      "codebase",
+      "pack",
+      "snapshot",
+      "llm-context"
+    ],
+    "argumentHint": "[path] [--style xml|markdown|plain|json]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/repomix/SKILL.md"
+  },
+  {
+    "slug": "research",
+    "name": "research",
+    "invocation": "/ak:research",
+    "legacyInvocation": "/ck:research",
+    "description": "Research technical solutions, analyze architectures, gather requirements thoroughly. Use for technology evaluation, best practices research, solution design, scalability/security/maintainability analysis.",
+    "category": "utilities",
+    "keywords": [
+      "research",
+      "evaluation",
+      "analysis",
+      "solutions"
+    ],
+    "argumentHint": "[topic]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/research/SKILL.md"
+  },
+  {
+    "slug": "retro",
+    "name": "retro",
+    "invocation": "/ak:retro",
+    "legacyInvocation": "/ck:retro",
+    "description": "Generate data-driven sprint retrospectives from any git history. Use for sprint reviews, commit analysis, code-health indicators, team-velocity reporting, and quarterly engineering reviews. Works on solo or team repos.",
+    "category": "utilities",
+    "keywords": [
+      "retrospective",
+      "sprint",
+      "metrics",
+      "review"
+    ],
+    "argumentHint": "[timeframe] [--compare] [--team] [--format html|md]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/retro/SKILL.md"
+  },
+  {
+    "slug": "review-pr",
+    "name": "review-pr",
+    "invocation": "/ak:review-pr",
+    "legacyInvocation": "/ck:review-pr",
+    "description": "Review GitHub PRs for duplicate prior work, project standards, strategic necessity, correctness, security, breaking changes, code quality, and AI-slop patterns. Supports --fix and --reply.",
+    "category": "utilities",
+    "keywords": [
+      "pr",
+      "pull request",
+      "review",
+      "github",
+      "gh",
+      "fix",
+      "reply",
+      "ci",
+      "conflicts",
+      "standards",
+      "duplicate",
+      "roadmap",
+      "value",
+      "anti-slop",
+      "ai-slop"
+    ],
+    "argumentHint": "<PR number or URL> [--fix] [--reply]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/review-pr/SKILL.md"
+  },
+  {
+    "slug": "scenario",
+    "name": "scenario",
+    "invocation": "/ak:scenario",
+    "legacyInvocation": "/ck:scenario",
+    "description": "Generate comprehensive edge cases and test scenarios by decomposing features across 12 dimensions. Use for pre-implementation risk discovery, QA planning, regression design, and iterative saturation when coverage must be exhaustive.",
+    "category": "utilities",
+    "keywords": [
+      "edge-cases",
+      "test-scenarios",
+      "dimensions",
+      "saturation",
+      "iterations"
+    ],
+    "argumentHint": "<file path or feature description> [--iterations N] [--saturation]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-scenario/SKILL.md"
+  },
+  {
+    "slug": "scout",
+    "name": "scout",
+    "invocation": "/ak:scout",
+    "legacyInvocation": "/ck:scout",
+    "description": "Fast codebase scouting using parallel agents. Use for file discovery, task context gathering, quick searches across directories. Supports internal (Explore) and external (Gemini/OpenCode) agents.",
+    "category": "dev-tools",
+    "keywords": [
+      "codebase",
+      "scouting",
+      "file-discovery",
+      "search"
+    ],
+    "argumentHint": "[search-target] [ext]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/scout/SKILL.md"
+  },
+  {
+    "slug": "security",
+    "name": "security",
+    "invocation": "/ak:security",
+    "legacyInvocation": "/ck:security",
+    "description": "STRIDE + OWASP-based security audit with optional red-team persona discovery loop and auto-fix. Scans code for vulnerabilities from multiple attacker perspectives (auth attacker, supply chain, insider, infrastructure), categorizes by severity, and can iteratively fix findings using ck:autoresearch pattern.",
+    "category": "utilities",
+    "keywords": [
+      "security",
+      "STRIDE",
+      "OWASP",
+      "audit",
+      "red-team",
+      "penetration-testing",
+      "vulnerability-discovery"
+    ],
+    "argumentHint": "<scope glob or 'full'> [--fix] [--red-team] [--iterations N]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-security/SKILL.md"
+  },
+  {
+    "slug": "security-scan",
+    "name": "security-scan",
+    "invocation": "/ak:security-scan",
+    "legacyInvocation": "/ck:security-scan",
+    "description": "Scan codebase for security vulnerabilities, hardcoded secrets, dependency issues, and OWASP patterns. Use when asked to 'security scan', 'check for secrets', 'audit security', or before major releases.",
+    "category": "utilities",
+    "keywords": [
+      "security",
+      "secrets",
+      "vulnerabilities",
+      "OWASP"
+    ],
+    "argumentHint": "[scope] [--secrets-only] [--deps-only] [--full]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/security-scan/SKILL.md"
+  },
+  {
+    "slug": "sequential-thinking",
+    "name": "sequential-thinking",
+    "invocation": "/ak:sequential-thinking",
+    "legacyInvocation": "/ck:sequential-thinking",
+    "description": "Apply step-by-step analysis for complex problems with revision capability. Use for multi-step reasoning, hypothesis verification, adaptive planning, problem decomposition, course correction.",
+    "category": "utilities",
+    "keywords": [
+      "reasoning",
+      "step-by-step",
+      "analysis"
+    ],
+    "argumentHint": "[problem to analyze step-by-step]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/sequential-thinking/SKILL.md"
+  },
+  {
+    "slug": "shader",
+    "name": "shader",
+    "invocation": "/ak:shader",
+    "legacyInvocation": "/ck:shader",
+    "description": "Write GLSL fragment shaders for procedural graphics. Topics: shapes (SDF), patterns, noise (Perlin/simplex/cellular), fBm, colors (HSB/RGB), matrices, gradients, animations. Use for generative art, textures, visual effects, WebGL, Three.js shaders.",
+    "category": "frontend",
+    "keywords": [
+      "glsl",
+      "shaders",
+      "procedural",
+      "webgl"
+    ],
+    "argumentHint": "[effect or pattern]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/shader/SKILL.md"
+  },
+  {
+    "slug": "ship",
+    "name": "ship",
+    "invocation": "/ak:ship",
+    "legacyInvocation": "/ck:ship",
+    "description": "Ship pipeline: merge target, test, review, journal, optional AgentWiki publish, commit, push, PR. Use for official main/master or beta dev/beta releases.",
+    "category": "dev-tools",
+    "keywords": [
+      "ship",
+      "PR",
+      "merge",
+      "push",
+      "release"
+    ],
+    "argumentHint": "[official|beta] [--skip-tests] [--skip-review] [--skip-journal] [--skip-docs] [--dry-run]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ship/SKILL.md"
+  },
+  {
+    "slug": "shopify",
+    "name": "shopify",
+    "invocation": "/ak:shopify",
+    "legacyInvocation": "/ck:shopify",
+    "description": "Build Shopify apps, extensions, and themes with Shopify CLI, GraphQL Admin API, Polaris UI, Liquid, webhooks, billing, and app configuration workflows.",
+    "category": "frameworks",
+    "keywords": [
+      "shopify",
+      "polaris",
+      "liquid",
+      "checkout"
+    ],
+    "argumentHint": "[extension-type] [feature]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/shopify/SKILL.md"
+  },
+  {
+    "slug": "show-off",
+    "name": "show-off",
+    "invocation": "/ak:show-off",
+    "legacyInvocation": "/ck:show-off",
+    "description": "Create preference-aware self-contained HTML pages to showcase work. Use for demos, visual presentations, interactive showcases.",
+    "category": "other",
+    "keywords": [
+      "HTML",
+      "showcase",
+      "demo",
+      "presentation"
+    ],
+    "argumentHint": "[markdown-or-prompt]",
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/show-off/SKILL.md"
+  },
+  {
+    "slug": "skill-creator",
+    "name": "skill-creator",
+    "invocation": "/ak:skill-creator",
+    "legacyInvocation": "/ck:skill-creator",
+    "description": "Create or update Claude skills with eval-driven iteration. Use for new skills, skill scripts, references, benchmark optimization, description optimization, eval testing, extending Claude's capabilities.",
+    "category": "dev-tools",
+    "keywords": [
+      "skills",
+      "authoring",
+      "eval",
+      "testing",
+      "templates"
+    ],
+    "argumentHint": "[skill-name or description]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/skill-creator/SKILL.md"
+  },
+  {
+    "slug": "stitch",
+    "name": "stitch",
+    "invocation": "/ak:stitch",
+    "legacyInvocation": "/ck:stitch",
+    "description": "AI design generation with Google Stitch. Generate UI designs from text prompts, export Tailwind/HTML/DESIGN.md, orchestrate design-to-code pipeline. Use for rapid prototyping, UI generation, design exploration.",
+    "category": "frontend",
+    "keywords": [
+      "Stitch",
+      "UI-generation",
+      "prototyping",
+      "Tailwind"
+    ],
+    "argumentHint": "[design prompt or action]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/stitch/SKILL.md"
+  },
+  {
+    "slug": "tanstack",
+    "name": "tanstack",
+    "invocation": "/ak:tanstack",
+    "legacyInvocation": "/ck:tanstack",
+    "description": "Build with TanStack Start (full-stack React framework), TanStack Form (headless form management), and TanStack AI (AI streaming/chat). Use when creating TanStack projects, routes, server functions, forms, validation, or AI chat features.",
+    "category": "frameworks",
+    "keywords": [
+      "tanstack",
+      "start",
+      "form",
+      "ai",
+      "router"
+    ],
+    "argumentHint": "[framework] [feature]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/tanstack/SKILL.md"
+  },
+  {
+    "slug": "team",
+    "name": "team",
+    "invocation": "/ak:team",
+    "legacyInvocation": "/ck:team",
+    "description": "Orchestrate Agent Teams for parallel multi-session collaboration. Use for research, implementation, review, and debug workflows requiring independent teammates.",
+    "category": "dev-tools",
+    "keywords": [
+      "agents",
+      "parallel",
+      "multi-session",
+      "collaboration"
+    ],
+    "argumentHint": "<template> <context> [--devs|--researchers|--reviewers N] [--delegate]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/team/SKILL.md"
+  },
+  {
+    "slug": "tech-graph",
+    "name": "tech-graph",
+    "invocation": "/ak:tech-graph",
+    "legacyInvocation": "/ck:tech-graph",
+    "description": "Generate production-quality SVG+PNG technical diagrams — architecture, data flow, flowchart, sequence, agent/memory, or concept maps — across 8 visual styles. Use when user wants \"generate diagram\", \"draw diagram\", \"visualize\", \"architecture diagram\", \"flowchart\", or any system/flow they want illustrated. Pairs with /ck:preview --diagram for visual self-review and /ck:mermaidjs-v11 for inline-doc diagrams; this skill is the publish-grade output mode.",
+    "category": "dev-tools",
+    "keywords": [
+      "diagrams",
+      "architecture",
+      "flowchart",
+      "sequence",
+      "svg",
+      "png",
+      "agent",
+      "memory",
+      "visualization"
+    ],
+    "argumentHint": "[diagram-type or system description]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/tech-graph/SKILL.md"
+  },
+  {
+    "slug": "test",
+    "name": "test",
+    "invocation": "/ak:test",
+    "legacyInvocation": "/ck:test",
+    "description": "Run unit, integration, e2e, and UI tests. Use for test execution, coverage analysis, build verification, visual regression, and QA reports.",
+    "category": "utilities",
+    "keywords": [
+      "test",
+      "unit",
+      "integration",
+      "e2e",
+      "coverage"
+    ],
+    "argumentHint": "[context] OR ui [url]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/test/SKILL.md"
+  },
+  {
+    "slug": "threejs",
+    "name": "threejs",
+    "invocation": "/ak:threejs",
+    "legacyInvocation": "/ck:threejs",
+    "description": "Build 3D web experiences with Three.js. Use for WebGL/WebGPU scenes, GLTF models, animations, physics, VR/XR. Supports 556 searchable examples.",
+    "category": "frontend",
+    "keywords": [
+      "threejs",
+      "3d",
+      "webgl",
+      "webgpu",
+      "gltf"
+    ],
+    "argumentHint": "[3D scene or feature]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/threejs/SKILL.md"
+  },
+  {
+    "slug": "ui-styling",
+    "name": "ui-styling",
+    "invocation": "/ak:ui-styling",
+    "legacyInvocation": "/ck:ui-styling",
+    "description": "Style UIs with shadcn/ui components (Radix UI + Tailwind CSS). Use for accessible components, themes, dark mode, responsive layouts, design systems, color customization.",
+    "category": "frontend",
+    "keywords": [
+      "shadcn",
+      "radix",
+      "tailwind",
+      "themes"
+    ],
+    "argumentHint": "[component or layout]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ui-styling/SKILL.md"
+  },
+  {
+    "slug": "ui-ux-pro-max",
+    "name": "ui-ux-pro-max",
+    "invocation": "/ak:ui-ux-pro-max",
+    "legacyInvocation": "/ck:ui-ux-pro-max",
+    "description": "UI/UX design intelligence for web and mobile: style selection, color systems, typography, layout, accessibility, interaction states, responsive behavior, forms, charts, design systems, and code review across React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui, and HTML/CSS.",
+    "category": "frontend",
+    "keywords": [
+      "ui-ux",
+      "styles",
+      "palettes",
+      "fonts"
+    ],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ui-ux-pro-max/SKILL.md"
+  },
+  {
+    "slug": "use-mcp",
+    "name": "use-mcp",
+    "invocation": "/ak:use-mcp",
+    "legacyInvocation": "/ck:use-mcp",
+    "description": "Discover and execute MCP server tools. Two execution paths: Gemini CLI (LLM-driven, all tasks) or direct scripts (deterministic, specific tool/server). Use for MCP integrations, tool execution, capability discovery, persistent tool catalog.",
+    "category": "dev-tools",
+    "keywords": [
+      "MCP",
+      "tools",
+      "execute",
+      "discovery",
+      "gemini",
+      "mcp-client"
+    ],
+    "argumentHint": "[task]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/use-mcp/SKILL.md"
+  },
+  {
+    "slug": "vibe",
+    "name": "vibe",
+    "invocation": "/ak:vibe",
+    "legacyInvocation": "/ck:vibe",
+    "description": "Run the full vibe pipeline. Use for GitHub issues, feature requests, bug fixes, or autonomous ship runs. Supports worktree, reusable/TDD plan gates, cook or fix routing, ship PR, review-pr, merge/CI watch.",
+    "category": "dev-tools",
+    "keywords": [
+      "vibe",
+      "pipeline",
+      "worktree",
+      "planning",
+      "tdd",
+      "cook",
+      "fix",
+      "ship",
+      "pr",
+      "ci",
+      "github"
+    ],
+    "argumentHint": "[--ship] [--beta] <github-issue-url | feature request>",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/vibe/SKILL.md"
+  },
+  {
+    "slug": "watzup",
+    "name": "watzup",
+    "invocation": "/ak:watzup",
+    "legacyInvocation": "/ck:watzup",
+    "description": "Generate short handoff reports from Git branches, remote refs, worktrees, unfinished plans, and roadmap docs. Surfaces priority-ranked next steps with checkbox progress and rationale. Use when the user asks what's in flight, wants progress/next steps, is in a fresh worktree or detached checkout, or needs end-of-session status.",
+    "category": "utilities",
+    "keywords": [
+      "session",
+      "wrap-up",
+      "changes",
+      "review",
+      "worktree",
+      "branches",
+      "plans",
+      "roadmap",
+      "priority",
+      "next-steps"
+    ],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/watzup/SKILL.md"
+  },
+  {
+    "slug": "web-design-guidelines",
+    "name": "web-design-guidelines",
+    "invocation": "/ak:web-design-guidelines",
+    "legacyInvocation": "/ck:web-design-guidelines",
+    "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"check accessibility\", \"audit design\", \"review UX\", or \"check my site against best practices\".",
+    "category": "frontend",
+    "keywords": [
+      "ui-review",
+      "accessibility",
+      "ux-audit"
+    ],
+    "argumentHint": "[file-or-pattern]",
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/web-design-guidelines/SKILL.md"
+  },
+  {
+    "slug": "web-frameworks",
+    "name": "web-frameworks",
+    "invocation": "/ak:web-frameworks",
+    "legacyInvocation": "/ck:web-frameworks",
+    "description": "Build with Next.js (App Router, RSC, SSR, ISR), Turborepo monorepos. Use for React apps, server rendering, build optimization, caching strategies, shared dependencies.",
+    "category": "frameworks",
+    "keywords": [
+      "nextjs",
+      "turborepo",
+      "ssr",
+      "isr",
+      "rsc"
+    ],
+    "argumentHint": "[framework] [feature]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/web-frameworks/SKILL.md"
+  },
+  {
+    "slug": "web-testing",
+    "name": "web-testing",
+    "invocation": "/ak:web-testing",
+    "legacyInvocation": "/ck:web-testing",
+    "description": "Web testing with Playwright, Vitest, k6. E2E/unit/integration/load/security/visual/a11y testing. Use for test automation, flakiness, Core Web Vitals, mobile gestures, cross-browser.",
+    "category": "dev-tools",
+    "keywords": [
+      "Playwright",
+      "Vitest",
+      "k6",
+      "e2e",
+      "load-testing"
+    ],
+    "argumentHint": "[test-type] [target]",
+    "hasScripts": true,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/web-testing/SKILL.md"
+  },
+  {
+    "slug": "worktree",
+    "name": "worktree",
+    "invocation": "/ak:worktree",
+    "legacyInvocation": "/ck:worktree",
+    "description": "Create, inspect, and clean isolated git worktrees. Use for feature isolation, worktree health audits, stale cleanup, and monorepo or submodule workflows.",
+    "category": "dev-tools",
+    "keywords": [
+      "worktree",
+      "parallel",
+      "monorepo",
+      "isolation"
+    ],
+    "argumentHint": "[feature-description] OR [project] [feature]",
+    "hasScripts": true,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/worktree/SKILL.md"
+  },
+  {
+    "slug": "xia",
+    "name": "xia",
+    "invocation": "/ak:xia",
+    "legacyInvocation": "/ck:xia",
+    "description": "Extract, compare, port, or adapt a feature from a GitHub repository or local repo path into the current project. Use when the user wants to copy behavior from another repo, study how another codebase implements something, compare implementations, or rewrite a feature in the local stack. Triggers on: 'port from', 'copy from repo', 'like how X does it', 'clone feature from', 'adapt from', 'bring feature from', 'borrow from', 'take from repo', 'xia', 'xi a', 'xia feature'.",
+    "category": "dev-tools",
+    "keywords": [
+      "port",
+      "extract",
+      "compare",
+      "feature",
+      "repo"
+    ],
+    "argumentHint": "<github-url-or-owner/repo|local-path> [feature] [--compare|--copy|--improve|--port] [--auto|--fast]",
+    "hasScripts": false,
+    "hasReferences": true,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/xia/SKILL.md"
+  },
+  {
+    "slug": "xlsx",
+    "name": "xlsx",
+    "invocation": "/ak:xlsx",
+    "legacyInvocation": "/ck:xlsx",
+    "description": "Create, edit, analyze spreadsheets (.xlsx, .csv, .tsv). Use for Excel formulas, data analysis, visualization, formatting, pivot tables, charts, formula recalculation.",
+    "category": "multimedia",
+    "keywords": [
+      "xlsx",
+      "excel",
+      "spreadsheet",
+      "data"
+    ],
+    "argumentHint": null,
+    "hasScripts": false,
+    "hasReferences": false,
+    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/xlsx/SKILL.md"
+  }
+]

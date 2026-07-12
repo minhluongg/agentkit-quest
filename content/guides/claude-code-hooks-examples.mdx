@@ -1,0 +1,204 @@
+---
+title: 'Claude Code Hooks: 26 Tested Examples You Can Copy'
+description: A working, tested hook for every common guardrail — blocking rm -rf, catching secrets before they are written, stopping the agent from skipping failing tests. Zero dependencies, runs on Windows.
+category: Configure & Extend
+difficulty: intermediate
+updated: '2026-07-12'
+keywords:
+  - claude code hooks examples
+  - claude code hooks
+  - claude code pretooluse hook
+  - claude code hook settings.json
+relatedSkills: []
+---
+
+Everything on this page is in a free MIT repo, and every hook in it is executed by a
+test suite before it ships:
+
+**→ [github.com/agentkit-quest/claude-code-hooks](https://github.com/agentkit-quest/claude-code-hooks)** — 26 hooks, 85 assertions, no dependencies.
+
+<Callout type="info" title="Why the tests matter more than the count">
+Hook snippets in blog posts are almost never run. They ship with regexes that match
+nothing, or match everything. While writing these, the test suite caught a bug in the
+`rm -rf` guard — its quote handling was wrong on `rm -rf "$VAR/"`, which is *precisely*
+the case that hook exists to catch. It looked correct. It was not.
+</Callout>
+
+## The 30-second version
+
+A hook is a script Claude Code runs at a defined moment — before a tool call, after a
+file write, when the turn ends. It reads JSON on stdin and answers with JSON on stdout.
+That is the whole protocol.
+
+```json title=".claude/settings.json"
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PROJECT_DIR}/.claude/hooks/block-dangerous-rm.cjs"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```js title="block-dangerous-rm.cjs"
+// stdin  → { tool_name: "Bash", tool_input: { command: "rm -rf /" }, ... }
+// stdout → a permission decision
+const chunks = [];
+process.stdin.on('data', (c) => chunks.push(c));
+process.stdin.on('end', () => {
+  const input = JSON.parse(chunks.join(''));
+  const command = input.tool_input?.command ?? '';
+
+  if (/\brm\b.*-[a-z]*r[a-z]*f.*\s\/(?:\s|$)/.test(command)) {
+    process.stdout.write(
+      JSON.stringify({
+        hookSpecificOutput: {
+          hookEventName: 'PreToolUse',
+          permissionDecision: 'deny',
+          permissionDecisionReason: 'That deletes the filesystem root.',
+        },
+      }),
+    );
+  }
+  process.exit(0);
+});
+```
+
+That is it. No framework, no dependency.
+
+## Node, not bash — and why that is not a style preference
+
+The official examples use `bash` + `jq`. That breaks on Windows: `jq` is not installed,
+and the scripts do not run under PowerShell. The largest community hooks repo needs
+Python and `uv`.
+
+**Claude Code ships over npm.** Node is therefore already on every machine that can run
+Claude Code. A Node hook has zero install step on every platform. This is the single
+biggest reason the hooks below are more likely to still be working on your machine in
+six months.
+
+## Every hook, by what it stops
+
+<Callout type="warn" title="Add them one at a time">
+A hook that fires when you did not expect it is worse than no hook — you will disable
+the whole set rather than debug the one. Start with the security block.
+</Callout>
+
+### Security
+
+| Hook | What it stops | Notes |
+|---|---|---|
+| `block-dangerous-rm` | `rm -rf /`, `~`, `.`, system dirs — **and `rm -rf "$VAR/"` when `$VAR` may be unset**, which expands to `rm -rf /` | Allows `node_modules`, `dist`, `.next`. A guard that cries wolf gets disabled. |
+| `block-secret-writes` | Writing a live AWS / GitHub / OpenAI / Anthropic / Stripe key, a private-key block, or a DB URL with a password | Matches key *shapes*, not the word "key" — so `apiKey: process.env.API_KEY` passes |
+| `protect-sensitive-files` | Reading `.env`, `id_rsa`, `.npmrc` — including via `cat` | The contents would land in the transcript. `.env.example` stays readable. |
+| `block-curl-pipe-shell` | `curl … \| sh` | Runs whatever that URL serves *right now*, unreviewed |
+| `block-permission-widening` | `chmod 777` | Any process on the box could then rewrite your script before it runs. `chmod +x` is fine. |
+| `confirm-new-dependency` | Pauses before `npm install <pkg>` | Agents invent plausible package names; squatters register them |
+
+### Git
+
+| Hook | What it stops | Notes |
+|---|---|---|
+| `block-destructive-git` | `git reset --hard`, `git checkout -- .` | **No reflog, no undo** — these delete uncommitted work, including the human's. Also blocks force-push to `main` and `--no-verify`. |
+| `enforce-conventional-commits` | Non-conventional subjects, >72 chars, **AI attribution trailers** | `git log` should record why things changed, not which tool typed them |
+| `block-commit-to-protected-branch` | Committing while on `main` | Reads the branch from git — `git commit` never names it, which is why this happens by accident |
+| `protect-lockfile` | Hand-editing `package-lock.json` | Leaves integrity hashes that no longer match; `npm ci` then fails in CI with an error pointing at the registry |
+
+### Testing — the ones that matter most
+
+| Hook | What it stops | Notes |
+|---|---|---|
+| `block-test-sabotage` | `.skip`, `.only`, `@ts-ignore`, blanket `eslint-disable` | **The most common dishonest behaviour in agentic coding**: the test fails, the agent disables it, the suite goes green, the bug ships |
+| `block-stop-with-failing-tests` | Ending the turn with a red suite | Closes the *"the tests should pass now"* ending where nobody ran them. Stands down after one firing so it cannot loop. |
+| `run-related-tests` | — | Runs **only the matching test file**, usually under a second. Running the full suite on every edit is why people turn test hooks off. |
+| `typecheck-on-write` | — | `tsc --noEmit`, errors handed back while the change is still in working memory |
+
+### Code quality
+
+| Hook | What it stops | Notes |
+|---|---|---|
+| `block-silent-error-swallow` | `catch {}` and `.catch(() => {})` | A swallowed error does not stop the failure — it removes the one thing that would have explained it. A *commented* catch is allowed. |
+| `block-any-type` | `: any`, `as any` | Disables checking for that value **and everything derived from it**. `.d.ts` exempt. |
+| `block-unsafe-typescript-escapes` | `foo!.bar`, `as unknown as T` | Both silence the compiler at exactly the point it was right |
+| `block-leftover-debug` | `console.log`, `debugger` in source | `scripts/`, `bin/`, tests exempt — printing is the job there |
+| `block-todo-without-owner` | `// TODO:` with no owner | An unowned TODO reads like a promise and behaves like a comment. `// TODO(#412):` passes. |
+
+### Formatting
+
+| Hook | What it does | Notes |
+|---|---|---|
+| `format-on-write` | Prettier on the changed file **only** | Formatting the whole tree from a hook buries the real change under 400 whitespace lines |
+| `lint-on-write` | ESLint `--fix`, reports the rest to Claude | |
+| `enforce-kebab-case-filenames` | Naming conventions **per language** | kebab-case for JS/TS, snake_case for Python/Go/Rust, PascalCase for C#/Java. Only on file creation. |
+
+### Context — the cheapest wins here
+
+| Hook | What it does | Notes |
+|---|---|---|
+| `inject-git-context` | Branch, uncommitted changes, last 5 commits — at session start | Claude knows it is on `main` **before** it edits. Saves three tool calls every session. |
+| `inject-project-commands` | Package manager + available scripts, from the lockfile | Stops it running `npm test` in a pnpm repo |
+| `notify-when-done` | Desktop notification when the turn ends | The real cost of a long run is the human watching it |
+| `log-session-summary` | One JSON line per session: when, which files changed | For Monday morning |
+
+## Three things that will bite you
+
+<Steps>
+  <Step>
+    ### A crashing hook takes your session with it
+
+    If your hook throws, Claude Code sees a non-zero exit and a broken contract. Wrap
+    the body and exit 0 on unexpected errors:
+
+    ```js
+    run(fn).catch(() => process.exit(0));   // do nothing rather than block the user
+    ```
+
+    A guardrail that breaks the thing it guards is not a guardrail.
+  </Step>
+
+  <Step>
+    ### Write the deny message for the model, not for the log
+
+    Claude reads `permissionDecisionReason` and acts on it.
+
+    `"Blocked: rm -rf"` teaches nothing — the agent retries a variation.
+
+    `"Blocked: this deletes $VAR/ — if that variable is empty it expands to rm -rf /.
+    Guard it: [ -n "$VAR" ] && rm -rf "$VAR""` gets the correct command next attempt.
+  </Step>
+
+  <Step>
+    ### `exit 2` and `{"decision":"block"}` are not the same thing
+
+    Exit code 2 blocks and shows **stderr** to Claude, ignoring stdout entirely.
+    Exit 0 with a JSON body is how you return a structured decision. Mixing them up is
+    the most common reason a hook "does nothing".
+  </Step>
+</Steps>
+
+## Get them
+
+```bash
+git clone https://github.com/agentkit-quest/claude-code-hooks \
+  .claude/hooks/claude-code-hooks
+
+node .claude/hooks/claude-code-hooks/test/run-all.mjs   # verify on your machine
+```
+
+Copy the blocks you want from `examples/settings.json`. MIT — fork them, ship them in
+your own kit, no attribution needed.
+
+---
+
+Hooks are guardrails. They stop bad things; they do not do work for you. If you want
+Claude Code to also *plan, implement, review and ship* to a defined workflow, that is
+what a kit is for — and [AgentKit](https://agentkit.best) is the one this site
+documents. It is a paid product, and these hooks work perfectly well without it.
