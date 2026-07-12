@@ -58,14 +58,6 @@ export function SiteFooter() {
             >
               Official site
             </AffiliateLink>
-            <a
-              href={siteConfig.upstream.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cursor-pointer text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
-            >
-              GitHub
-            </a>
           </div>
         </div>
 
@@ -76,18 +68,7 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {siteConfig.name}. An independent resource — not
             affiliated with {siteConfig.upstream.name}.
           </p>
-          <p>
-            Reference data derived from{' '}
-            <a
-              href={siteConfig.upstream.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cursor-pointer underline underline-offset-2 transition-colors duration-200 hover:text-foreground"
-            >
-              claudekit-engineer
-            </a>{' '}
-            (MIT).
-          </p>
+          <p>Reference data derived from the AgentKit Engineer kit (MIT).</p>
         </div>
       </div>
     </footer>

@@ -23,8 +23,7 @@
     ],
     "argumentHint": "[url or task]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/agent-browser/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "agentize",
@@ -45,8 +44,7 @@
     ],
     "argumentHint": "[feature-or-module] [--both|--mcp|--cli] [--auto|--ask]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/agentize/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ai-artist",
@@ -63,8 +61,7 @@
     ],
     "argumentHint": "[concept] [--mode search|creative|wild|all] [--provider auto|google|openrouter] [--skip]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ai-artist/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ai-multimodal",
@@ -82,8 +79,7 @@
     ],
     "argumentHint": "[file-path] [prompt]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ai-multimodal/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ask",
@@ -99,8 +95,7 @@
     ],
     "argumentHint": "[technical-question]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ask/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "autoresearch",
@@ -121,8 +116,7 @@
     ],
     "argumentHint": null,
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-autoresearch/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "backend-development",
@@ -141,8 +135,7 @@
     ],
     "argumentHint": "[framework] [task]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/backend-development/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "better-auth",
@@ -160,8 +153,7 @@
     ],
     "argumentHint": "[auth-method or feature]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/better-auth/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "bootstrap",
@@ -178,8 +170,7 @@
     ],
     "argumentHint": "[requirements] [--full|--auto|--fast|--parallel]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/bootstrap/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "brainstorm",
@@ -201,8 +192,7 @@
     ],
     "argumentHint": "[--html] [--wiki] [topic or problem]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/brainstorm/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "chrome-profile",
@@ -222,8 +212,7 @@
     ],
     "argumentHint": null,
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/chrome-profile/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ckm-design",
@@ -241,8 +230,7 @@
     ],
     "argumentHint": "[design-type] [context]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/design/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "code-review",
@@ -259,8 +247,7 @@
     ],
     "argumentHint": "[#PR | COMMIT | --pending | codebase [parallel]]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-code-review/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "coding-level",
@@ -277,8 +264,7 @@
     ],
     "argumentHint": "[0-5]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/coding-level/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "context-engineering",
@@ -296,8 +282,7 @@
     ],
     "argumentHint": "[topic or question]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/context-engineering/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "cook",
@@ -314,8 +299,7 @@
     ],
     "argumentHint": "[task|plan-path] [--interactive|--fast|--parallel|--auto|--no-test] [--tdd]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/cook/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "copywriting",
@@ -332,8 +316,7 @@
     ],
     "argumentHint": "[copy-type] [context]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/copywriting/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "cti-expert",
@@ -354,8 +337,7 @@
     ],
     "argumentHint": "[target] [--yolo] [--case|--sweep|--query|--flow]",
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/cti-expert/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "databases",
@@ -373,8 +355,7 @@
     ],
     "argumentHint": "[query or schema task]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/databases/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "debug",
@@ -391,8 +372,7 @@
     ],
     "argumentHint": "[error or issue description]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-debug/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "deploy",
@@ -410,8 +390,7 @@
     ],
     "argumentHint": "[platform] [environment]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/deploy/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "devops",
@@ -429,8 +408,7 @@
     ],
     "argumentHint": "[platform] [task]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/devops/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "docs",
@@ -447,8 +425,7 @@
     ],
     "argumentHint": "init|update|summarize",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/docs/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "docs-seeker",
@@ -466,8 +443,7 @@
     ],
     "argumentHint": "[library-name] [topic]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/docs-seeker/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "docx",
@@ -484,8 +460,7 @@
     ],
     "argumentHint": null,
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/docx/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "excalidraw",
@@ -503,8 +478,7 @@
     ],
     "argumentHint": null,
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/excalidraw/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "find-skills",
@@ -521,8 +495,7 @@
     ],
     "argumentHint": "[capability or task description]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/find-skills/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "fix",
@@ -540,8 +513,7 @@
     ],
     "argumentHint": "[issue] --auto|--review|--quick|--parallel",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/fix/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "frontend-design",
@@ -558,8 +530,7 @@
     ],
     "argumentHint": null,
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/frontend-design/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "frontend-development",
@@ -576,8 +547,7 @@
     ],
     "argumentHint": "[component or feature]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/frontend-development/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "ghpm",
@@ -600,8 +570,7 @@
     ],
     "argumentHint": null,
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ghpm/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "git",
@@ -621,8 +590,7 @@
     ],
     "argumentHint": "cm|cp|pr|merge|merge-pr [args]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/git/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "gkg",
@@ -638,8 +606,7 @@
     ],
     "argumentHint": "[symbol or query]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/gkg/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "google-adk-python",
@@ -657,8 +624,7 @@
     ],
     "argumentHint": "[agent or feature]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/google-adk-python/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "graphify",
@@ -676,8 +642,7 @@
     ],
     "argumentHint": "[path] [--mcp|--report|--watch]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-graphify/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "html-video",
@@ -699,8 +664,7 @@
     ],
     "argumentHint": "[video brief, source URL, repo, template id, or project id]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/html-video/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "journal",
@@ -717,8 +681,7 @@
     ],
     "argumentHint": "[topic or reflection]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/journal/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "llms",
@@ -734,8 +697,7 @@
     ],
     "argumentHint": "[path|url] [--full] [--output path]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/llms/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "loop",
@@ -752,8 +714,7 @@
     ],
     "argumentHint": "[Goal/Metric description] or inline config block",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-loop/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "markdown-novel-viewer",
@@ -770,8 +731,7 @@
     ],
     "argumentHint": "[file-or-directory]",
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/markdown-novel-viewer/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "mcp-builder",
@@ -788,8 +748,7 @@
     ],
     "argumentHint": "[service or API to integrate]",
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mcp-builder/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "media-processing",
@@ -807,8 +766,7 @@
     ],
     "argumentHint": "[input-file] [operation]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/media-processing/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "mermaidjs-v11",
@@ -825,8 +783,7 @@
     ],
     "argumentHint": "[diagram-type or description]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mermaidjs-v11/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "mintlify",
@@ -843,8 +800,7 @@
     ],
     "argumentHint": "[task] [path]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mintlify/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "mobile-development",
@@ -862,8 +818,7 @@
     ],
     "argumentHint": "[platform] [feature]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/mobile-development/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "payment-integration",
@@ -881,8 +836,7 @@
     ],
     "argumentHint": "[provider] [task]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/payment-integration/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "pdf",
@@ -899,8 +853,7 @@
     ],
     "argumentHint": null,
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/pdf/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "plan",
@@ -922,8 +875,7 @@
     ],
     "argumentHint": "[task] [--fast|--hard|--deep|--parallel|--two] [--tdd|--no-tasks] [--html] [--github] [--wiki] OR [archive|red-team|validate]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-plan/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "plans-kanban",
@@ -941,8 +893,7 @@
     ],
     "argumentHint": "[deprecated flags are accepted with warnings]",
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/plans-kanban/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "pptx",
@@ -959,8 +910,7 @@
     ],
     "argumentHint": null,
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/pptx/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "predict",
@@ -977,8 +927,7 @@
     ],
     "argumentHint": "<feature description or change proposal> [--files <glob>] [--chain reason|probe]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-predict/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "preview",
@@ -996,8 +945,7 @@
     ],
     "argumentHint": "[path] OR [--html] --explain|--slides|--diagram|--ascii [topic] OR --html --diff|--plan-review|--recap",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/preview/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "problem-solving",
@@ -1014,8 +962,7 @@
     ],
     "argumentHint": "[problem description]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/problem-solving/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "project-management",
@@ -1032,8 +979,7 @@
     ],
     "argumentHint": "[task: status, hydrate, sync, report]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/project-management/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "project-organization",
@@ -1050,8 +996,7 @@
     ],
     "argumentHint": "[directories or files to organize]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/project-organization/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "react-best-practices",
@@ -1068,8 +1013,7 @@
     ],
     "argumentHint": "[component or pattern]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/react-best-practices/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "remotion",
@@ -1086,8 +1030,7 @@
     ],
     "argumentHint": "[video or component]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/remotion/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "repomix",
@@ -1104,8 +1047,7 @@
     ],
     "argumentHint": "[path] [--style xml|markdown|plain|json]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/repomix/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "research",
@@ -1122,8 +1064,7 @@
     ],
     "argumentHint": "[topic]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/research/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "retro",
@@ -1140,8 +1081,7 @@
     ],
     "argumentHint": "[timeframe] [--compare] [--team] [--format html|md]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/retro/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "review-pr",
@@ -1169,8 +1109,7 @@
     ],
     "argumentHint": "<PR number or URL> [--fix] [--reply]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/review-pr/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "scenario",
@@ -1188,8 +1127,7 @@
     ],
     "argumentHint": "<file path or feature description> [--iterations N] [--saturation]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-scenario/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "scout",
@@ -1206,8 +1144,7 @@
     ],
     "argumentHint": "[search-target] [ext]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/scout/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "security",
@@ -1227,8 +1164,7 @@
     ],
     "argumentHint": "<scope glob or 'full'> [--fix] [--red-team] [--iterations N]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ck-security/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "security-scan",
@@ -1245,8 +1181,7 @@
     ],
     "argumentHint": "[scope] [--secrets-only] [--deps-only] [--full]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/security-scan/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "sequential-thinking",
@@ -1262,8 +1197,7 @@
     ],
     "argumentHint": "[problem to analyze step-by-step]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/sequential-thinking/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "shader",
@@ -1280,8 +1214,7 @@
     ],
     "argumentHint": "[effect or pattern]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/shader/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ship",
@@ -1299,8 +1232,7 @@
     ],
     "argumentHint": "[official|beta] [--skip-tests] [--skip-review] [--skip-journal] [--skip-docs] [--dry-run]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ship/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "shopify",
@@ -1317,8 +1249,7 @@
     ],
     "argumentHint": "[extension-type] [feature]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/shopify/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "show-off",
@@ -1335,8 +1266,7 @@
     ],
     "argumentHint": "[markdown-or-prompt]",
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/show-off/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "skill-creator",
@@ -1354,8 +1284,7 @@
     ],
     "argumentHint": "[skill-name or description]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/skill-creator/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "stitch",
@@ -1372,8 +1301,7 @@
     ],
     "argumentHint": "[design prompt or action]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/stitch/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "tanstack",
@@ -1391,8 +1319,7 @@
     ],
     "argumentHint": "[framework] [feature]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/tanstack/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "team",
@@ -1409,8 +1336,7 @@
     ],
     "argumentHint": "<template> <context> [--devs|--researchers|--reviewers N] [--delegate]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/team/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "tech-graph",
@@ -1432,8 +1358,7 @@
     ],
     "argumentHint": "[diagram-type or system description]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/tech-graph/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "test",
@@ -1451,8 +1376,7 @@
     ],
     "argumentHint": "[context] OR ui [url]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/test/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "threejs",
@@ -1470,8 +1394,7 @@
     ],
     "argumentHint": "[3D scene or feature]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/threejs/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ui-styling",
@@ -1488,8 +1411,7 @@
     ],
     "argumentHint": "[component or layout]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ui-styling/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "ui-ux-pro-max",
@@ -1506,8 +1428,7 @@
     ],
     "argumentHint": null,
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/ui-ux-pro-max/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "use-mcp",
@@ -1526,8 +1447,7 @@
     ],
     "argumentHint": "[task]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/use-mcp/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "vibe",
@@ -1551,8 +1471,7 @@
     ],
     "argumentHint": "[--ship] [--beta] <github-issue-url | feature request>",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/vibe/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "watzup",
@@ -1575,8 +1494,7 @@
     ],
     "argumentHint": null,
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/watzup/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "web-design-guidelines",
@@ -1592,8 +1510,7 @@
     ],
     "argumentHint": "[file-or-pattern]",
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/web-design-guidelines/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "web-frameworks",
@@ -1611,8 +1528,7 @@
     ],
     "argumentHint": "[framework] [feature]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/web-frameworks/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "web-testing",
@@ -1630,8 +1546,7 @@
     ],
     "argumentHint": "[test-type] [target]",
     "hasScripts": true,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/web-testing/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "worktree",
@@ -1648,8 +1563,7 @@
     ],
     "argumentHint": "[feature-description] OR [project] [feature]",
     "hasScripts": true,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/worktree/SKILL.md"
+    "hasReferences": false
   },
   {
     "slug": "xia",
@@ -1667,8 +1581,7 @@
     ],
     "argumentHint": "<github-url-or-owner/repo|local-path> [feature] [--compare|--copy|--improve|--port] [--auto|--fast]",
     "hasScripts": false,
-    "hasReferences": true,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/xia/SKILL.md"
+    "hasReferences": true
   },
   {
     "slug": "xlsx",
@@ -1685,7 +1598,6 @@
     ],
     "argumentHint": null,
     "hasScripts": false,
-    "hasReferences": false,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/skills/document-skills/xlsx/SKILL.md"
+    "hasReferences": false
   }
 ]

@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import { ExternalLink } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getMDXComponents } from '@/mdx-components';
 import { Breadcrumb } from '@/components/docs/breadcrumb';
@@ -172,16 +171,12 @@ export default async function SkillPage({ params }: PageProps) {
               remembering to hand-place one. */}
           <KitCta className="mt-12" campaign="skill-page" showDisclosure />
 
+          {/* The kit's source repo is private (purchase-gated), so no public
+              "view source" link — it would 404 for every visitor. */}
           <footer className="mt-12 border-t border-border pt-6">
-            <a
-              href={skill.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
-            >
-              View source in claudekit-engineer (MIT)
-              <ExternalLink className="size-3.5" aria-hidden="true" />
-            </a>
+            <p className="text-sm text-muted-foreground">
+              Reference data from the AgentKit Engineer kit (MIT).
+            </p>
           </footer>
         </article>
 

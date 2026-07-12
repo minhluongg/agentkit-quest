@@ -19,7 +19,6 @@ const SKILLS_YAML = join(KIT, 'guide', 'SKILLS.yaml');
 const AGENTS_DIR = join(KIT, 'claude', 'agents');
 const OUT_DIR = join(ROOT, 'src', 'data');
 
-const REPO_URL = 'https://github.com/claudekit/claudekit-engineer';
 
 // --- Schemas: fail loudly on upstream drift rather than silently emitting junk.
 
@@ -106,7 +105,8 @@ function buildSkills() {
       argumentHint: s.argument_hint ?? null,
       hasScripts: s.has_scripts,
       hasReferences: s.has_references,
-      sourceUrl: `${REPO_URL}/blob/main/claude/skills/${s.path}`,
+      // No sourceUrl: the kit repo is private (purchase-gated), so a link would
+      // 404 — and it would otherwise ship a private URL in the client bundle.
     }))
     .sort((a, b) => a.slug.localeCompare(b.slug));
 
@@ -151,7 +151,6 @@ function buildAgents() {
         description: cleanAgentDescription(fm.description),
         tools: fm.tools ? fm.tools.split(',').map((t) => t.trim()) : [],
         model: fm.model ?? null,
-        sourceUrl: `${REPO_URL}/blob/main/claude/agents/${file}`,
       };
     })
     .sort((a, b) => a.slug.localeCompare(b.slug));

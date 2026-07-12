@@ -16,8 +16,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": null,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/brainstormer.md"
+    "model": null
   },
   {
     "slug": "code-reviewer",
@@ -36,8 +35,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": null,
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/code-reviewer.md"
+    "model": null
   },
   {
     "slug": "code-simplifier",
@@ -59,8 +57,7 @@
       "SendMessage",
       "Task(Explore)"
     ],
-    "model": "opus",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/code-simplifier.md"
+    "model": "opus"
   },
   {
     "slug": "debugger",
@@ -84,8 +81,7 @@
       "SendMessage",
       "Task(Explore)"
     ],
-    "model": "sonnet",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/debugger.md"
+    "model": "sonnet"
   },
   {
     "slug": "docs-manager",
@@ -109,8 +105,7 @@
       "SendMessage",
       "Task(Explore)"
     ],
-    "model": "haiku",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/docs-manager.md"
+    "model": "haiku"
   },
   {
     "slug": "fullstack-developer",
@@ -134,8 +129,7 @@
       "SendMessage",
       "Task(Explore)"
     ],
-    "model": "sonnet",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/fullstack-developer.md"
+    "model": "sonnet"
   },
   {
     "slug": "git-manager",
@@ -152,8 +146,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": "haiku",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/git-manager.md"
+    "model": "haiku"
   },
   {
     "slug": "journal-writer",
@@ -174,8 +167,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": "haiku",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/journal-writer.md"
+    "model": "haiku"
   },
   {
     "slug": "planner",
@@ -200,8 +192,7 @@
       "Task(Explore)",
       "Task(researcher)"
     ],
-    "model": "opus",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/planner.md"
+    "model": "opus"
   },
   {
     "slug": "project-manager",
@@ -228,8 +219,7 @@
       "ReadMcpResourceTool",
       "SendMessage"
     ],
-    "model": "haiku",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/project-manager.md"
+    "model": "haiku"
   },
   {
     "slug": "researcher",
@@ -248,8 +238,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": "haiku",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/researcher.md"
+    "model": "haiku"
   },
   {
     "slug": "tester",
@@ -273,8 +262,7 @@
       "SendMessage",
       "Task(Explore)"
     ],
-    "model": "haiku",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/tester.md"
+    "model": "haiku"
   },
   {
     "slug": "ui-ux-designer",
@@ -299,7 +287,6 @@
       "Task(Explore)",
       "Task(researcher)"
     ],
-    "model": "inherit",
-    "sourceUrl": "https://github.com/claudekit/claudekit-engineer/blob/main/claude/agents/ui-ux-designer.md"
+    "model": "inherit"
   }
 ]

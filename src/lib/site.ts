@@ -12,7 +12,8 @@ export const siteConfig = {
   upstream: {
     name: 'AgentKit',
     url: 'https://agentkit.best',
-    repo: 'https://github.com/claudekit/claudekit-engineer',
+    // No `repo` field: the kit's source repo is private (purchase-gated), so
+    // linking to it would 404 for visitors.
     docs: 'https://docs.claudekit.cc',
     formerName: 'ClaudeKit',
   },
