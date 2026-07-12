@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { Callout } from '@/components/mdx/callout';
 import { Steps, Step } from '@/components/mdx/steps';
+import { LoopDiagram, RenameDiagram, PrimitivesDiagram } from '@/components/mdx/diagrams';
 import { KitCta } from '@/components/affiliate/kit-cta';
 import { AffiliateLink } from '@/components/affiliate/affiliate-link';
 import { isAgentKitUrl, pathOf } from '@/lib/affiliate';
@@ -48,6 +49,9 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Steps,
     Step,
     KitCta,
+    LoopDiagram,
+    RenameDiagram,
+    PrimitivesDiagram,
     ...components,
   };
 }

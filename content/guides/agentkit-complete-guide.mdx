@@ -51,13 +51,7 @@ which is why the numbers overlap rather than add up.
 
 This trips up nearly everyone, and almost nothing on the internet explains it.
 
-| | Before | Now |
-|---|---|---|
-| Product | ClaudeKit | AgentKit |
-| CLI binary | `ck` (npm `claudekit-cli`) | `ak` (native signed binary) |
-| Slash prefix | `/ck:plan` | `/ak:plan` |
-| Site | claudekit.cc | agentkit.best |
-| Skills, agents, hooks | — | unchanged |
+<RenameDiagram />
 
 The confusion is real and the tool knows it. Install `ak` on a machine that already has `ck`
 and `ak doctor` reports this, unprompted:
@@ -109,15 +103,7 @@ resolves.
 
 This is the mental model the whole kit is built around, and it is the actual reason to buy it.
 
-```
-/ak:plan     →  researches, scouts the codebase, writes a phased plan to disk
-     ↓          you read it. wrong approach costs a minute here, not a day later
-/ak:cook     →  implements the plan, runs tests, invokes review as it goes
-     ↓
-/ak:code-review --pending
-     ↓          the bugs that pass CI and break in production
-/ak:git cm && /ak:git pr
-```
+<LoopDiagram />
 
 The point is the **handoff**. The planner writes a brief the builder reads; the builder invokes
 the reviewer; the git skill packages the result. That coherence — pieces designed to connect —
@@ -150,6 +136,8 @@ wired to each other does not.
 
 Agents are **workers a skill delegates to**, not commands you type. They run in their own
 context window, so heavy work does not flood your main conversation.
+
+<PrimitivesDiagram />
 
 Worth knowing on day one:
 
