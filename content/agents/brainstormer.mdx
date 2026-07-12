@@ -1,0 +1,55 @@
+---
+title: 'The Brainstormer Agent: Debating an Approach Before You Build'
+description: AgentKit's brainstormer is a Claude Code subagent that explores and argues architectural options with trade-off analysis. What it does and how to build your own.
+keywords:
+  - claude code brainstorming agent
+  - claude code architecture agent
+  - claude code brainstormer
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `brainstormer` is a [subagent](/guides/skills-vs-commands-vs-subagents) for the step
+*before* planning — exploring solution options, debating architectural approaches, and
+weighing trade-offs while the decision is still open.
+
+## What it does
+
+Evaluates multiple approaches to a problem — WebSockets vs SSE vs polling, REST vs GraphQL,
+build vs buy — with honest trade-off analysis rather than jumping to the first idea. It's
+the thinking partner for "which way should we go," feeding into the
+[planner](/agents/planner) once a direction is chosen.
+
+## Why it's a subagent
+
+Exploring options generates a lot of "what if" reasoning you don't need cluttering your
+main context once you've decided. And a separate agent, told to argue *against* each option,
+surfaces trade-offs a single enthusiastic thread glosses over.
+
+## Build your own (free)
+
+```md
+---
+name: brainstormer
+description: Explore and debate approaches to a problem with trade-off analysis. Delegate ideation here.
+tools: Read, Grep, WebSearch
+---
+
+Given a problem, propose 2–4 genuinely different approaches. For each: how it works, its
+real trade-offs, and when it's the right choice. Argue against your own favorite. End with a
+recommendation and why — not a hedge.
+```
+
+The "argue against your favorite" instruction is what turns brainstorming from
+option-listing into real evaluation.
+
+## When it earns its place
+
+- Genuinely open architectural decisions with several viable paths.
+- Before committing to an approach you'll be stuck with.
+
+## Related
+
+- [The planner agent](/agents/planner) — takes the chosen direction and plans it
+- [Workflow patterns](/guides/claude-code-workflow-patterns)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

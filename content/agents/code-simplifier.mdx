@@ -1,0 +1,61 @@
+---
+title: 'The Code-Simplifier Agent: Refactoring for Clarity'
+description: AgentKit's code-simplifier is a Claude Code subagent that refactors code for clarity and consistency while preserving behavior. What it does, why it runs on Opus, and how to build your own.
+keywords:
+  - claude code refactoring agent
+  - claude code code-simplifier
+  - claude code cleanup agent
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `code-simplifier` is a [subagent](/guides/skills-vs-commands-vs-subagents) that refactors
+code for clarity, consistency, and maintainability — **without changing what it does**. It's
+the "make this cleaner, don't break it" worker.
+
+## What it does
+
+Simplifies and refines code: removes duplication, improves naming, tightens structure, and
+aligns with the project's conventions — while preserving all functionality. By default it
+focuses on recently-changed code, not the whole repo.
+
+## Why it runs on Opus
+
+Refactoring safely is deceptively hard: the risk is "simplifying" your way into a behavior
+change. AgentKit routes this to **Opus** because preserving behavior while restructuring
+needs the model's strongest reasoning — the same reason [planning](/agents/planner) uses
+Opus. Getting a refactor subtly wrong is expensive.
+
+## Why it's a subagent
+
+Refactoring is a focused pass with one rule (don't change behavior) that benefits from a
+dedicated context and a system prompt built around that constraint — separate from the
+agent that's adding features.
+
+## Build your own (free)
+
+```md
+---
+name: code-simplifier
+description: Refactor code for clarity while preserving behavior. Delegate cleanup here.
+tools: Read, Edit, Grep, Bash
+model: opus
+---
+
+Refactor for clarity, consistency, and less duplication. PRESERVE ALL BEHAVIOR — run the
+tests before and after and confirm they still pass. If you can't verify behavior is
+unchanged, don't make the change. Focus on recently-modified code unless told otherwise.
+```
+
+The "run tests before and after" line is the guardrail that keeps a refactor honest.
+
+## When it earns its place
+
+- After a feature lands, to clean up before it's reviewed.
+- On code that works but has grown tangled — with tests to prove behavior holds.
+
+## Related
+
+- [Code review](/skills/code-review)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

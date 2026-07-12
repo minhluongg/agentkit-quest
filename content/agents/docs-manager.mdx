@@ -1,0 +1,57 @@
+---
+title: 'The Docs-Manager Agent: Keeping Documentation in Sync'
+description: AgentKit's docs-manager is a Claude Code subagent that maintains technical docs against code changes. What it does, why it runs on Haiku, and how to build your own.
+keywords:
+  - claude code documentation agent
+  - claude code docs-manager
+  - claude code maintain docs
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `docs-manager` is a [subagent](/guides/skills-vs-commands-vs-subagents) that keeps
+documentation aligned with the code — it reads what changed and updates the affected docs,
+rather than regenerating everything and losing your edits.
+
+## What it does
+
+Maintains technical documentation: updates docs against code changes, keeps summaries
+current, and enforces documentation standards. The delegated counterpart to the
+[`/ak:docs` skill](/skills/docs).
+
+## Why it's a subagent
+
+Reconciling docs with a diff means reading both the docs and the changed code — a scan you
+want the *result* of, not the raw comparison. As a subagent it does that reading in
+isolation and returns the updated docs.
+
+## It runs on Haiku
+
+Routed to **Haiku** — doc maintenance is high-volume, low-difficulty reading-and-editing, so
+the cheap fast model fits. The kit reserves stronger models for judgment-heavy work like
+[planning](/agents/planner).
+
+## Build your own (free)
+
+```md
+---
+name: docs-manager
+description: Update project docs to match recent code changes. Delegate doc maintenance here.
+tools: Read, Grep, Glob, Edit
+model: haiku
+---
+
+Read the recent changes and update the AFFECTED documentation sections — do not regenerate
+everything. Anchor claims to file:line. Flag docs that have drifted from the code.
+```
+
+## When it earns its place
+
+- On a project with real living docs, run after features land to keep them true.
+- Less useful for a solo throwaway project — docs maintenance is a team-scale need.
+
+## Related
+
+- [Generate documentation (free method)](/skills/docs)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

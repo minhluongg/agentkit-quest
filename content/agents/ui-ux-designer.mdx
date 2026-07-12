@@ -1,0 +1,53 @@
+---
+title: 'The UI-UX-Designer Agent: Design Work, Delegated'
+description: AgentKit's ui-ux-designer is a Claude Code subagent for interface design, design systems, and accessibility review. What it does and how to build your own.
+keywords:
+  - claude code ui ux agent
+  - claude code design agent
+  - claude code ui-ux-designer
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `ui-ux-designer` is a [subagent](/guides/skills-vs-commands-vs-subagents) focused on
+interface work — designs, wireframes, design systems, and accessibility review — so design
+decisions get a dedicated, specialized context instead of being squeezed into a general
+coding conversation.
+
+## What it does
+
+Handles UI/UX: interface designs, wireframes, design systems, responsive layouts, and
+accessibility audits. It draws on design intelligence to avoid the generic AI look — the
+same concern the [`/ak:ui-ux-pro-max` skill](/skills/ui-ux-pro-max) addresses.
+
+## Why it's a subagent
+
+Design is a distinct mode of work with its own knowledge (color systems, type pairings,
+accessibility rules). A specialized subagent with a design-focused system prompt produces
+more coherent results than asking a general agent to "make it look nice" mid-implementation.
+
+## Build your own (free)
+
+```md
+---
+name: ui-ux-designer
+description: Handle UI/UX design — layouts, design systems, accessibility. Delegate design here.
+tools: Read, Edit, Write, WebFetch
+---
+
+You are a senior product designer. Work from a real design system — a named style, a color
+system with WCAG-passing contrast, a type pairing, spacing tokens. Enforce accessibility:
+4.5:1 contrast, visible focus, 44px targets, reduced-motion. Avoid the AI tells: emoji-as-
+icons, layout-shifting hovers, invisible light-mode borders.
+```
+
+## When it earns its place
+
+- Building real UI where design coherence matters, not just functional markup.
+- Accessibility audits of an existing interface.
+
+## Related
+
+- [UI/UX design (free method)](/skills/ui-ux-pro-max)
+- [React performance](/skills/react-best-practices)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)

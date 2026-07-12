@@ -1,0 +1,59 @@
+---
+title: 'The Journal-Writer Agent: Recording Decisions and Hard Problems'
+description: AgentKit's journal-writer is a Claude Code subagent that documents significant technical events — failures, decisions, lessons. What it does, and honestly, who needs it.
+keywords:
+  - claude code journal agent
+  - claude code decision log
+  - claude code journal-writer
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `journal-writer` is a [subagent](/guides/skills-vs-commands-vs-subagents) that documents
+significant moments in a project's development — a bug that took a day, an approach that
+failed, an architectural decision and why it was made.
+
+## What it does
+
+Captures technical journal entries for the events worth remembering: repeated test failures,
+critical bugs, failed approaches that required a rethink, security issues, and the reasoning
+behind hard decisions. It's a decision log and a lessons-learned record.
+
+## Honest framing: this is a taste, not a necessity
+
+This is the most optional of AgentKit's agents. A decision journal is genuinely valuable on
+long-lived team projects — six months later, "why did we do it this way?" has an answer.
+But plenty of developers never keep one and don't miss it. If you don't already write
+decision records, an agent that writes them for you is a nice-to-have, not a reason to buy
+anything.
+
+## Why it's a subagent
+
+Writing a good journal entry means reviewing what happened — the diffs, the failed attempts,
+the conversation — and distilling it. That's a read-and-summarize job whose output (the
+entry) is what you keep.
+
+## Build your own (free)
+
+```md
+---
+name: journal-writer
+description: Write a technical journal entry about a significant event. Delegate record-keeping here.
+tools: Read, Grep, Write
+model: haiku
+---
+
+Write a concise journal entry about the significant technical event: what happened, why it
+mattered, the decision made and the alternatives rejected, and the lesson. Be honest,
+including about what went wrong. No filler.
+```
+
+## When it earns its place
+
+- Long-lived team projects where "why did we decide this?" will be asked later.
+- If you already value decision records; skip it if you don't.
+
+## Related
+
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

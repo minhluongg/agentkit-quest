@@ -1,0 +1,62 @@
+---
+title: 'The Fullstack-Developer Agent: Executing a Plan Phase'
+description: AgentKit's fullstack-developer is a Claude Code subagent that implements a phase of a plan — backend, frontend, or infra — with clear file ownership for parallel execution. What it does and how to build your own.
+keywords:
+  - claude code fullstack agent
+  - claude code implementation agent
+  - claude code developer subagent
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `fullstack-developer` is the [subagent](/guides/skills-vs-commands-vs-subagents) that
+does the actual building — it takes a phase of a plan and implements it, across backend
+(Node.js, APIs, databases), frontend (React, TypeScript), or infrastructure.
+
+## What it does
+
+Executes implementation phases from a plan. Its defining trait is **strict file ownership**:
+each instance is scoped to specific files, which is what makes it safe to run *several in
+parallel* on independent phases.
+
+## Why file ownership is the whole point
+
+Parallel implementation is where orchestration most easily goes wrong — two agents editing
+the same file clobber each other. The fullstack-developer is designed around clear
+boundaries: this agent owns these files, that agent owns those, and they never overlap.
+That's the [rule that makes parallel work safe](/guides/claude-code-agent-orchestration)
+rather than destructive.
+
+## It runs on Sonnet
+
+Routed to **Sonnet** — capable enough for real implementation, more economical than Opus
+for the volume of code-writing work. Planning (Opus) is where the top model earns its cost;
+execution runs on Sonnet.
+
+## Build your own (free)
+
+```md
+---
+name: fullstack-developer
+description: Implement a specific phase of a plan. Delegate implementation of scoped work here.
+tools: Read, Edit, Write, Bash, Grep, Glob
+model: sonnet
+---
+
+Implement ONLY the files assigned to you in this phase. Do not touch files outside your
+scope. Follow the project's existing patterns. Run the relevant tests when done.
+```
+
+The "only your assigned files" constraint is what lets you run two of these at once without
+conflict.
+
+## When it earns its place
+
+- Large builds you've broken into independent phases and want implemented in parallel.
+- Any time a [plan](/agents/planner) has been written and needs executing.
+
+## Related
+
+- [Your first AgentKit project](/guides/agentkit-first-project) — the plan → build loop
+- [Agent orchestration](/guides/claude-code-agent-orchestration) — parallel rules
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

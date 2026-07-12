@@ -1,0 +1,60 @@
+---
+title: 'The Project-Manager Agent: Progress Tracking and Oversight'
+description: AgentKit's project-manager is a Claude Code subagent that tracks progress against a plan and consolidates status. What it does, and how to build your own.
+keywords:
+  - claude code project manager agent
+  - claude code project-manager
+  - claude code progress tracking
+kitVersion: '2.20.0'
+updated: '2026-07-13'
+---
+
+The `project-manager` is a [subagent](/guides/skills-vs-commands-vs-subagents) for oversight
+— tracking what's done against the plan, consolidating status from other agents' work, and
+updating the plan's progress.
+
+## What it does
+
+Provides project coordination: analyzes completed work against the implementation plan,
+tracks progress, and produces status summaries. In a multi-agent build it's the agent that
+reconciles "here's what everyone finished" into "here's where the project stands."
+
+## Honest framing: this is the most niche of the agents
+
+Of AgentKit's 13 agents, this one has the narrowest appeal. Solo developers on small
+projects rarely need a dedicated PM agent — you *are* the project manager, and a glance at
+your plan file tells you the status. Its value shows up on **larger, multi-phase, multi-
+agent** work where consolidating progress across parallel streams is genuinely a task. Be
+honest with yourself about whether you're at that scale.
+
+## Why it's a subagent
+
+Status consolidation means reading a lot of completed-work reports and plan files to produce
+a summary — a read-heavy job whose *output* is what you want, not the raw material.
+
+## Build your own (free)
+
+```md
+---
+name: project-manager
+description: Track progress against the plan and summarize status. Delegate oversight here.
+tools: Read, Grep, Glob, Edit
+model: haiku
+---
+
+Read the plan and the completed work. Report: what's done, what's in progress, what's
+blocked, and what's next. Update the plan's status. Keep it factual — no filler.
+```
+
+Routed to Haiku in the kit — reconciling status is mechanical, so the cheap model fits.
+
+## When it earns its place
+
+- Large, multi-phase projects with several agents or contributors in flight.
+- Rarely, for a solo small project — your plan file is already the status.
+
+## Related
+
+- [The planner agent](/agents/planner)
+- [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
