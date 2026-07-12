@@ -35,11 +35,23 @@ The two disagree by ~3×. Unresolved: the vendor may use multiple processors, or
 
 | Term | Value |
 |---|---|
-| Commission rate | **20%** (Rookie tier). 40% is a *leaderboard* rate requiring $1,000+ GMV generated — not the starting rate. |
-| Per $99 sale | **≈ $19.80** (not the $40 assumed earlier) |
-| Buyer incentive | **20% off their first purchase** via the referral link — a genuine reason for the reader to click, not just "buy this" |
+| Starting commission | **20%** (Rookie). Progressive — climbs with GMV generated. |
+| Per $99 sale (at 20%) | **≈ $19.80** (not the $40 assumed earlier) |
+| Buyer incentive | **20% off their first purchase** via the referral link — a genuine reason for the reader to click |
 | Approval | Commission holds through a **14-day refund window**, then approves |
-| Click-attribution cookie window | **Still not stated** on the dashboard — the 14 days is the refund hold, not the attribution duration. Confirm with the vendor before committing to the P2 tutorial tier. |
+| Click-attribution cookie window | **Still not stated** — the 14 days is the refund hold, not the attribution duration. Confirm before committing the P2 tier. |
+
+**The rate is progressive, two ways up:**
+
+| By sales generated (GMV) | Rate | | Granted for community contribution | Rate |
+|---|---|---|---|---|
+| Rookie $0+ | 20% | | CK Senior | 25% |
+| Pro $1,000+ | 25% | | CK Expert | 30% |
+| Elite $3,000+ | 30% | | CK Master | 35% |
+| Champion $7,000+ | 35% | | CK Lord | 40% |
+| Legendary $15,000+ | 40% | | | |
+
+**Strategic note — the CK-tier path is what this project is already doing.** The CK tiers are "granted by administrators for helping the community and sharing valuable knowledge." The free MIT `claude-code-hooks` repo and the honest educational guides are exactly that. This is a route to 25–40% that does **not** depend on sales volume — so once the repo/guides have visible traction, it is worth pointing the vendor at them and asking about a CK grant. Discretionary (not guaranteed), but the qualifying work is already being produced for other reasons.
 
 **Revised arithmetic.** $230k over ~9 months ≈ $25k/mo ≈ **~250 sales/month at $99**, commission **~$20/sale**:
 
@@ -50,6 +62,8 @@ The two disagree by ~3×. Unresolved: the vendor may use multiple processors, or
 | 10% | **~$500/mo** |
 
 Lower than the earlier ($40/sale) estimate — that number was wrong. Still enough to justify the highest-value pages (link engine, the ranking-test pillar, the P0 conversion page), but **not** obviously enough to justify all 40. **If the $230k figure includes the founder's other products, halve again to ~$80–250/mo.** Let the measurement loop decide the tail rather than committing it up front.
+
+**Upside on the rate.** The 20% is the *floor*. If the site drives real volume the rate climbs (Pro 25% at $1k GMV generated, Elite 30% at $3k), and a CK-tier grant for the free repo/guides could lift it to 25–40% independent of volume. So a maturing site earns more per sale than these floor numbers — but plan on 20% and treat the rest as upside, not a forecast.
 
 **Conversion lever the terms unlock:** every CTA can honestly say *"20% off through this link"*. The reader saves ~$20; you earn ~$20. That is a materially better pitch than a bare "buy" and should be worked into the P0 pages.
 
