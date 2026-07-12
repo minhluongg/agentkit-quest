@@ -7,8 +7,10 @@ const config = [
       '.next/**',
       '.source/**',
       'node_modules/**',
-      // Not app code: the vendored kit, the local AgentKit tooling, and plan docs.
+      // Not app code: the vendored kit, the local AgentKit tooling, plan docs, and
+      // the standalone hooks repo (its own project, CommonJS by design).
       'claudekit-engineer/**',
+      'claude-code-hooks/**',
       '.claude/**',
       'plans/**',
     ],
