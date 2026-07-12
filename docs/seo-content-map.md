@@ -61,8 +61,9 @@ Evidence: GitHub repos rank **top-5 for nearly every winnable query** in this ni
 
 | # | Asset | Owner keyword | Why | Status |
 |---|---|---|---|---|
-| R1 | **GitHub repo `claude-code-hooks`** — 30+ runnable hooks, MIT, organised by use case (security, testing, formatting, CI/CD), each actually executed | — (ranks on its own; earns links) | Free and useful → attracts links from people who never link to blog posts. Credible *because* it is free — precisely the credibility an affiliate site lacks. PR it into the awesome-lists that already rank. | TODO |
-| 11 | `/guides/claude-code-hooks-examples` | **claude code hooks examples** | The repo's companion guide. dev.to's "20+ examples" is scattered and unorganised; 30+ organised by use case, each runnable, wins. This is also the most AI-resistant page in the map — a copy-paste table is not summarisable. | TODO |
+| R1 | **GitHub repo `claude-code-hooks`** — 26 runnable hooks, MIT, by use case (security/git/testing/quality/formatting/context), each executed by 103-assertion CI | — (ranks on its own; earns links) | Free and useful → attracts links from people who never link to blog posts. Credible *because* it is free. | **LIVE** — [github.com/minhluongg/claude-code-hooks](https://github.com/minhluongg/claude-code-hooks), CI green on Win/Mac/Linux. Not yet PR'd into awesome-lists (W3, manual). |
+| 11 | `/guides/claude-code-hooks-examples` | **claude code hooks examples** | The repo's companion guide — a copy-paste table + repo, deliberately not prose (AI-Overview-resistant). | **LIVE**, indexable, in sitemap. |
+| 9 | `/guides/skills-vs-commands-vs-subagents` | **claude code skill vs command vs subagent** | The ranking test (weakest SERP: #1 was a newsletter). Ships a decision tree, not prose. Leads with the 2026 "commands merged into skills" fact that dates every older guide. | **LIVE**, indexable, in sitemap. *Note: this is P1 row 9, shipped early as the ranking hypothesis test — see sequencing.* |
 
 ---
 
