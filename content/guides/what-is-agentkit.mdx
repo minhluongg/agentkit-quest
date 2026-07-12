@@ -1,44 +1,76 @@
 ---
-title: What Is AgentKit?
-description: AgentKit is the toolkit formerly known as ClaudeKit — 87 skills, 13 agents, and a workflow layer for Claude Code. Here is what it actually gives you.
+title: 'What Is AgentKit? The Claude Code Toolkit, Explained'
+description: AgentKit (formerly ClaudeKit) is a paid kit of skills, subagents, and hooks that turns Claude Code into a structured plan-build-review-ship workflow. Here is what it actually is and what is in it.
 category: Start Here
 difficulty: beginner
 updated: '2026-07-12'
 keywords:
   - what is agentkit
-  - claudekit renamed agentkit
-  - agentkit vs claude code
+  - what is claudekit
+  - agentkit claude code
+  - agentkit explained
 relatedSkills:
   - plan
   - cook
-noindex: true
+  - code-review
 ---
 
-<Callout type="warn">
-Placeholder. Real content lands in the "Getting Started" content plan — this file exists to prove
-the MDX pipeline end to end.
-</Callout>
+**AgentKit** is a paid toolkit for [Claude Code](https://code.claude.com) — a curated,
+maintained set of skills, specialised subagents, and hooks, pre-wired into a
+plan → build → review → ship workflow. It was previously called **ClaudeKit**; the name
+changed in 2026 (see [the migration note](/guides/claudekit-to-agentkit)).
 
-## The rename
+It does not add anything Claude Code technically withholds — skills, subagents and hooks
+are all [free, first-party features](/guides/skills-vs-commands-vs-subagents). What you
+are buying is the **curation and the wiring**: a large set of pieces that already fit
+together, so you are not authoring and tuning dozens of config files yourself.
 
-ClaudeKit became **AgentKit**. `claudekit.cc` now redirects to `agentkit.best`, and the CLI moved
-from `ck` to `ak`.
+## What's actually in it
 
-## What ships in the box
+AgentKit ships as two kits (plus a bundle):
 
-<Steps>
-  <Step>
-    ### Install the CLI
+| Kit | For | Contains |
+|---|---|---|
+| **Engineer** ($99) | Developers | ~88 skills, 30+ workflows, 17 subagents — frontend, backend, database, DevOps, code review, debugging |
+| **Marketing** ($99) | Growth teams | 28 marketing subagents, 12+ MCP integrations — research, SEO, email, CRM |
+| **Bundle** ($149) | People who do both | Everything in both |
 
-    ```bash
-    npm install -g agentkit-cli
-    ```
-  </Step>
-  <Step>
-    ### Initialize a project
+This site documents the **Engineer** kit. Its 88 skills fall into categories you can
+browse in full on the [skills page](/skills):
 
-    ```bash
-    ak init --kit engineer
-    ```
-  </Step>
-</Steps>
+- **Development Tools (24)** and **Utilities (32)** — the bulk: planning, cooking
+  (implementing), reviewing, testing, debugging, git, scouting a codebase
+- **Frontend & Design (12)**, **Backend (3)**, **Database (1)**, **Infra/DevOps (2)**
+- **AI/ML (3)**, **Multimedia (5)**, **Frameworks (4)**, **Security (1)**
+
+And **13 subagents** — planner, researcher, code-reviewer, debugger, tester, and more —
+each running in [its own context window](/guides/skills-vs-commands-vs-subagents) so they
+can do heavy work without flooding your main conversation.
+
+## The three building blocks
+
+Everything in the kit is one of three Claude Code primitives. If you understand these,
+you understand what the kit is made of:
+
+- **Skills** — reusable instructions Claude loads when relevant (`/ak:plan`, `/ak:cook`).
+- **Subagents** — workers with a separate context that return a summary.
+- **Hooks** — scripts that fire automatically on events (before a command runs, after a
+  file is written). AgentKit uses these for guardrails.
+
+We wrote a [full guide to the difference](/guides/skills-vs-commands-vs-subagents), and a
+[set of 26 free hooks](/guides/claude-code-hooks-examples) you can use with or without the
+kit.
+
+## Is it worth paying for?
+
+That depends entirely on whether you value a working setup over building your own — there
+are large free alternatives with *more* agents. We wrote an
+[honest worth-it comparison](/guides/agentkit-vs-free-alternatives) that includes the
+cases where you should **not** buy it, and a guide to
+[which kit to buy](/guides/which-agentkit-kit-to-buy) if you decide to.
+
+## Next steps
+
+- **New to it?** [Install AgentKit](/guides/install-agentkit) — takes a few minutes.
+- **Coming from ClaudeKit?** [What changed in the rename](/guides/claudekit-to-agentkit).
+- **Weighing the purchase?** [Is it worth it vs the free alternatives](/guides/agentkit-vs-free-alternatives).

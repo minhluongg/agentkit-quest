@@ -1,34 +1,112 @@
 ---
-title: Install AgentKit
-description: Install the ak CLI, initialize the Engineer kit in a project, and verify the install — the shortest path from zero to a working AgentKit setup.
+title: 'How to Install AgentKit (the ak CLI) for Claude Code'
+description: Install the AgentKit ak CLI and add the Engineer kit to Claude Code. Current native-binary install for macOS, Linux, and Windows — not the deprecated npm package the old guides show.
 category: Start Here
 difficulty: beginner
 updated: '2026-07-12'
 keywords:
   - install agentkit
-  - ak cli
+  - ak cli install
   - agentkit setup
+  - agentkit claude code install
 relatedSkills:
   - plan
   - cook
-noindex: true
 ---
 
-<Callout type="warn">
-Placeholder. Real, tested install steps land in the "Getting Started" content plan.
-This file exists to exercise prev/next navigation and the code-block pipeline.
+The AgentKit CLI is `ak`. It installs as a **single native binary** — no Node.js, no Bun,
+no npm package. If a guide tells you to `npm install -g claudekit-cli`, it is out of date:
+that package is the deprecated ClaudeKit-era tool.
+
+<Callout type="warn" title="Older guides are wrong here">
+The rename from ClaudeKit to AgentKit also changed how it installs. The old method
+(`npm install -g claudekit-cli`, then `ck …`) is deprecated. Use the native `ak` binary
+below.
 </Callout>
 
 ## Prerequisites
 
-- Node.js 18 or newer
-- Claude Code installed and authenticated
+- **Claude Code** installed and working ([setup guide](https://code.claude.com)).
+- That's it — `ak` is a standalone binary, so you do **not** need Node or a package manager.
 
-## Install
+## Install the CLI
+
+<Steps>
+  <Step>
+    ### macOS / Linux
+
+    ```bash
+    curl -fsSL https://agentkit.best/install.sh | sh
+    ```
+  </Step>
+
+  <Step>
+    ### Windows (PowerShell)
+
+    ```powershell
+    irm https://agentkit.best/install.ps1 | iex
+    ```
+  </Step>
+
+  <Step>
+    ### Verify it worked
+
+    ```bash
+    ak --version
+    ak doctor
+    ```
+
+    `ak doctor` checks your environment and reports anything missing.
+  </Step>
+</Steps>
+
+<Callout type="tip" title="Prefer not to pipe a script into your shell?">
+`curl … | sh` runs whatever the URL serves, unreviewed — a habit worth being deliberate
+about. If you'd rather inspect first, download the script, read it, then run it:
 
 ```bash
-npm install -g agentkit-cli
-ak init --kit engineer
+curl -fsSL https://agentkit.best/install.sh -o install.sh
+less install.sh   # read it
+sh install.sh
 ```
 
-<KitCta showDisclosure />
+(This is exactly the kind of thing one of our [free hooks](/guides/claude-code-hooks-examples)
+blocks by default — worth setting up if you let Claude Code run install commands.)
+</Callout>
+
+## Add a kit to Claude Code
+
+Installing `ak` gives you the CLI; you then add a **kit**. For the Engineer kit
+(the developer one this site documents), targeting Claude Code, installed globally:
+
+```bash
+ak kit init engineer --target claude-code --global
+```
+
+Drop `--global` to install it into the current project only instead of for every project.
+
+## Start using it
+
+Once the kit is installed, its skills are available in Claude Code under the `/ak:` prefix:
+
+```bash
+/ak:plan "add authentication to the app"
+/ak:cook "implement the plan"
+/ak:code-review
+```
+
+`/ak:plan` scopes and plans the work; `/ak:cook` implements it; `/ak:code-review` reviews
+it. See the [skills catalog](/skills) for the full set, and the guide to
+[skills vs commands vs subagents](/guides/skills-vs-commands-vs-subagents) if the
+distinction is new to you.
+
+## Coming from ClaudeKit?
+
+If you already had ClaudeKit installed, the short version: the binary is `ak` not `ck`,
+and commands use `/ak:` not `/ck:`. Full details in
+[ClaudeKit is now AgentKit](/guides/claudekit-to-agentkit).
+
+## Not sure it's worth installing yet?
+
+Fair — it's a paid kit. The [honest worth-it comparison](/guides/agentkit-vs-free-alternatives)
+covers when the free alternatives are the better call.

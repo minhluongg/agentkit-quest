@@ -115,3 +115,6 @@ worktrees/
 # GitHub — it must NOT be committed inside the site repo.
 /claude-code-hooks/
 
+
+.vercel
+.env*
