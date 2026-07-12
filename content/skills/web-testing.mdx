@@ -1,0 +1,65 @@
+---
+title: 'Web Testing with Claude Code: Playwright, Vitest, k6'
+description: How to set up end-to-end, unit, and load tests for a web app with Claude Code. The free method with the standard tools, and what AgentKit's web-testing skill adds.
+keywords:
+  - claude code playwright
+  - claude code web testing
+  - claude code e2e tests
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Web testing spans three different jobs — does the UI work end-to-end (Playwright), do the
+units behave (Vitest), does it hold under load (k6) — and Claude Code can wire up all
+three. The trick is asking for tests that assert *behavior a user cares about*, not that a
+button exists.
+
+## The job
+
+Cover a web app across e2e, unit, and load — with tests that would actually fail if the
+app broke.
+
+## How to do it without a kit
+
+The tools are free and standard; Claude Code drives them well.
+
+**End-to-end (Playwright):** ask Claude to write specs around *user journeys*, not
+elements — "a user can sign up, log in, and see their dashboard," with assertions on the
+outcome. Prompt it to run `npx playwright test` and fix failures against the real app, not
+against its assumptions.
+
+**Unit (Vitest):** [behavior-first tests](/skills/test) — the same discipline as any unit
+testing.
+
+**Load (k6):** describe the scenario ("100 users hitting /api/search for 60s") and have
+Claude write the k6 script and interpret the p95/p99 output. The value is in reading the
+results correctly, which Claude is good at once you give it the numbers.
+
+A [free hook](/guides/claude-code-hooks-examples) can run the relevant test on save, so
+you catch breakage as you edit rather than at the end.
+
+## What the kit's skill adds
+
+AgentKit's `web-testing` skill (`/ak:web-testing`) covers the full matrix — e2e, unit,
+integration, load, security, visual, and accessibility — with scripts, so you invoke a
+test *type* rather than wiring each tool yourself.
+
+```bash
+/ak:web-testing e2e https://localhost:3000
+/ak:web-testing load /api/search
+```
+
+*(Legacy prefix: `/ck:web-testing`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you want one skill spanning e2e/load/visual/a11y without configuring each
+  framework.
+- **Skip it if** you use one or two of these — Playwright + Vitest are free and Claude sets
+  them up fine.
+
+## Related
+
+- [Generate tests (behavior-first)](/skills/test)
+- [Browser automation](/skills/agent-browser)
+- [26 free hooks](/guides/claude-code-hooks-examples)

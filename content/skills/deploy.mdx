@@ -1,0 +1,64 @@
+---
+title: 'Deploying with Claude Code (Vercel, Netlify, Cloudflare & more)'
+description: How to deploy a project with Claude Code — the free method per platform, and what AgentKit's deploy skill adds with auto-detection across Vercel, Netlify, Cloudflare, Railway, Fly.io and others.
+keywords:
+  - claude code deploy
+  - claude code deploy vercel
+  - deploy with claude code
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Deployment is mostly knowing the right command for your platform and not fat-fingering the
+env vars. Claude Code can drive any of the major hosts — the free method is just its CLI;
+the skill's value is auto-detecting which host you're on and remembering the steps.
+
+## The job
+
+Get a project live on a host — with the right build command, env vars, and domain — without
+a broken first deploy.
+
+## How to do it without a kit
+
+Every major platform has a CLI Claude Code can run:
+
+- **Vercel:** `vercel` / `vercel --prod`
+- **Netlify:** `netlify deploy --prod`
+- **Cloudflare:** `wrangler deploy`
+- **Fly.io:** `fly deploy`
+
+The two things worth getting right, whichever host:
+
+**1. Env vars are set at build time for `NEXT_PUBLIC_`-style vars.** If you set them after
+a build, redeploy — the old values are baked in. (This exact mistake is common; a build
+check that fails when a required var is missing saves you.)
+
+**2. Preview deploys should be `noindex`.** Otherwise Google indexes your `*.vercel.app`
+preview URLs and they compete with production.
+
+Ask Claude to read your config, pick the command, and walk the deploy — it's reliable once
+it knows the target.
+
+## What the kit's skill adds
+
+AgentKit's `deploy` skill (`/ak:deploy`) **auto-detects** the target from your config files
+and docs, so you don't specify the platform — it figures out Vercel vs Netlify vs
+Cloudflare vs Railway vs Fly.io vs Render and runs the right flow.
+
+```bash
+/ak:deploy               # detect platform, deploy
+/ak:deploy vercel prod
+```
+
+*(Legacy prefix: `/ck:deploy`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you deploy across several platforms and want one command that detects the
+  target.
+- **Skip it if** you're on one host — its CLI plus Claude Code is all you need, free.
+
+## Related
+
+- [DevOps: Docker, Kubernetes, GCP](/skills/devops)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

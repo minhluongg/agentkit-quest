@@ -1,0 +1,62 @@
+---
+title: 'Generating Project Documentation with Claude Code'
+description: How to get accurate, maintainable docs out of Claude Code instead of a wall of restated code. The free method, and what AgentKit's docs skill adds for init, update, and summarize.
+keywords:
+  - claude code generate documentation
+  - claude code docs
+  - claude code write readme
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Ask Claude to "document this project" and you often get a README that restates the code in
+English — technically accurate, completely useless. Good docs answer questions a *reader*
+has, and they stay true as the code changes. Here's how to get those.
+
+## The job
+
+Produce documentation that explains how to use and reason about the project — setup, the
+key decisions, how the pieces fit — and keep it in sync as things change.
+
+## How to do it without a kit
+
+**1. Document decisions and usage, not syntax.** Prompt for the reader's questions:
+
+> Write docs that answer: how do I run this? what are the main components and how do they
+> connect? what non-obvious decisions were made and why? Do NOT restate what the code
+> plainly says.
+
+**2. Anchor it to real files.** Have Claude cite `file:line` so a reader can jump to the
+source and so the doc is checkable. Vague docs rot invisibly; anchored ones show when
+they drift.
+
+**3. Update on change, don't rewrite.** When behavior changes, ask Claude to update the
+*affected* section, not regenerate everything — a full rewrite loses the human edits you
+made.
+
+## What the kit's skill adds
+
+AgentKit's `docs` skill (`/ak:docs`) has three modes that structure this: initialize a
+docs set, update it against recent changes, or summarize the codebase.
+
+```bash
+/ak:docs init        # scaffold project docs
+/ak:docs update      # sync docs with recent changes
+/ak:docs summarize   # high-level codebase overview
+```
+
+*(Legacy prefix: `/ck:docs`.)*
+
+The `update` mode — reconciling docs with what actually changed — is the part that's tedious
+to do by hand and where the skill earns its place.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you maintain living docs across a real project and want update/summarize
+  as repeatable commands.
+- **Skip it if** you need a one-time README — the prompt above does that free.
+
+## Related
+
+- [What is AgentKit](/guides/what-is-agentkit)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

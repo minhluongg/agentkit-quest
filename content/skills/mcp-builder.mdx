@@ -1,0 +1,65 @@
+---
+title: 'Build an MCP Server with Claude Code'
+description: How to build a Model Context Protocol (MCP) server with Claude Code — the free approach with the official SDKs, and what AgentKit's mcp-builder skill adds for tool design and API integration.
+keywords:
+  - build mcp server claude code
+  - claude code mcp server
+  - how to make an mcp server
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+An MCP server is how you give an AI agent a new tool — a way to call your API, query your
+database, or hit an external service. Building one is mostly boilerplate plus careful tool
+design, and Claude Code is well-suited to both. Here's the free path and what the skill
+adds.
+
+## The job
+
+Expose a capability (an API, a service, a data source) as MCP tools an agent can call —
+with schemas the model can actually use correctly.
+
+## How to do it without a kit
+
+MCP has official SDKs; you don't need anything paid.
+
+**1. Pick the SDK for your stack.** FastMCP for Python, the MCP SDK for Node/TypeScript.
+Ask Claude to scaffold a server with one tool, then run it against the MCP inspector to
+confirm it connects.
+
+**2. Design the tools for the model, not for you.** This is the part that actually
+matters. A tool named `q` with a param `x` is useless; `search_orders(customer_id, status)`
+with a clear description the model reads is not. Prompt Claude:
+
+> Design these tools so an LLM calls them correctly without docs: descriptive names, a
+> one-line description of *when* to use each, typed params with descriptions, and errors
+> that tell the model what to fix.
+
+**3. Handle credentials properly.** Read secrets from the environment, never hard-code
+them (a [free hook](/guides/claude-code-hooks-examples) will block you if you slip).
+
+That's a working MCP server, free. The official docs plus Claude scaffolding cover it.
+
+## What the kit's skill adds
+
+AgentKit's `mcp-builder` skill (`/ak:mcp-builder`) packages the scaffolding and the
+tool-design discipline — FastMCP and the Node/TS SDK, tool design, API integration, and
+resource providers — with scripts, so it's a guided build rather than a from-scratch one.
+
+```bash
+/ak:mcp-builder "wrap the Stripe API as MCP tools"
+```
+
+*(Legacy prefix: `/ck:mcp-builder`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you build MCP servers regularly and want the scaffolding + tool-design
+  patterns ready-made.
+- **Skip it if** this is a one-off — the official SDK plus Claude Code gets you there for
+  free.
+
+## Related
+
+- [What is MCP / skills vs subagents](/guides/skills-vs-commands-vs-subagents)
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

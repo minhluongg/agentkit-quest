@@ -1,0 +1,63 @@
+---
+title: 'DevOps with Claude Code: Docker, Kubernetes, Cloudflare, GCP'
+description: How to use Claude Code for containers, Kubernetes, and cloud infra — the free method with the standard CLIs, and what AgentKit's devops skill adds across Docker, K8s, Cloudflare, and GCP.
+keywords:
+  - claude code docker
+  - claude code kubernetes
+  - claude code devops
+kitVersion: '2.20.0'
+updated: '2026-07-12'
+---
+
+Infrastructure work is unforgiving of small mistakes — a wrong `kubectl` context, a
+Dockerfile that busts its cache, a Terraform apply against the wrong environment. Claude
+Code is genuinely useful here *if* you keep it deliberate. Here's the free approach and
+what the skill adds.
+
+## The job
+
+Build and operate infra — containers, orchestration, cloud resources — with Claude driving
+the standard tools, without a careless `apply` to production.
+
+## How to do it without a kit
+
+The CLIs are free; Claude runs them well. What matters is the guardrails:
+
+**Docker:** ask Claude to write a Dockerfile that orders layers for cache efficiency
+(dependencies before source) and uses a multi-stage build to keep the image small. It's
+good at this once you ask for it explicitly.
+
+**Kubernetes:** the danger is context. Have Claude *print the current context and namespace
+before every mutating command* — `kubectl config current-context`. A [free hook](/guides/claude-code-hooks-examples)
+can enforce confirmation before destructive commands.
+
+**Cloudflare (Workers/R2/D1), GCP (Cloud Run/GKE):** `wrangler` and `gcloud` do the work;
+Claude reads your config and runs the right commands.
+
+The rule across all of it: **read before you write.** Have Claude show you the plan/diff
+(`terraform plan`, `kubectl diff`) before applying. Infra mistakes are the expensive kind.
+
+## What the kit's skill adds
+
+AgentKit's `devops` skill (`/ak:devops`) covers Cloudflare (Workers, R2, D1), Docker, GCP
+(Cloud Run, GKE), and Kubernetes (kubectl, Helm) with scripts and a security-audit angle,
+so common infra flows are guided rather than assembled command-by-command.
+
+```bash
+/ak:devops docker "containerize this app"
+/ak:devops kubernetes "deploy to GKE"
+```
+
+*(Legacy prefix: `/ck:devops`.)*
+
+## Buy if / Don't buy if
+
+- **Worth it if** you work across Docker + K8s + a cloud regularly and want guided flows
+  with guardrails.
+- **Skip it if** you're on one platform — its CLI plus deliberate prompting is enough.
+
+## Related
+
+- [Deploy (Vercel/Netlify/etc.)](/skills/deploy)
+- [26 free hooks](/guides/claude-code-hooks-examples) — guard destructive commands
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
