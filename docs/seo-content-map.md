@@ -71,13 +71,13 @@ Evidence: GitHub repos rank **top-5 for nearly every winnable query** in this ni
 
 Small audience, but the **only** queries where someone is deciding to spend money. Near-zero competition.
 
-> ⚠️ **Hard prerequisite: buy the kit (~$149 bundle).** A review assembled from the vendor's marketing page is fabrication, is the explicit target of Google's reviews system (which demands evidence of first-hand use), and a developer spots it in one screen. **Do not write P0 without owning the product.**
+> ✅ **Prerequisite met: the kit is owned.** The purchased kit is installed at `.claude/` and vendored at `claudekit-engineer/` (v2.20.0). Its plan → cook → review workflow and subagents were used first-hand throughout this project — genuine material for the reviews Google's reviews system demands.
 
 > ⚠️ **Routes do not exist.** `/compare/*`, `/reviews/*`, `/pricing` have no route segments in the app. **KISS: publish all of these under `/guides/`.** URL prefixes carry no ranking weight; a `/compare/` taxonomy costs a route group and buys nothing.
 
 | # | URL | OWNER keyword | Intent | SERP evidence (2026-07-12) | Winnable? | Status |
 |---|---|---|---|---|---|---|
-| 1 | `/guides/agentkit-vs-free-alternatives` | **is agentkit worth it** | TRANS | **No page answers this.** Free rivals are huge (awesome-claude-code-toolkit = 135 agents; aitmpl = 1000+ components; Anthropic bundles skills free) yet nothing compares them honestly against a $99 kit. Also the only P0 row with category-level pull — people search for free alternatives without ever having heard of AgentKit. | **Very high** | TODO |
+| 1 | `/guides/agentkit-vs-free-alternatives` | **is agentkit worth it** | TRANS | **No page answers this.** Free rivals are huge (awesome-claude-code-toolkit = 135 agents; aitmpl = 1000+ components; Anthropic bundles skills free) yet nothing compares them honestly against a $99 kit. Also the only P0 row with category-level pull. | **Very high** | **LIVE** — first-hand review, honest Buy if / Don't buy if verdict, in sitemap. |
 | 2 | `/guides/agentkit-vs-claude-code-alone` | **do i need claudekit** | TRANS | Unoccupied. Reader already has Claude Code and is asking whether the kit adds anything. | **Very high** | TODO |
 | 3 | `/guides/agentkit-engineer-review` | **claudekit review** | TRANS | `theclaudekit.com` (vendor-adjacent) ranks p1. A vendor reviewing itself is a gap, not a wall — but only if ours is first-hand. **Requires the kit.** | **High** | TODO |
 | 4 | `/guides/claudekit-to-agentkit` | **claudekit renamed agentkit** | INFO→TRANS | `claudekit.cc` 301s to `agentkit.best`; CLI moved `ck`→`ak`; **the vendor's own shipped kit still says `ck:` internally.** Existing users hitting this confusion have nowhere to go. High-trust entry point. | **Very high** | TODO |
