@@ -9,7 +9,7 @@
 
 ## Launch progress (2026-07-13)
 
-**Site is live at [agentkit.quest](https://agentkit.quest) — 37 indexable URLs in the sitemap, submitted to Search Console.**
+**Site is live at [agentkit.quest](https://agentkit.quest) — 50 indexable URLs in the sitemap, submitted to Search Console.**
 
 | Tier | Planned | Live | Notes |
 |---|---|---|---|
@@ -18,7 +18,8 @@
 | **P1 pillars** | 6 rows | ✅ 6/6 | skills-vs-commands, how-to-write-skill, hooks, workflow-patterns, orchestration, vs-cursor |
 | **P2 skill pages** | 20 | ✅ 20/20 | all job-targeted, teach the free method, honest Buy/Don't-buy |
 | **P3 getting-started** | 4 | ✅ 4/4 | what-is, install, first-project, core-commands |
-| **P4 (68 skills + 13 agents)** | — | `noindex` by design | 81 stubs remain gated until they have real content |
+| **Agent pages** | 13 | ✅ 13/13 | all agents, targeting the *subagent/worker* angle (distinct from skill action-keywords); niche ones (project-manager, journal-writer) say so honestly |
+| **P4 (68 remaining skill stubs)** | — | `noindex` by design | 68 stubs gated until they have real content |
 
 Every page: indexable, in sitemap, internal links audited (all resolve), affiliate CTA with `?ref=` + `rel=sponsored` + 20%-off lever. **The priority content is done.** What remains is distribution (W3 — human) and the measurement loop (Phase 04).
 
