@@ -3,6 +3,7 @@
   "pages": [
     "what-is-agentkit",
     "install-agentkit",
+    "claudekit-to-agentkit",
     "skills-vs-commands-vs-subagents",
     "claude-code-hooks-examples",
     "agentkit-vs-free-alternatives",

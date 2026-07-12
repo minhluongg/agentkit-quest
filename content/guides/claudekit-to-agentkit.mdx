@@ -1,0 +1,95 @@
+---
+title: 'ClaudeKit Is Now AgentKit: What Changed and How to Migrate'
+description: 'ClaudeKit was renamed to AgentKit. The claudekit.cc site redirects, the CLI moved from ck to ak, and slash commands changed prefix. Here is exactly what changed and what you need to do.'
+category: Start Here
+difficulty: beginner
+updated: '2026-07-12'
+keywords:
+  - claudekit renamed agentkit
+  - claudekit to agentkit
+  - ck to ak cli
+  - is claudekit still available
+  - claudekit agentkit difference
+relatedSkills:
+  - plan
+  - cook
+---
+
+If you bought or used **ClaudeKit** and can no longer find it, nothing was taken away —
+it was **renamed to AgentKit**. Same product, same kits, new name. Here is precisely what
+changed and the one thing you may need to update.
+
+## What changed
+
+| Before | After |
+|---|---|
+| Name: **ClaudeKit** | **AgentKit** |
+| Site: `claudekit.cc` | `agentkit.best` (the old domain **301-redirects** here) |
+| CLI binary: `ck` | **`ak`** |
+| Slash prefix: `/ck:plan` | **`/ak:plan`** |
+| Docs: `docs.claudekit.cc` | AgentKit docs |
+
+The kits themselves — Engineer and Marketing — are the same products with the same
+purpose. Your licence carries over; you did not lose access by the rename.
+
+## What you actually need to do
+
+For most people: **nothing urgent.** But two things are worth knowing.
+
+<Steps>
+  <Step>
+    ### Update how you invoke it
+
+    The commands you type changed prefix. Where you used to run:
+
+    ```bash
+    /ck:plan "add authentication"
+    /ck:cook "implement the plan"
+    ```
+
+    you now run:
+
+    ```bash
+    /ak:plan "add authentication"
+    /ak:cook "implement the plan"
+    ```
+
+    The CLI binary is `ak` instead of `ck`. If you have a shell alias or a script that
+    calls `ck`, point it at `ak`.
+  </Step>
+
+  <Step>
+    ### Re-install or update to get the current version
+
+    Grab the current kit so your local copy matches the AgentKit naming and gets the
+    latest skills. A fresh install from [agentkit.best](https://agentkit.best) is the
+    clean way; if you are on an older ClaudeKit checkout it keeps working, but new
+    features ship under the AgentKit name.
+  </Step>
+</Steps>
+
+<Callout type="warn" title="A quirk worth knowing">
+Some **internal** references in the shipped kit still say `ck:` even after the rename —
+the migration of every string is ongoing. If you see `ck:` inside the kit's own files
+while the docs say `ak:`, that is the rename catching up, not a mistake on your end. The
+`/ak:` prefix is the current, correct one to type.
+</Callout>
+
+## Is ClaudeKit gone? Should I be worried?
+
+No. This is a rename and a slight repositioning (the "AgentKit" name reflects that it is
+about AI *agents*, and there is now a desktop app in the works), not a shutdown. A small
+vendor renaming once is normal. Your purchase stands.
+
+If you are a *new* reader who just found this and does not have the kit yet, the rename
+is not something you need to think about — you will only ever see "AgentKit." Start with
+[what AgentKit is](/guides/what-is-agentkit), or, if you are weighing the purchase, the
+[honest worth-it comparison](/guides/agentkit-vs-free-alternatives).
+
+## Quick reference
+
+- **Old name → new name:** ClaudeKit → AgentKit
+- **Old CLI → new CLI:** `ck` → `ak`
+- **Old prefix → new prefix:** `/ck:` → `/ak:`
+- **Old site → new site:** `claudekit.cc` → `agentkit.best` (auto-redirects)
+- **Your licence:** carries over, nothing to repurchase
