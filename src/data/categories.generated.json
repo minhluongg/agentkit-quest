@@ -27,12 +27,12 @@
   {
     "id": "dev-tools",
     "label": "Development Tools",
-    "count": 24
+    "count": 26
   },
   {
     "id": "multimedia",
     "label": "Multimedia & Processing",
-    "count": 5
+    "count": 1
   },
   {
     "id": "frameworks",
@@ -47,11 +47,11 @@
   {
     "id": "utilities",
     "label": "Utilities & Helpers",
-    "count": 32
+    "count": 34
   },
   {
     "id": "other",
     "label": "Other",
-    "count": 1
+    "count": 4
   }
 ]

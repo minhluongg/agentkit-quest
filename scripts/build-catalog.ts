@@ -4,42 +4,60 @@
  * Run manually: `npm run catalog:build`
  *
  * This is an AUTHORING tool, not a build step. The output JSON is committed to
- * git so that production builds never need the vendored (private) kit on disk.
- * Wiring this into `prebuild` would break Vercel.
+ * git so that production builds never need the vendored (licence-gated) kit on
+ * disk. Wiring this into `prebuild` would break Vercel.
+ *
+ * The kit is produced by:
+ *   ak kit init engineer --target claude-code --build-only --out <dir>
+ * then copied to ./agentkit-engineer (gitignored — it is not ours to publish).
+ *
+ * Kit layout changed with the ClaudeKit → AgentKit rename. The old kit exposed a
+ * single `guide/SKILLS.yaml` manifest; the AgentKit kit has no manifest at all
+ * and carries the same metadata in each skill's own SKILL.md frontmatter. This
+ * script reads the tree directly, which is the only source that cannot drift
+ * from what actually ships.
  */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import yaml from 'js-yaml';
 import matter from 'gray-matter';
 import { z } from 'zod';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const KIT = join(ROOT, 'claudekit-engineer');
-const SKILLS_YAML = join(KIT, 'guide', 'SKILLS.yaml');
-const AGENTS_DIR = join(KIT, 'claude', 'agents');
+const KIT = join(ROOT, 'agentkit-engineer');
+const SKILLS_DIR = join(KIT, 'skills');
+const AGENTS_DIR = join(KIT, 'agents');
 const OUT_DIR = join(ROOT, 'src', 'data');
 
+/**
+ * Category labels. The AgentKit kit ships category *ids* on each skill but no
+ * label map — that lived in the old SKILLS.yaml, which no longer exists. These
+ * are the labels the site already publishes; keeping them stable keeps
+ * /skills?category=… deep links working.
+ */
+const CATEGORY_LABELS: Record<string, string> = {
+  'ai-ml': 'AI & Machine Learning',
+  frontend: 'Frontend & Design',
+  backend: 'Backend Development',
+  infrastructure: 'Infrastructure & DevOps',
+  database: 'Database & Storage',
+  'dev-tools': 'Development Tools',
+  multimedia: 'Multimedia & Processing',
+  frameworks: 'Frameworks & Platforms',
+  security: 'Security & Intelligence',
+  utilities: 'Utilities & Helpers',
+  other: 'Other',
+};
 
 // --- Schemas: fail loudly on upstream drift rather than silently emitting junk.
 
-const rawSkillSchema = z.object({
+const skillFrontmatterSchema = z.object({
   name: z.string(),
-  path: z.string(),
   description: z.string(),
-  category: z.string(),
-  has_scripts: z.boolean().default(false),
-  has_references: z.boolean().default(false),
-  argument_hint: z.string().optional(),
+  // Three skills (common, document-skills, help) ship no category. They are
+  // support skills, not user-facing tools — bucket them rather than crashing.
+  category: z.string().default('other'),
   keywords: z.array(z.string()).default([]),
-});
-
-const rawYamlSchema = z.object({
-  metadata: z.object({
-    total_skills: z.number(),
-    last_updated: z.union([z.string(), z.date()]).optional(),
-  }),
-  categories: z.record(z.string(), z.string()),
-  skills: z.record(z.string(), z.array(rawSkillSchema)),
+  'argument-hint': z.string().optional(),
 });
 
 const agentFrontmatterSchema = z.object({
@@ -51,30 +69,32 @@ const agentFrontmatterSchema = z.object({
 
 // --- Helpers
 
-/** `ck:plan` → `ck-plan`, `ckm:design` → `ckm-design`. Colons are not URL-safe. */
+/**
+ * `ak:plan` → `plan`.
+ *
+ * Load-bearing. The kit names skills with their invocation prefix (`ak:plan`),
+ * but the site's URLs are /skills/plan and have been since launch. Slugging the
+ * raw name would rename all 88 published skill URLs to /skills/ak-plan in one
+ * commit and throw away every one of them. The prefix is presentation; the bare
+ * name is identity.
+ */
 function toSlug(name: string): string {
-  return name.replace(/:/g, '-').toLowerCase();
+  return baseName(name).toLowerCase();
+}
+
+/** `ak:plan` → `plan`; `plan` → `plan`. */
+function baseName(name: string): string {
+  const idx = name.indexOf(':');
+  return idx === -1 ? name : name.slice(idx + 1);
 }
 
 /**
- * Current invocation prefix is `ak:` — agentkit.best/docs states plainly that
- * `ak` is "the successor to the legacy ClaudeKit ck CLI", and that skills are
- * invoked with the `ak:` slash prefix.
- *
- * The vendored kit (v2.20.0, June 2026) still ships `ck:` names internally; it is
- * stale relative to the rename. We render the current prefix, and keep the legacy
- * one visible — people who learned `/ck:plan` still search for it.
+ * The invocation people type. Canonical prefix is `ak:`; `ck:` is the legacy
+ * ClaudeKit form. Both are rendered — the kit's own skill files still reference
+ * `ck:` in places, and people who learned `/ck:plan` still search for it.
  */
 function toInvocation(name: string, prefix: 'ak' | 'ck'): string {
-  if (!name.includes(':')) return `/${prefix}:${name}`;
-
-  // Marketing-kit skills carry their own namespace (`ckm:design` → `akm:design`).
-  const [namespace, rest] = name.split(':');
-  const migrated = namespace === 'ck' || namespace === 'ckm'
-    ? namespace.replace(/^ck/, prefix)
-    : namespace;
-
-  return `/${migrated}:${rest}`;
+  return `/${prefix}:${baseName(name)}`;
 }
 
 /**
@@ -87,27 +107,36 @@ function cleanAgentDescription(raw: string): string {
   return cut.replace(/\s+/g, ' ').trim();
 }
 
+function dirsIn(path: string): string[] {
+  return readdirSync(path, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name);
+}
+
 // --- Build
 
 function buildSkills() {
-  const parsed = rawYamlSchema.parse(yaml.load(readFileSync(SKILLS_YAML, 'utf8')));
+  const skills = dirsIn(SKILLS_DIR)
+    .map((dir) => {
+      const skillDir = join(SKILLS_DIR, dir);
+      const parsed = matter(readFileSync(join(skillDir, 'SKILL.md'), 'utf8'));
+      const fm = skillFrontmatterSchema.parse(parsed.data);
 
-  const skills = Object.values(parsed.skills)
-    .flat()
-    .map((s) => ({
-      slug: toSlug(s.name),
-      name: s.name,
-      invocation: toInvocation(s.name, 'ak'),
-      legacyInvocation: toInvocation(s.name, 'ck'),
-      description: s.description,
-      category: s.category,
-      keywords: s.keywords,
-      argumentHint: s.argument_hint ?? null,
-      hasScripts: s.has_scripts,
-      hasReferences: s.has_references,
-      // No sourceUrl: the kit repo is private (purchase-gated), so a link would
-      // 404 — and it would otherwise ship a private URL in the client bundle.
-    }))
+      return {
+        slug: toSlug(fm.name),
+        name: baseName(fm.name),
+        invocation: toInvocation(fm.name, 'ak'),
+        legacyInvocation: toInvocation(fm.name, 'ck'),
+        description: fm.description,
+        category: fm.category,
+        keywords: fm.keywords,
+        argumentHint: fm['argument-hint'] ?? null,
+        hasScripts: existsSync(join(skillDir, 'scripts')),
+        hasReferences: existsSync(join(skillDir, 'references')),
+        // No sourceUrl: the kit is purchase-gated, so a link would 404 — and it
+        // would otherwise ship a private URL in the client bundle.
+      };
+    })
     .sort((a, b) => a.slug.localeCompare(b.slug));
 
   const dupes = skills.filter((s, i) => skills.findIndex((o) => o.slug === s.slug) !== i);
@@ -115,38 +144,37 @@ function buildSkills() {
     throw new Error(`Duplicate skill slugs: ${dupes.map((d) => d.slug).join(', ')}`);
   }
 
-  // The YAML's declared count has drifted from the actual array before. Trust the
-  // array, but surface the discrepancy — silent drift is how a catalog rots.
-  if (parsed.metadata.total_skills !== skills.length) {
-    console.warn(
-      `  ! SKILLS.yaml declares total_skills=${parsed.metadata.total_skills} but contains ${skills.length}. Using ${skills.length}.`,
+  const unknown = skills.filter((s) => !CATEGORY_LABELS[s.category]);
+  if (unknown.length > 0) {
+    throw new Error(
+      `Skills in categories with no label: ${unknown
+        .map((s) => `${s.slug} (${s.category})`)
+        .join(', ')}. Add the label to CATEGORY_LABELS.`,
     );
   }
 
-  const categories = Object.entries(parsed.categories).map(([id, label]) => ({
-    id,
-    label,
-    count: skills.filter((s) => s.category === id).length,
-  }));
-
-  const orphans = skills.filter((s) => !parsed.categories[s.category]);
-  if (orphans.length > 0) {
-    throw new Error(`Skills with unknown category: ${orphans.map((s) => s.slug).join(', ')}`);
-  }
+  // Only emit categories that actually hold skills — an empty filter chip on
+  // /skills is a dead end the user can click.
+  const categories = Object.entries(CATEGORY_LABELS)
+    .map(([id, label]) => ({
+      id,
+      label,
+      count: skills.filter((s) => s.category === id).length,
+    }))
+    .filter((c) => c.count > 0);
 
   return { skills, categories };
 }
 
 function buildAgents() {
-  const files = readdirSync(AGENTS_DIR).filter((f) => f.endsWith('.md'));
-
-  return files
+  return readdirSync(AGENTS_DIR)
+    .filter((f) => f.endsWith('.md'))
     .map((file) => {
-      const { data } = matter(readFileSync(join(AGENTS_DIR, file), 'utf8'));
-      const fm = agentFrontmatterSchema.parse(data);
+      const parsed = matter(readFileSync(join(AGENTS_DIR, file), 'utf8'));
+      const fm = agentFrontmatterSchema.parse(parsed.data);
 
       return {
-        slug: toSlug(fm.name),
+        slug: file.replace(/\.md$/, '').toLowerCase(),
         name: fm.name,
         description: cleanAgentDescription(fm.description),
         tools: fm.tools ? fm.tools.split(',').map((t) => t.trim()) : [],
@@ -156,29 +184,32 @@ function buildAgents() {
     .sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
+// --- Emit
+
 function main() {
   if (!existsSync(KIT)) {
-    console.error(`Vendored kit not found at ${KIT}`);
-    console.error('This script needs the AgentKit Engineer checkout. Skipping is safe:');
-    console.error('the committed JSON in src/data/ is what the build actually uses.');
-    process.exit(1);
+    throw new Error(
+      `Kit not found at ${KIT}.\n` +
+        `Build it first:\n` +
+        `  ak kit init engineer --target claude-code --build-only --out <dir>\n` +
+        `then copy <dir>/ak-engineer to ./agentkit-engineer`,
+    );
   }
 
   const { skills, categories } = buildSkills();
   const agents = buildAgents();
 
   mkdirSync(OUT_DIR, { recursive: true });
-  writeFileSync(join(OUT_DIR, 'skills.generated.json'), JSON.stringify(skills, null, 2) + '\n');
-  writeFileSync(join(OUT_DIR, 'agents.generated.json'), JSON.stringify(agents, null, 2) + '\n');
+  writeFileSync(join(OUT_DIR, 'skills.generated.json'), `${JSON.stringify(skills, null, 2)}\n`);
+  writeFileSync(join(OUT_DIR, 'agents.generated.json'), `${JSON.stringify(agents, null, 2)}\n`);
   writeFileSync(
     join(OUT_DIR, 'categories.generated.json'),
-    JSON.stringify(categories, null, 2) + '\n',
+    `${JSON.stringify(categories, null, 2)}\n`,
   );
 
-  console.log(`✓ ${skills.length} skills`);
-  console.log(`✓ ${agents.length} agents`);
-  console.log(`✓ ${categories.length} categories`);
-  console.log(`  → ${OUT_DIR}`);
+  console.log(`  skills:     ${skills.length}`);
+  console.log(`  agents:     ${agents.length}`);
+  console.log(`  categories: ${categories.length}`);
 }
 
 main();

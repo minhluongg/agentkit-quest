@@ -1,5 +1,5 @@
 import { skills, agents, categories } from '@/lib/catalog';
-import { publishedSkillSlugs } from '@/lib/overrides';
+import { publishedSkillSlugs, publishedAgentSlugs } from '@/lib/overrides';
 import { siteConfig } from '@/lib/site';
 import { source } from '@/lib/source';
 
@@ -29,12 +29,16 @@ interface Stat {
 
 export function ProofStrip() {
   const writtenSkills = publishedSkillSlugs().length;
+  const writtenAgents = publishedAgentSlugs().length;
   const guides = source.getPages().length;
   const stubs = skills.length - writtenSkills;
 
+  // The agent sublabel is derived, not asserted. It used to read "all documented"
+  // — true at 13 of 13, false the moment the kit shipped three more agents. A
+  // claim that silently rots into a lie is worse than no claim.
   const stats: Stat[] = [
     { value: skills.length, label: 'skills', sublabel: 'catalogued' },
-    { value: agents.length, label: 'agents', sublabel: 'all documented' },
+    { value: agents.length, label: 'agents', sublabel: `${writtenAgents} documented` },
     { value: categories.length, label: 'categories' },
     { value: writtenSkills, label: 'skills', sublabel: 'written in depth' },
     { value: guides, label: 'guides' },

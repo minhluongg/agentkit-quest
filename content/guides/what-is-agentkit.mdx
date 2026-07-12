@@ -31,25 +31,41 @@ AgentKit ships as two kits (plus a bundle):
 
 | Kit | For | Contains |
 |---|---|---|
-| **Engineer** ($99) | Developers | 88 skills, 30+ workflows, 13 subagents — frontend, backend, database, DevOps, code review, debugging |
-| **Marketing** ($99) | Growth teams | 28 marketing subagents, 12+ MCP integrations — research, SEO, email, CRM |
+| **Engineer** ($99) | Developers | 91 skills, 16 subagents — frontend, backend, database, DevOps, code review, debugging |
+| **Marketing** ($99) | Growth teams | 73 skills, 32 subagents — research, SEO, email, CRM |
 | **Bundle** ($149) | People who do both | Everything in both |
 
-The Engineer row is counted from the kit itself (v2.20.0). AgentKit's own site advertises
-"60+ skills" and "17 agents"; we publish what is actually in the build we installed. The
-Marketing figures are the vendor's — we do not own that kit and cannot count it.
+Both rows are counted from the kits themselves, using `ak kit list-kits` against the CLI
+on our own machine — not copied from a marketing page:
 
-This site documents the **Engineer** kit. Its 88 skills fall into categories you can
+```
+NAME       VERSION  AGENTS  SKILLS  HOOKS
+core       0.1.0        10      54     30
+engineer   0.2.0        16      91     17
+marketing  0.2.0        32      73      3
+```
+
+<Callout type="info" title="We got this wrong before, and here is the correction">
+An earlier version of this page said the Engineer kit had **88 skills and 13 agents**, and
+told you AgentKit's advertised "17 agents" was inflated. That was wrong. Those numbers came
+from the *ClaudeKit-era* kit we had vendored, which the rename superseded. The current kit
+ships **91 skills and 16 agents** — so the vendor's figure was roughly right and ours was
+stale. We recounted against the live `ak` CLI on 2026-07-13.
+</Callout>
+
+This site documents the **Engineer** kit. Its 91 skills fall into categories you can
 browse in full on the [skills page](/skills):
 
-- **Development Tools (24)** and **Utilities (32)** — the bulk: planning, cooking
+- **Utilities (34)** and **Development Tools (26)** — the bulk: planning, cooking
   (implementing), reviewing, testing, debugging, git, scouting a codebase
 - **Frontend & Design (12)**, **Backend (3)**, **Database (1)**, **Infra/DevOps (2)**
-- **AI/ML (3)**, **Multimedia (5)**, **Frameworks (4)**, **Security (1)**
+- **AI/ML (3)**, **Frameworks (4)**, **Multimedia (1)**, **Security (1)**, **Other (4)**
 
-And **13 subagents** — planner, researcher, code-reviewer, debugger, tester, and more —
+And **16 subagents** — planner, researcher, code-reviewer, debugger, tester, and more —
 each running in [its own context window](/guides/skills-vs-commands-vs-subagents) so they
-can do heavy work without flooding your main conversation.
+can do heavy work without flooding your main conversation. Three of them are new since the
+rename: `advisor`, `explore`, and `kongming` — the last of which runs on the strongest
+model available and returns advice, not code, when a design call is genuinely hard.
 
 ## The three building blocks
 

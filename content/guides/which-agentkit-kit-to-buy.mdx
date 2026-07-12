@@ -32,19 +32,35 @@ small commission. Links below already carry it.
 |---|---|---|---|
 | **Price** | $99 | $99 | $149 (saves $49) |
 | **For** | Developers writing code | Growth / marketing teams | People who genuinely do both |
-| **Contains** | 88 skills, 30+ workflows, 13 agents | 28 marketing agents, 12+ MCP integrations, 3 workflows | Everything in both |
+| **Contains** | 91 skills, 16 agents | 73 skills, 32 agents | Everything in both |
 | **The work it does** | Frontend, backend, database, DevOps, code review, debugging | Lead gen, email + programmatic SEO, CRM, research/content | — |
 
-The Engineer column is counted from the kit itself (v2.20.0). AgentKit's own site advertises
-"60+ skills" and "17 agents" — we publish what is actually in the build we installed, which is
-more skills and fewer agents than the marketing page claims. The Marketing column is the
-vendor's own figures; we have not installed that kit and say so below.
+Both columns are counted, not quoted. We ran `ak kit list-kits` against the CLI on our own
+machine on 2026-07-13:
+
+```
+NAME       VERSION  AGENTS  SKILLS  HOOKS
+core       0.1.0        10      54     30
+engineer   0.2.0        16      91     17
+marketing  0.2.0        32      73      3
+```
+
+Note both kits build on a shared `core` (10 agents, 54 skills), which is why the totals
+overlap rather than add up.
+
+<Callout type="info" title="An earlier version of this page had these numbers wrong">
+We previously listed Engineer as **88 skills / 13 agents** and told you the vendor's "17
+agents" was inflated. Those figures came from the ClaudeKit-era kit we vendored before the
+rename. The current kit ships **91 skills and 16 agents** — the vendor was closer to right
+than we were. Corrected on 2026-07-13 against the live `ak` CLI.
+</Callout>
 
 <Callout type="warn" title="First-hand caveat">
 We have used the **Engineer** kit extensively — this whole site was built and reviewed
-with it. We have **not** used the Marketing kit hands-on, so the Marketing notes below
-are from its description, not experience. We are telling you that rather than pretending
-otherwise.
+with it. We now *own* the Marketing kit as well, so its numbers above are counted rather
+than quoted — but we have **not** used it on real marketing work, so the judgements about
+Marketing below are still reasoned from its contents, not from experience. We are telling
+you that rather than pretending otherwise.
 </Callout>
 
 ## If you write code → Engineer

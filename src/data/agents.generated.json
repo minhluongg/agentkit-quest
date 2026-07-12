@@ -1,5 +1,26 @@
 [
   {
+    "slug": "advisor",
+    "name": "advisor",
+    "description": "Use this agent to run the interview-driven `ak:advise` advisory workflow in an isolated context on the strongest available model. It scouts, interviews the user one question at a time to reframe a raw idea into exact requirements and goals, then delivers honest advice (what to do, what to avoid, better alternatives, benefits, trade-offs, a work checklist, and success metrics). Because a Claude Code subagent cannot call `AskUserQuestion` itself, this agent relays each interview question back to the orchestrator and is re-spawned with the user's answer.",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "Bash",
+      "WebFetch",
+      "WebSearch",
+      "TaskCreate",
+      "TaskGet",
+      "TaskUpdate",
+      "TaskList",
+      "SendMessage",
+      "Task(Explore)"
+    ],
+    "model": "fable"
+  },
+  {
     "slug": "brainstormer",
     "name": "brainstormer",
     "description": "Use this agent when you need to brainstorm software solutions, evaluate architectural approaches, or debate technical decisions before implementation.",
@@ -16,7 +37,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": null
+    "model": "opus"
   },
   {
     "slug": "code-reviewer",
@@ -35,7 +56,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": null
+    "model": "opus"
   },
   {
     "slug": "code-simplifier",
@@ -79,7 +100,8 @@
       "TaskUpdate",
       "TaskList",
       "SendMessage",
-      "Task(Explore)"
+      "Task(Explore)",
+      "Task(kongming)"
     ],
     "model": "sonnet"
   },
@@ -105,12 +127,24 @@
       "SendMessage",
       "Task(Explore)"
     ],
+    "model": "sonnet"
+  },
+  {
+    "slug": "explore",
+    "name": "Explore",
+    "description": "Fast codebase scanner and analyzer for locating relevant files, tracing relationships, and summarizing implementation context.",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Bash"
+    ],
     "model": "haiku"
   },
   {
     "slug": "fullstack-developer",
     "name": "fullstack-developer",
-    "description": "Execute implementation phases from parallel plans. Handles backend (Node.js, APIs, databases), frontend (React, TypeScript), and infrastructure tasks. Designed for parallel execution with strict file ownership boundaries. Use when implementing a specific phase from `/ck:plan --parallel` output.",
+    "description": "Execute implementation phases from parallel plans. Handles backend (Node.js, APIs, databases), frontend (React, TypeScript), and infrastructure tasks. Designed for parallel execution with strict file ownership boundaries. Use when implementing a specific phase from `the engineer plan skill --parallel` output.",
     "tools": [
       "Glob",
       "Grep",
@@ -127,7 +161,8 @@
       "TaskUpdate",
       "TaskList",
       "SendMessage",
-      "Task(Explore)"
+      "Task(Explore)",
+      "Task(kongming)"
     ],
     "model": "sonnet"
   },
@@ -167,7 +202,23 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": "haiku"
+    "model": "sonnet"
+  },
+  {
+    "slug": "kongming",
+    "name": "kongming",
+    "description": "Autonomous counsel from the strongest model (`fable`) in one run — no session model switch, no user interview. Mention `@kongming` from a lower tier (opus/sonnet) or spawn it from a stuck subagent for hard design, debugging, or trade-off calls. Advisory-only; returns advice, not code.",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Bash",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "Task(Explore)"
+    ],
+    "model": "fable"
   },
   {
     "slug": "planner",
@@ -190,7 +241,8 @@
       "TaskList",
       "SendMessage",
       "Task(Explore)",
-      "Task(researcher)"
+      "Task(researcher)",
+      "Task(kongming)"
     ],
     "model": "opus"
   },
@@ -219,7 +271,7 @@
       "ReadMcpResourceTool",
       "SendMessage"
     ],
-    "model": "haiku"
+    "model": "sonnet"
   },
   {
     "slug": "researcher",
@@ -238,7 +290,7 @@
       "TaskList",
       "SendMessage"
     ],
-    "model": "haiku"
+    "model": "sonnet"
   },
   {
     "slug": "tester",
@@ -260,7 +312,8 @@
       "TaskUpdate",
       "TaskList",
       "SendMessage",
-      "Task(Explore)"
+      "Task(Explore)",
+      "Task(kongming)"
     ],
     "model": "haiku"
   },

@@ -1,10 +1,33 @@
 [
   {
+    "slug": "advise",
+    "name": "advise",
+    "invocation": "/ak:advise",
+    "legacyInvocation": "/ck:advise",
+    "description": "Interview-driven advisory skill. Analyzes a prompt or URL (GitHub issue, spec, doc), scouts the codebase, interviews the user one question at a time to reframe the problem into exact requirements and goals, then delivers honest advice: what to do, what to avoid, better alternatives, benefits and trade-offs. Use when the user asks for advice, a second opinion, a sanity check, or requirement reframing before committing to a direction.",
+    "category": "utilities",
+    "keywords": [
+      "advice",
+      "interview",
+      "requirements",
+      "reframing",
+      "tradeoffs",
+      "second-opinion",
+      "github",
+      "wiki",
+      "html",
+      "report"
+    ],
+    "argumentHint": "[prompt-or-url] [--html] [--md] [--wiki] [--github] [--agent]",
+    "hasScripts": false,
+    "hasReferences": false
+  },
+  {
     "slug": "agent-browser",
     "name": "agent-browser",
     "invocation": "/ak:agent-browser",
     "legacyInvocation": "/ck:agent-browser",
-    "description": "Automate browsers and apps with agent-browser. Use for testing, screenshots, forms, scraping, Browserbase/cloud browsers, and Electron when real Chrome cookies are not required.",
+    "description": "Browser and desktop automation through the agent-browser CLI. Use for long autonomous browsing, compact page snapshots, screenshots, form filling, login/test flows without real Chrome profile state, scraping, exploratory QA, cloud browsers, Electron apps, Slack automation, and bug hunts.",
     "category": "dev-tools",
     "keywords": [
       "browser",
@@ -47,6 +70,27 @@
     "hasReferences": true
   },
   {
+    "slug": "agentkit",
+    "name": "agentkit",
+    "invocation": "/ak:agentkit",
+    "legacyInvocation": "/ck:agentkit",
+    "description": "Task router for AgentKit installs. Classifies the task, activates the right installed skills, chains them into the shortest workflow that fits, and spawns installed subagents at defined trigger points to raise output quality. Use at the start of multi-step, multi-domain, or ambiguous work, or when unsure which skill or agent applies.",
+    "category": "utilities",
+    "keywords": [
+      "routing",
+      "dispatch",
+      "skills",
+      "chaining",
+      "subagents",
+      "delegation",
+      "workflow",
+      "quality"
+    ],
+    "argumentHint": "[task to route]",
+    "hasScripts": false,
+    "hasReferences": true
+  },
+  {
     "slug": "ai-artist",
     "name": "ai-artist",
     "invocation": "/ak:ai-artist",
@@ -78,7 +122,7 @@
       "Gemini"
     ],
     "argumentHint": "[file-path] [prompt]",
-    "hasScripts": true,
+    "hasScripts": false,
     "hasReferences": true
   },
   {
@@ -177,22 +221,17 @@
     "name": "brainstorm",
     "invocation": "/ak:brainstorm",
     "legacyInvocation": "/ck:brainstorm",
-    "description": "Brainstorm solutions with trade-off analysis and brutal honesty. Use for ideation, architecture decisions, technical debates, feature exploration, feasibility assessment, design discussions, problem-first inversion, HTML editorial reports, and AgentWiki publishing.",
+    "description": "Brainstorm solutions with trade-off analysis and brutal honesty. Use for ideation, architecture decisions, technical debates, feature exploration, feasibility assessment, design discussions.",
     "category": "utilities",
     "keywords": [
       "ideation",
       "tradeoffs",
       "debate",
-      "decisions",
-      "problem-first",
-      "html",
-      "wiki",
-      "agentwiki",
-      "reports"
+      "decisions"
     ],
-    "argumentHint": "[--html] [--wiki] [topic or problem]",
+    "argumentHint": "[topic or problem]",
     "hasScripts": false,
-    "hasReferences": true
+    "hasReferences": false
   },
   {
     "slug": "chrome-profile",
@@ -211,24 +250,6 @@
       "cookies"
     ],
     "argumentHint": null,
-    "hasScripts": true,
-    "hasReferences": true
-  },
-  {
-    "slug": "ckm-design",
-    "name": "ckm:design",
-    "invocation": "/akm:design",
-    "legacyInvocation": "/ckm:design",
-    "description": "Design brand identity, logos, banners, and visual assets. Use for brand systems, design tokens, corporate identity programs. Not for UI code patterns.",
-    "category": "frontend",
-    "keywords": [
-      "brand",
-      "logo",
-      "CIP",
-      "banners",
-      "identity"
-    ],
-    "argumentHint": "[design-type] [context]",
     "hasScripts": true,
     "hasReferences": true
   },
@@ -263,6 +284,18 @@
       "format"
     ],
     "argumentHint": "[0-5]",
+    "hasScripts": false,
+    "hasReferences": false
+  },
+  {
+    "slug": "common",
+    "name": "common",
+    "invocation": "/ak:common",
+    "legacyInvocation": "/ck:common",
+    "description": "Shared utilities and conventions used across other skills. Internal — invoke only when another skill loads it.",
+    "category": "other",
+    "keywords": [],
+    "argumentHint": null,
     "hasScripts": false,
     "hasReferences": false
   },
@@ -393,6 +426,25 @@
     "hasReferences": true
   },
   {
+    "slug": "design",
+    "name": "design",
+    "invocation": "/ak:design",
+    "legacyInvocation": "/ck:design",
+    "description": "Design brand identity, logos, banners, posters, and visual assets. Use for brand systems, design tokens, corporate identity programs, event/editorial/marketing posters, and visual campaign assets. Not for UI code patterns.",
+    "category": "frontend",
+    "keywords": [
+      "brand",
+      "logo",
+      "CIP",
+      "banners",
+      "posters",
+      "identity"
+    ],
+    "argumentHint": "[design-type] [context]",
+    "hasScripts": true,
+    "hasReferences": true
+  },
+  {
     "slug": "devops",
     "name": "devops",
     "invocation": "/ak:devops",
@@ -446,20 +498,15 @@
     "hasReferences": true
   },
   {
-    "slug": "docx",
-    "name": "docx",
-    "invocation": "/ak:docx",
-    "legacyInvocation": "/ck:docx",
-    "description": "Create, edit, analyze .docx Word documents. Use for document creation, tracked changes, comments, formatting preservation, text extraction, template modification.",
-    "category": "multimedia",
-    "keywords": [
-      "docx",
-      "word",
-      "document",
-      "office"
-    ],
+    "slug": "document-skills",
+    "name": "document-skills",
+    "invocation": "/ak:document-skills",
+    "legacyInvocation": "/ck:document-skills",
+    "description": "Read, create, and edit Office documents (docx, pdf, pptx, xlsx). Use for tables, forms, slides, spreadsheets.",
+    "category": "other",
+    "keywords": [],
     "argumentHint": null,
-    "hasScripts": true,
+    "hasScripts": false,
     "hasReferences": false
   },
   {
@@ -477,6 +524,27 @@
       "SVG"
     ],
     "argumentHint": null,
+    "hasScripts": false,
+    "hasReferences": true
+  },
+  {
+    "slug": "fable-thinking",
+    "name": "fable-thinking",
+    "invocation": "/ak:fable-thinking",
+    "legacyInvocation": "/ck:fable-thinking",
+    "description": "Reasoning protocol distilled from Claude Fable 5. Makes any model reason like Fable — evidence-grounded claims, multi-hypothesis diagnosis, concrete simulation, adversarial self-review, calibrated outcome-first delivery. Its never-skipped Floor check catches simple-looking trick questions models answer confidently wrong, and its Constraint Loop mechanically verifies hard output constraints (banned letters, exact counts, strict formats) that models otherwise rubber-stamp. Use for debugging, review, analysis, decisions, constrained writing, or any task where being right matters more than being fast.",
+    "category": "utilities",
+    "keywords": [
+      "reasoning",
+      "calibration",
+      "hypotheses",
+      "verification",
+      "rigor",
+      "evidence",
+      "fable-5",
+      "constrained-writing"
+    ],
+    "argumentHint": "[task or question to reason through]",
     "hasScripts": false,
     "hasReferences": true
   },
@@ -550,45 +618,20 @@
     "hasReferences": false
   },
   {
-    "slug": "ghpm",
-    "name": "ghpm",
-    "invocation": "/ak:ghpm",
-    "legacyInvocation": "/ck:ghpm",
-    "description": "GitHub project management for humans and AI agents. Use for issue/task planning, Projects boards, handoff status, gh/API automation, and CI-driven work tracking.",
-    "category": "utilities",
-    "keywords": [
-      "github",
-      "project-management",
-      "issues",
-      "projects",
-      "tasks",
-      "handoff",
-      "handover",
-      "gh",
-      "actions",
-      "agents"
-    ],
-    "argumentHint": null,
-    "hasScripts": false,
-    "hasReferences": true
-  },
-  {
     "slug": "git",
     "name": "git",
     "invocation": "/ak:git",
     "legacyInvocation": "/ck:git",
-    "description": "Manage git commits, pushes, PRs, branch merges, and PR review-and-merge automation. Use for commit, push, PR creation, PR merge, CI follow-up, and secret scanning.",
+    "description": "Git operations with conventional commits. Use for staging, committing, pushing, PRs, merges. Auto-splits commits by type/scope. Security scans for secrets.",
     "category": "dev-tools",
     "keywords": [
       "git",
       "commits",
       "staging",
       "PR",
-      "merge",
-      "merge-pr",
-      "ci"
+      "merge"
     ],
-    "argumentHint": "cm|cp|pr|merge|merge-pr [args]",
+    "argumentHint": "cm|cp|pr|merge [args]",
     "hasScripts": false,
     "hasReferences": true
   },
@@ -645,6 +688,18 @@
     "hasReferences": false
   },
   {
+    "slug": "help",
+    "name": "help",
+    "invocation": "/ak:help",
+    "legacyInvocation": "/ck:help",
+    "description": "Open the AgentKit help index. Use when users ask how to use ak, what skills are available, or which workflow to run.",
+    "category": "other",
+    "keywords": [],
+    "argumentHint": null,
+    "hasScripts": true,
+    "hasReferences": false
+  },
+  {
     "slug": "html-video",
     "name": "html-video",
     "invocation": "/ak:html-video",
@@ -663,6 +718,29 @@
       "hyperframes"
     ],
     "argumentHint": "[video brief, source URL, repo, template id, or project id]",
+    "hasScripts": false,
+    "hasReferences": false
+  },
+  {
+    "slug": "issue-to-plan",
+    "name": "issue-to-plan",
+    "invocation": "/ak:issue-to-plan",
+    "legacyInvocation": "/ck:issue-to-plan",
+    "description": "Turn a GitHub issue into an audited, validated implementation plan. Reads the issue, scouts the codebase, runs a hard brainstorm gate, and only then plans with mandatory --html --wiki, validate, and red-team, before pushing a plan branch and handing off on the issue. Use to convert a GitHub issue into a validated plan that is ready for plan audit.",
+    "category": "dev-tools",
+    "keywords": [
+      "issue-to-plan",
+      "plan",
+      "scout",
+      "brainstorm",
+      "audit",
+      "gate",
+      "worktree",
+      "agentwiki",
+      "red-team",
+      "validate"
+    ],
+    "argumentHint": "<github-issue-url | issue-number> [--repo owner/name] [--plan-ready-label <name>] [--decision-label <name>]",
     "hasScripts": false,
     "hasReferences": false
   },
@@ -821,11 +899,39 @@
     "hasReferences": true
   },
   {
+    "slug": "orchestrate",
+    "name": "orchestrate",
+    "invocation": "/ak:orchestrate",
+    "legacyInvocation": "/ck:orchestrate",
+    "description": "Coordinate multiple coding-agent CLIs headlessly, plus in-session harness subagents. Use for staged or parallel jobs across Claude Code, Codex, AgentKit skill runs, internal harness subagents (Agent tool via runtime: internal or --internal), and external CLIs (OpenCode, Copilot, Cursor, Cline, Qwen Code, Grok, Kimi) with task-based model routing, OS-aware dispatch, worktree-isolated parallel writes, resumable run state, capture, safety gates, and an arbiter review.",
+    "category": "dev-tools",
+    "keywords": [
+      "orchestrate",
+      "headless",
+      "multi-agent",
+      "internal",
+      "subagents",
+      "claude-code",
+      "codex",
+      "opencode",
+      "copilot",
+      "cline",
+      "model-routing",
+      "worktree",
+      "resume",
+      "parallel",
+      "arbiter"
+    ],
+    "argumentHint": "<job-spec.yaml | task description | --resume <run-dir>> [--yes] [--internal]",
+    "hasScripts": false,
+    "hasReferences": true
+  },
+  {
     "slug": "payment-integration",
     "name": "payment-integration",
     "invocation": "/ak:payment-integration",
     "legacyInvocation": "/ck:payment-integration",
-    "description": "Integrate payments with SePay (VietQR), Polar, Stripe, Paddle (MoR subscriptions), Creem.io (licensing). Checkout, webhooks, subscriptions, QR codes, multi-provider orders.",
+    "description": "Integrate payments with SePay (VietQR), Polar, and Stripe. Checkout, webhooks, subscriptions, QR codes, and multi-provider orders.",
     "category": "backend",
     "keywords": [
       "payments",
@@ -837,23 +943,6 @@
     "argumentHint": "[provider] [task]",
     "hasScripts": true,
     "hasReferences": true
-  },
-  {
-    "slug": "pdf",
-    "name": "pdf",
-    "invocation": "/ak:pdf",
-    "legacyInvocation": "/ck:pdf",
-    "description": "Extract text/tables, create, merge, split PDFs. Fill PDF forms programmatically. Use for PDF processing, generation, form filling, document analysis, batch operations.",
-    "category": "multimedia",
-    "keywords": [
-      "pdf",
-      "extract",
-      "text",
-      "pages"
-    ],
-    "argumentHint": null,
-    "hasScripts": true,
-    "hasReferences": false
   },
   {
     "slug": "plan",
@@ -882,7 +971,7 @@
     "name": "plans-kanban",
     "invocation": "/ak:plans-kanban",
     "legacyInvocation": "/ck:plans-kanban",
-    "description": "Open the ClaudeKit plans dashboard in the CLI config UI. Use for plan kanban views, progress tracking, timeline checks, and quick navigation into plan files.",
+    "description": "Open the AgentKit plans dashboard in the CLI config UI. Use for plan kanban views, progress tracking, timeline checks, and quick navigation into plan files.",
     "category": "dev-tools",
     "keywords": [
       "plans",
@@ -892,23 +981,6 @@
       "timeline"
     ],
     "argumentHint": "[deprecated flags are accepted with warnings]",
-    "hasScripts": true,
-    "hasReferences": false
-  },
-  {
-    "slug": "pptx",
-    "name": "pptx",
-    "invocation": "/ak:pptx",
-    "legacyInvocation": "/ck:pptx",
-    "description": "Create, edit, analyze .pptx PowerPoint files. Use for presentations, slides, layouts, speaker notes, template modification, content extraction, slide generation.",
-    "category": "multimedia",
-    "keywords": [
-      "pptx",
-      "powerpoint",
-      "slides",
-      "office"
-    ],
-    "argumentHint": null,
     "hasScripts": true,
     "hasReferences": false
   },
@@ -927,7 +999,7 @@
     ],
     "argumentHint": "<feature description or change proposal> [--files <glob>] [--chain reason|probe]",
     "hasScripts": false,
-    "hasReferences": true
+    "hasReferences": false
   },
   {
     "slug": "preview",
@@ -1088,7 +1160,7 @@
     "name": "review-pr",
     "invocation": "/ak:review-pr",
     "legacyInvocation": "/ck:review-pr",
-    "description": "Review GitHub PRs for duplicate prior work, project standards, strategic necessity, correctness, security, breaking changes, code quality, and AI-slop patterns. Supports --fix and --reply.",
+    "description": "Review a GitHub pull request thoroughly — analyze diff for correctness, security, breaking changes, code quality, and AI-slop patterns. Supports --fix to auto-remediate findings and --reply to post the review back to GitHub via the gh CLI as a formal review.",
     "category": "utilities",
     "keywords": [
       "pr",
@@ -1098,12 +1170,6 @@
       "gh",
       "fix",
       "reply",
-      "ci",
-      "conflicts",
-      "standards",
-      "duplicate",
-      "roadmap",
-      "value",
       "anti-slop",
       "ai-slop"
     ],
@@ -1127,7 +1193,7 @@
     ],
     "argumentHint": "<file path or feature description> [--iterations N] [--saturation]",
     "hasScripts": false,
-    "hasReferences": true
+    "hasReferences": false
   },
   {
     "slug": "scout",
@@ -1151,7 +1217,7 @@
     "name": "security",
     "invocation": "/ak:security",
     "legacyInvocation": "/ck:security",
-    "description": "STRIDE + OWASP-based security audit with optional red-team persona discovery loop and auto-fix. Scans code for vulnerabilities from multiple attacker perspectives (auth attacker, supply chain, insider, infrastructure), categorizes by severity, and can iteratively fix findings using ck:autoresearch pattern.",
+    "description": "STRIDE + OWASP-based security audit with optional red-team persona discovery loop and auto-fix. Scans code for vulnerabilities from multiple attacker perspectives (auth attacker, supply chain, insider, infrastructure), categorizes by severity, and can iteratively fix findings using ak:autoresearch pattern.",
     "category": "utilities",
     "keywords": [
       "security",
@@ -1221,7 +1287,7 @@
     "name": "ship",
     "invocation": "/ak:ship",
     "legacyInvocation": "/ck:ship",
-    "description": "Ship pipeline: merge target, test, review, journal, optional AgentWiki publish, commit, push, PR. Use for official main/master or beta dev/beta releases.",
+    "description": "Ship pipeline: merge main, test, review, commit, push, PR. Single command from feature branch to PR URL. Use for shipping official releases to main/master or beta releases to dev/beta branches.",
     "category": "dev-tools",
     "keywords": [
       "ship",
@@ -1239,7 +1305,7 @@
     "name": "shopify",
     "invocation": "/ak:shopify",
     "legacyInvocation": "/ck:shopify",
-    "description": "Build Shopify apps, extensions, and themes with Shopify CLI, GraphQL Admin API, Polaris UI, Liquid, webhooks, billing, and app configuration workflows.",
+    "description": "Build Shopify apps, extensions, themes with Shopify CLI. Use for GraphQL/REST APIs, Polaris UI, Liquid templates, checkout customization, webhooks, billing integration.",
     "category": "frameworks",
     "keywords": [
       "shopify",
@@ -1273,7 +1339,7 @@
     "name": "skill-creator",
     "invocation": "/ak:skill-creator",
     "legacyInvocation": "/ck:skill-creator",
-    "description": "Create or update Claude skills with eval-driven iteration. Use for new skills, skill scripts, references, benchmark optimization, description optimization, eval testing, extending Claude's capabilities.",
+    "description": "Create or update Claude skills. Use for new skills, skill scripts, references, packaging, metadata validation, and extending Claude's capabilities.",
     "category": "dev-tools",
     "keywords": [
       "skills",
@@ -1343,7 +1409,7 @@
     "name": "tech-graph",
     "invocation": "/ak:tech-graph",
     "legacyInvocation": "/ck:tech-graph",
-    "description": "Generate production-quality SVG+PNG technical diagrams — architecture, data flow, flowchart, sequence, agent/memory, or concept maps — across 8 visual styles. Use when user wants \"generate diagram\", \"draw diagram\", \"visualize\", \"architecture diagram\", \"flowchart\", or any system/flow they want illustrated. Pairs with /ck:preview --diagram for visual self-review and /ck:mermaidjs-v11 for inline-doc diagrams; this skill is the publish-grade output mode.",
+    "description": "Generate production-quality SVG+PNG technical diagrams — architecture, data flow, flowchart, sequence, agent/memory, or concept maps — across 7 visual styles. Use when user wants \"generate diagram\", \"draw diagram\", \"visualize\", \"architecture diagram\", \"flowchart\", or any system/flow they want illustrated. Pairs with /ak:preview --diagram for visual self-review and /ak:mermaidjs-v11 for inline-doc diagrams; this skill is the publish-grade output mode.",
     "category": "dev-tools",
     "keywords": [
       "diagrams",
@@ -1454,20 +1520,19 @@
     "name": "vibe",
     "invocation": "/ak:vibe",
     "legacyInvocation": "/ck:vibe",
-    "description": "Run the full vibe pipeline. Use for GitHub issues, feature requests, bug fixes, or autonomous ship runs. Supports worktree, reusable/TDD plan gates, cook or fix routing, ship PR, review-pr, merge/CI watch.",
+    "description": "Run the full vibe pipeline from request intake to PR readiness, with optional merge and post-merge CI convergence. Orchestrates worktree, plan, cook/fix, code-review, ship, and review-pr. Use for GitHub issues, feature requests, bug fixes, or autonomous ship runs.",
     "category": "dev-tools",
     "keywords": [
       "vibe",
       "pipeline",
+      "autonomous",
+      "ship",
       "worktree",
-      "planning",
-      "tdd",
+      "plan",
       "cook",
       "fix",
-      "ship",
-      "pr",
-      "ci",
-      "github"
+      "review-pr",
+      "ci"
     ],
     "argumentHint": "[--ship] [--beta] <github-issue-url | feature request>",
     "hasScripts": false,
@@ -1582,22 +1647,5 @@
     "argumentHint": "<github-url-or-owner/repo|local-path> [feature] [--compare|--copy|--improve|--port] [--auto|--fast]",
     "hasScripts": false,
     "hasReferences": true
-  },
-  {
-    "slug": "xlsx",
-    "name": "xlsx",
-    "invocation": "/ak:xlsx",
-    "legacyInvocation": "/ck:xlsx",
-    "description": "Create, edit, analyze spreadsheets (.xlsx, .csv, .tsv). Use for Excel formulas, data analysis, visualization, formatting, pivot tables, charts, formula recalculation.",
-    "category": "multimedia",
-    "keywords": [
-      "xlsx",
-      "excel",
-      "spreadsheet",
-      "data"
-    ],
-    "argumentHint": null,
-    "hasScripts": false,
-    "hasReferences": false
   }
 ]

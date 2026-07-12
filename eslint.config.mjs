@@ -10,6 +10,7 @@ const config = [
       // Not app code: the vendored kit, the local AgentKit tooling, plan docs, and
       // the standalone hooks repo (its own project, CommonJS by design).
       'claudekit-engineer/**',
+      'agentkit-engineer/**',
       'claude-code-hooks/**',
       '.claude/**',
       'plans/**',

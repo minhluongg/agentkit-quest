@@ -118,3 +118,6 @@ worktrees/
 
 .vercel
 .env*
+
+# Vendored AgentKit Engineer kit (built via `ak kit init --build-only`). Not ours to commit.
+/agentkit-engineer/

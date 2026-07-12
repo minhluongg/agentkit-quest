@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { JsonLd, websiteSchema, organizationSchema } from '@/components/seo/json-ld';
 import { skills, agents, categories } from '@/lib/catalog';
-import { publishedSkillSlugs } from '@/lib/overrides';
+import { publishedSkillSlugs, publishedAgentSlugs } from '@/lib/overrides';
 import { source } from '@/lib/source';
 import { siteConfig } from '@/lib/site';
 import { buildMetadata } from '@/lib/seo';
@@ -38,6 +38,7 @@ const inlineLink =
 export default function HomePage() {
   const featured = source.getPages().slice(0, 6);
   const writtenSkills = publishedSkillSlugs().length;
+  const writtenAgents = publishedAgentSlugs().length;
 
   return (
     <>
@@ -61,9 +62,9 @@ export default function HomePage() {
               Every AgentKit skill, catalogued. The ones that matter, documented properly.
             </h1>
             <p className="text-lg leading-relaxed text-pretty text-muted-foreground">
-              {skills.length} skills and {agents.length} agents, indexed from AgentKit Engineer{' '}
-              {siteConfig.upstream.kitVersion}. {writtenSkills} of them written up in depth —
-              against a real install, not a marketing page.
+              {skills.length} skills and {agents.length} agents, counted from the AgentKit Engineer
+              kit we installed ({siteConfig.upstream.kitVersion}). {writtenSkills} of them written
+              up in depth — against a real install, not a marketing page.
             </p>
           </div>
 
@@ -280,8 +281,8 @@ export default function HomePage() {
           <div className="flex flex-col gap-2">
             <h2 className="font-mono text-2xl font-semibold text-foreground">The agent team</h2>
             <p className="text-muted-foreground">
-              {agents.length} subagents that plan, build, review, and ship. Every one of them
-              documented.
+              {agents.length} subagents that plan, build, review, and ship —{' '}
+              {writtenAgents} of them documented here, and we are writing the rest.
             </p>
           </div>
 

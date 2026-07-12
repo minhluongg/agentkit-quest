@@ -18,10 +18,14 @@ export const siteConfig = {
     formerName: 'ClaudeKit',
     // The exact build every count on this site was taken from. Stated publicly on
     // the landing page: it is the cheapest proof we actually installed the thing.
-    // The vendor's site advertises "60+ skills" and "17 agents"; this kit has 88
-    // and 13. When we re-vendor the kit, this moves and the counts move with it.
-    kitVersion: 'v2.20.0', // claudekit-engineer/package.json
-    kitCountedAt: '2026-06-17', // SKILLS.yaml → metadata.last_updated
+    //
+    // Counted from the kit the `ak` CLI actually ships, not the ClaudeKit-era repo
+    // we vendored at launch — that one had 88 skills and 13 agents and is now
+    // superseded. Re-vendor with:
+    //   ak kit init engineer --target claude-code --build-only --out <dir>
+    kitVersion: 'v0.2.0', // ak kit list-kits → engineer
+    kitCliVersion: 'ak 2.1.0',
+    kitCountedAt: '2026-07-13',
   },
   nav: [
     { title: 'Guides', href: '/guides' },
