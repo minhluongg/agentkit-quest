@@ -3,6 +3,8 @@
   "pages": [
     "what-is-agentkit",
     "install-agentkit",
+    "agentkit-first-project",
+    "agentkit-core-commands",
     "claudekit-to-agentkit",
     "skills-vs-commands-vs-subagents",
     "how-to-write-a-claude-code-skill",

@@ -1,0 +1,85 @@
+---
+title: 'AgentKit Core Commands: The Ones You Use Every Day'
+description: A quick reference to AgentKit's core Claude Code commands — plan, cook, fix, debug, test, review, docs — what each does and when to reach for it, with the free method behind each.
+category: Start Here
+difficulty: beginner
+updated: '2026-07-12'
+keywords:
+  - agentkit commands
+  - agentkit core commands
+  - ak plan ak cook
+relatedSkills:
+  - plan
+  - cook
+  - debug
+---
+
+AgentKit ships ~88 skills, but a handful carry the daily workflow. If you learn these, you
+have the loop: plan it, build it, check it, ship it. Each is invoked with the `/ak:` prefix
+in Claude Code (the old `/ck:` still works as a legacy alias).
+
+## The daily loop
+
+| Command | What it does | When |
+|---|---|---|
+| [`/ak:plan`](/skills/plan) | Research + a written, phased plan before any code | Anything non-trivial |
+| `/ak:cook` | Implement — runs plan → build → test → review as one workflow | To build the thing |
+| [`/ak:code-review`](/skills/code-review) | Review a diff, PR, commit, or codebase for real bugs | Before merging |
+| [`/ak:debug`](/skills/debug) | Root-cause-first debugging | When something's broken |
+| [`/ak:test`](/skills/test) | Run and report across unit/integration/e2e | To validate |
+| `/ak:fix` | Targeted fix with root-cause routing | For a known bug or failure |
+| [`/ak:docs`](/skills/docs) | Init / update / summarize project docs | To keep docs in sync |
+
+## The typical flow
+
+<Steps>
+  <Step>
+    ### Plan
+
+    ```bash
+    /ak:plan "add email notifications"
+    ```
+    Produces a plan on disk — approach, files, trade-offs — to review before building.
+    ([Why planning first pays off.](/guides/claude-code-workflow-patterns))
+  </Step>
+
+  <Step>
+    ### Cook (implement)
+
+    ```bash
+    /ak:cook path/to/plan.md
+    ```
+    Executes the plan — and because `cook` runs testing and review as part of its workflow,
+    you're not manually chaining steps.
+  </Step>
+
+  <Step>
+    ### Review and ship
+
+    ```bash
+    /ak:code-review --pending
+    ```
+    A final check on the diff before it goes anywhere.
+  </Step>
+</Steps>
+
+## Every one of these has a free method
+
+None of these commands do anything Claude Code can't be prompted to do — they package a
+discipline so you invoke it instead of remembering it. Each skill page here documents the
+free way to do the same job:
+
+- [Planning before you build](/skills/plan)
+- [Debugging root-cause-first](/skills/debug)
+- [Reviewing code well](/skills/code-review)
+- [Generating real tests](/skills/test)
+
+That's the honest framing of what a kit buys: not capability you're locked out of, but a
+pre-built, consistent workflow. Whether that's worth paying for is
+[its own question](/guides/agentkit-vs-free-alternatives).
+
+## Next
+
+- [Your first AgentKit project — a full walkthrough](/guides/agentkit-first-project)
+- [Install AgentKit](/guides/install-agentkit)
+- [Browse all 88 skills](/skills)

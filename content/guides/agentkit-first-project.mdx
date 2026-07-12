@@ -1,0 +1,96 @@
+---
+title: 'Your First Project with AgentKit: A Walkthrough'
+description: A start-to-finish walkthrough of building a feature with AgentKit in Claude Code — install, plan, cook, review, ship — and what each step actually does.
+category: Start Here
+difficulty: beginner
+updated: '2026-07-12'
+keywords:
+  - agentkit tutorial
+  - agentkit first project
+  - agentkit getting started
+relatedSkills:
+  - plan
+  - cook
+  - code-review
+---
+
+Here is the whole loop, once, so you know what working with AgentKit actually feels like —
+from nothing to a reviewed, shipped feature. The workflow is the same one this site was
+built with.
+
+## Before you start
+
+- Claude Code installed.
+- AgentKit installed — [see the install guide](/guides/install-agentkit) (it's the `ak`
+  binary; `ak kit init engineer --target claude-code`).
+
+## Step 1 — Plan the work
+
+Don't start by asking it to code. Start by asking it to *think*:
+
+```bash
+/ak:plan "add a contact form that emails submissions"
+```
+
+This researches, scouts your codebase, and writes a phased plan to disk — the approach,
+the files it will touch, the trade-offs. **Read it before continuing.** This is the step
+that prevents the expensive mistake: a wrong approach discovered after it's built. If the
+plan's approach is wrong, you find out now, for the cost of a minute's reading.
+
+([Why plan-first is the highest-leverage habit.](/guides/claude-code-workflow-patterns))
+
+## Step 2 — Build it
+
+Hand the plan to `cook`:
+
+```bash
+/ak:cook path/to/plans/.../plan.md
+```
+
+`cook` implements the plan — and because it runs testing and code review *as part of its
+workflow*, you're not manually stitching those steps together. It builds, tests, and
+reviews in one pass, stopping to show you the result.
+
+Watch what it does. You stay in the loop — approving, correcting — but the plumbing between
+build → test → review is handled.
+
+## Step 3 — Review before it ships
+
+Even after `cook`'s built-in review, a final look at the diff is cheap insurance:
+
+```bash
+/ak:code-review --pending
+```
+
+This reviews the uncommitted changes for the bugs that pass CI and break in production —
+race conditions, unhandled errors, missing checks. Fix what it finds.
+
+## Step 4 — Ship
+
+Clean commit and PR:
+
+```bash
+/ak:git cm      # conventional commit, no AI-attribution noise
+/ak:git pr      # open a PR with a generated description
+```
+
+That's the loop: **plan → cook → review → ship.**
+
+## What just happened
+
+You used four skills that hand off to each other — the planner wrote a brief the builder
+read, the builder invoked the reviewer, the git skill packaged the result. That
+*coherence* — pieces designed to connect — is the thing AgentKit sells over a pile of
+individual tools. ([The orchestration underneath.](/guides/claude-code-agent-orchestration))
+
+And every step here has a [free equivalent](/guides/agentkit-vs-free-alternatives) — plan
+mode, a review prompt, `gh` for PRs. The kit's value is that they're pre-wired and
+consistent, not that they're otherwise impossible. Whether that's worth $99 is
+[the honest question](/guides/agentkit-vs-free-alternatives) — but now you know what the
+loop feels like.
+
+## Next
+
+- [The core commands, as a reference](/guides/agentkit-core-commands)
+- [Browse all 88 skills](/skills)
+- [The 13 agents](/agents)
