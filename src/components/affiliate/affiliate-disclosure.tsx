@@ -13,8 +13,12 @@ export function AffiliateDisclosure({
   variant?: 'block' | 'inline';
   className?: string;
 }) {
+  // "At no extra cost to you" was written before the 20% buyer discount was
+  // confirmed, and it undersold the reader's side of the deal: the cost is not
+  // merely *not extra*, it is lower. Saying so is both more accurate and more
+  // persuasive than the hedge it replaces.
   const text =
-    'AgentKit Quest is an independent resource. Links to AgentKit are affiliate links — if you buy through them we earn a commission at no extra cost to you. It never changes what we write.';
+    'AgentKit Quest is an independent resource. Links to AgentKit are affiliate links — if you buy through them we earn a commission, and you get 20% off your first purchase. It never changes what we write.';
 
   if (variant === 'inline') {
     return (

@@ -3,6 +3,7 @@ import { AffiliateLink } from '@/components/affiliate/affiliate-link';
 import { AffiliateDisclosure } from '@/components/affiliate/affiliate-disclosure';
 import { buttonVariants } from '@/components/ui/button';
 import { ENGINEER_PATH, type Campaign } from '@/lib/affiliate';
+import { skills, agents } from '@/lib/catalog';
 import { cn } from '@/lib/utils';
 
 interface KitCtaProps {
@@ -24,9 +25,13 @@ interface KitCtaProps {
 export function KitCta({
   campaign = 'article-cta',
   title = 'Get AgentKit Engineer',
+  // Counts are interpolated, never typed. This default body renders inside every
+  // guide on the site, so a hardcoded "88" would go silently wrong on twenty-odd
+  // pages at once the day the kit ships skill 89.
+  //
   // The referral link gives first-time buyers 20% off — a real reason to use it,
   // stated plainly. Confirmed from the affiliate dashboard (20% commission / 20% buyer discount).
-  body = '88 skills, 13 agents, and the workflow layer this site documents. $99 one-time — 20% off through this link.',
+  body = `${skills.length} skills, ${agents.length} agents, and the workflow layer this site documents. $99 one-time — 20% off through this link.`,
   action = 'Get AgentKit — 20% off',
   // Land on the product, not the homepage. The button says "View AgentKit
   // Engineer"; sending that click to agentkit.best/ makes the user find the
