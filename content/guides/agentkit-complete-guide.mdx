@@ -1,0 +1,201 @@
+---
+title: 'AgentKit: The Complete Guide (2026)'
+description: What AgentKit is, how the ak CLI installs, what is actually in the kit, and whether it is worth $99 — written against a real install, with the real output.
+category: Start Here
+difficulty: beginner
+updated: '2026-07-13'
+keywords:
+  - agentkit
+  - agentkit guide
+  - agentkit complete guide
+  - agentkit claude code
+relatedSkills:
+  - plan
+  - cook
+  - code-review
+---
+
+**AgentKit** (formerly **ClaudeKit**) is a paid toolkit for [Claude Code](https://code.claude.com):
+a curated set of skills, subagents, and hooks, pre-wired into a plan → build → review → ship
+workflow. It costs $99 for the Engineer kit.
+
+This page is the map. Everything on it comes from a kit we installed on 2026-07-13 with the
+`ak` CLI on Windows — the numbers are counted, the terminal output is pasted, and where the
+official quick-start does not work, we say so.
+
+## What AgentKit is — and what it isn't
+
+It does **not** unlock anything Claude Code withholds. Skills, subagents, and hooks are all
+[free, first-party features](/guides/skills-vs-commands-vs-subagents) — you could write every
+one of them yourself.
+
+What $99 buys is **curation and wiring**: a large set of parts that already fit together, so
+you are not authoring and tuning dozens of config files on your own time.
+
+Counted from the kit, using the CLI's own inventory command:
+
+```
+$ ak kit list-kits
+NAME       VERSION  EXTENDS  AGENTS  SKILLS  HOOKS  RULES
+core       0.1.0    -            10      54     30      7
+engineer   0.2.0    core         16      91     17      7
+marketing  0.2.0    core         32      73      3      7
+```
+
+The Engineer kit is **91 skills and 16 agents**. Both product kits build on a shared `core`,
+which is why the numbers overlap rather than add up.
+
+→ [What is AgentKit, in full](/guides/what-is-agentkit)
+
+## `ck` or `ak`? Read this before you get confused
+
+This trips up nearly everyone, and almost nothing on the internet explains it.
+
+| | Before | Now |
+|---|---|---|
+| Product | ClaudeKit | AgentKit |
+| CLI binary | `ck` (npm `claudekit-cli`) | `ak` (native signed binary) |
+| Slash prefix | `/ck:plan` | `/ak:plan` |
+| Site | claudekit.cc | agentkit.best |
+| Skills, agents, hooks | — | unchanged |
+
+The confusion is real and the tool knows it. Install `ak` on a machine that already has `ck`
+and `ak doctor` reports this, unprompted:
+
+```
+[!] ck shim collision   legacy ck collision detected: ck resolves to
+                        C:\nvm4w\nodejs\ck.cmd, but the current ak executable
+                        is C:\Users\Admin\bin\ak.exe
+```
+
+Two useful facts:
+
+- **Both binaries coexist.** After installing `ak`, our existing `ck` (claudekit-cli 4.5.0)
+  kept working exactly as before. You can install `ak`, look around, and migrate later.
+- **The kit's own files still say `ck:` in places.** The rename is still catching up
+  internally. `/ak:` is the current prefix to type.
+
+There is also a dedicated migration command — `ak migrate`, dry-run by default — which the
+official quick-start never mentions.
+
+→ [ClaudeKit is now AgentKit: what changed, and `ak migrate`](/guides/claudekit-to-agentkit)
+
+## Installing it
+
+The CLI is a single native binary. No Node, no npm:
+
+```bash
+curl -fsSL https://agentkit.best/install.sh | sh     # macOS / Linux
+irm https://agentkit.best/install.ps1 | iex          # Windows
+```
+
+Then — and this is the part the quick-start omits — a fresh install is **not ready to use**.
+`ak doctor` says so itself:
+
+```
+[X]  API keys              missing key(s): anthropic_api_key   -> run: ak setup
+[!]  agentkit auth session not logged in; remote kit install requires an
+                           AgentKit account session            -> run: ak login
+[!]  ck shim collision     legacy ck collision detected ...
+```
+
+Kits are licence-gated, so `ak login` is mandatory before `ak kit init` can fetch anything.
+The installer also edits your PATH, which means **you must open a new terminal** before `ak`
+resolves.
+
+→ [The full install, including the two traps that cost us an hour](/guides/install-agentkit)
+
+## The loop: plan → cook → review → ship
+
+This is the mental model the whole kit is built around, and it is the actual reason to buy it.
+
+```
+/ak:plan     →  researches, scouts the codebase, writes a phased plan to disk
+     ↓          you read it. wrong approach costs a minute here, not a day later
+/ak:cook     →  implements the plan, runs tests, invokes review as it goes
+     ↓
+/ak:code-review --pending
+     ↓          the bugs that pass CI and break in production
+/ak:git cm && /ak:git pr
+```
+
+The point is the **handoff**. The planner writes a brief the builder reads; the builder invokes
+the reviewer; the git skill packages the result. That coherence — pieces designed to connect —
+is what you are paying for. Any one of these steps has a free equivalent; having them already
+wired to each other does not.
+
+→ [The full walkthrough, start to finish](/guides/agentkit-first-project)
+→ Skills: [`plan`](/skills/plan) · [`cook`](/skills/cook) · [`code-review`](/skills/code-review) · [`git`](/skills/git)
+
+## The commands you will actually use
+
+91 skills is a lot. In practice you live in about seven:
+
+| Command | The job it does |
+|---|---|
+| [`/ak:plan`](/skills/plan) | Turn a vague task into a phased plan on disk, before any code |
+| [`/ak:cook`](/skills/cook) | Implement a plan — with testing and review built into the run |
+| [`/ak:fix`](/skills/fix) | A concrete bug, error, test failure, or CI break |
+| [`/ak:debug`](/skills/debug) | Root-cause first, when you do not yet know *why* |
+| [`/ak:test`](/skills/test) | Run and design the validation suite |
+| [`/ak:docs`](/skills/docs) | Create, refresh, or audit project documentation |
+| [`/ak:watzup`](/skills/watzup) | Where did I leave off? Session handoff and next steps |
+
+`/ck:` still works as the legacy alias, and people who learned it still search for it.
+
+→ [The core commands, with real output for each](/guides/agentkit-core-commands)
+→ [All 91 skills](/skills)
+
+## The 16 agents
+
+Agents are **workers a skill delegates to**, not commands you type. They run in their own
+context window, so heavy work does not flood your main conversation.
+
+Worth knowing on day one:
+
+- [`planner`](/agents/planner) — the one `/ak:plan` hands off to
+- [`code-reviewer`](/agents/code-reviewer) — scout-based edge-case hunting
+- [`debugger`](/agents/debugger) — root-cause analysis before any fix
+
+Three are new since the rename: `advisor`, `explore`, and **`kongming`** — which runs on the
+strongest model available and is advisory-only. It returns counsel, not code, and exists for
+design calls that resist analysis. A lower-tier agent that gets stuck can escalate to it.
+
+→ [All 16 agents](/agents) · [How orchestration actually works](/guides/claude-code-agent-orchestration)
+
+## Is it worth $99?
+
+Honestly: **it depends on what your time costs, and sometimes the answer is no.**
+
+You are buying curation, not capability. If you enjoy building your own workflow, or you only
+use Claude Code occasionally, the free path is genuinely fine — and we wrote the comparison
+that says so rather than pretending otherwise.
+
+→ [Is AgentKit worth it? The honest comparison vs the free alternatives](/guides/agentkit-vs-free-alternatives)
+→ [Engineer vs Marketing vs Bundle — which one](/guides/which-agentkit-kit-to-buy)
+
+## Where to go next
+
+**Start here**
+- [What is AgentKit?](/guides/what-is-agentkit) — the toolkit, explained
+- [Install the `ak` CLI](/guides/install-agentkit) — including what the quick-start omits
+- [Your first project](/guides/agentkit-first-project) — the loop, end to end
+- [Core commands](/guides/agentkit-core-commands) — the daily-driver reference
+- [ClaudeKit → AgentKit](/guides/claudekit-to-agentkit) — the rename and `ak migrate`
+
+**Go deeper**
+- [Skills vs commands vs subagents](/guides/skills-vs-commands-vs-subagents) — the decision tree
+- [How to write your own skill](/guides/how-to-write-a-claude-code-skill) — with a complete example
+- [Claude Code hooks: 26 tested examples](/guides/claude-code-hooks-examples)
+- [Agent orchestration patterns that work](/guides/claude-code-agent-orchestration)
+- [Workflow patterns, and when to use each](/guides/claude-code-workflow-patterns)
+
+**Decide**
+- [Is it worth it vs free alternatives](/guides/agentkit-vs-free-alternatives)
+- [Which kit to buy](/guides/which-agentkit-kit-to-buy)
+- [Claude Code vs Cursor](/guides/claude-code-vs-cursor)
+
+**Reference**
+- [All 91 skills](/skills) · [All 16 agents](/agents)
+
+<KitCta showDisclosure />

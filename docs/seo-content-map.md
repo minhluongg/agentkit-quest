@@ -200,14 +200,48 @@ Low competitive value alone (official docs own the head terms). Its job is inter
 
 | # | URL | OWNER keyword | Status |
 |---|---|---|---|
-| 35 | `/guides/what-is-agentkit` | what is agentkit | NOINDEX (placeholder deleted — rewrite) |
-| 36 | `/guides/install-agentkit` | install agentkit / ak cli | NOINDEX (placeholder deleted — rewrite) |
-| 37 | `/guides/agentkit-core-commands` | agentkit commands | TODO |
-| 38 | `/guides/agentkit-first-project` | agentkit tutorial | TODO |
+| 34 | `/guides/agentkit-complete-guide` | **agentkit** (head) / agentkit guide | **LIVE** — the cluster pillar. See the cannibalisation note below. |
+| 35 | `/guides/what-is-agentkit` | what is agentkit | **LIVE** — recounted 91/16, carries the correction callout |
+| 36 | `/guides/install-agentkit` | install agentkit / ak cli | **LIVE** — rewritten against a real `ak` install |
+| 37 | `/guides/agentkit-core-commands` | agentkit commands | LIVE — needs real per-command output |
+| 38 | `/guides/agentkit-first-project` | agentkit tutorial | LIVE — **still no real output; the hollow one** |
+
+### Pillar cannibalisation guard (row 34)
+
+The pillar targets the head term **only**. It must **NOT** out-answer these, which are owned
+elsewhere: `what is agentkit` · `agentkit tutorial` · `install agentkit` · `agentkit commands` ·
+`is agentkit worth it` · `claudekit renamed agentkit` · `engineer vs marketing vs bundle`.
+
+Each of its sections is deliberately a summary with a door. If a section grows into a complete
+article, cut it in half — the pillar exists to feed its children, not to compete with them.
+Watch Search Console: if `/guides/agentkit-complete-guide` starts outranking a child for that
+child's keyword, shorten the pillar section.
 
 ---
 
-## Tier P4 — Remaining 68 skills + 13 agents. Stay `noindex`.
+## Kit recount — 2026-07-13
+
+The site launched publishing **88 skills / 13 agents**, counted from the ClaudeKit-era kit
+vendored before the rename. We installed the `ak` CLI and counted the kit it actually ships:
+
+```
+engineer  v0.2.0   16 agents   91 skills
+```
+
+**We were wrong in public.** Two guides told readers the vendor's advertised "17 agents" was
+inflated and that 13 was the true figure. The vendor was closer to right than we were. Both
+pages now carry a correction callout rather than a quiet edit.
+
+Knock-on effects, all handled:
+- 6 skills left the kit (`docx`, `pdf`, `pptx`, `xlsx`, `ghpm`, `ckm-design`) — none had written
+  pages, so no published URL 404s.
+- 9 skills and 3 agents (`advisor`, `explore`, `kongming`) are new → `noindex` stubs, 74 total.
+- Skill slugs preserved: the new kit names skills `ak:plan`, and slugging that raw would have
+  moved every `/skills/*` URL. The slug is the bare name.
+
+---
+
+## Tier P4 — Remaining skill + agent stubs. Stay `noindex`.
 
 **Do not mass-publish.** The skeleton's content gate exists exactly so we can ship 88 routes without shipping 88 thin pages. Publishing them all to chase an index footprint is how a domain earns a scaled-content-abuse penalty — and that penalty takes the P0 conversion pages down with it.
 
