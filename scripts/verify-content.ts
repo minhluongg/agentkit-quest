@@ -11,6 +11,7 @@
  * catches in a second.
  */
 import { readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join, resolve, relative } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '..');
@@ -57,6 +58,41 @@ for (const path of mdxFiles(join(ROOT, 'content'))) {
         'it to STALE_VERSION_ALLOWLIST with a reason.',
     );
   }
+}
+
+// --- No page ships that nobody committed ------------------------------------
+//
+// `content/skills/cook.mdx` appeared untracked, and the build read it: the page went
+// indexable and into the sitemap, inviting Google to crawl something no one had reviewed.
+// Meanwhile every status report said "20 pages" while the site was serving 21.
+//
+// The build was already printing the number — `noindex (stub) pages: 74` became 73 — and
+// nobody read it. **A number that is printed but never asserted is a number nobody reads.**
+//
+// Untracked content is not a style problem. In this repo a file's mere existence flips a
+// page from noindex to indexable, so an uncommitted file is a silent, unreviewed change to
+// what search engines are told to crawl.
+
+function untrackedContent(): string[] {
+  try {
+    const out = execFileSync('git', ['ls-files', '--others', '--exclude-standard', 'content'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+    });
+    return out.split('\n').filter((line) => line.trim().endsWith('.mdx'));
+  } catch {
+    // No git (a tarball build, a stripped CI image). Not a reason to fail — just say the
+    // check did not run, rather than implying it passed.
+    console.warn('! git unavailable — could not check for untracked content.');
+    return [];
+  }
+}
+
+for (const file of untrackedContent()) {
+  failures.push(
+    `${file} is not committed, but the build reads it — so it ships, goes indexable, and ` +
+      'enters the sitemap without anyone having reviewed it. Commit it or delete it.',
+  );
 }
 
 // --- Report -----------------------------------------------------------------
