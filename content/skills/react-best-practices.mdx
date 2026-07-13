@@ -1,12 +1,12 @@
 ---
 title: 'React Performance with Claude Code: Best Practices'
-description: How to use Claude Code to find and fix React and Next.js performance problems — unnecessary re-renders, waterfalls, bundle bloat. The free method, and what AgentKit's react-best-practices skill adds.
+description: How to use Claude Code to find and fix React and Next.js performance problems. The free method, what AgentKit's react-best-practices skill adds — and a real run whose best output was a finding it refused to make.
 keywords:
   - claude code react performance
   - claude code react best practices
   - claude code nextjs optimization
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 React performance problems are rarely where you think — the slow part is usually a
@@ -52,6 +52,105 @@ review — component structure, rendering, bundle analysis.
 
 *(Legacy prefix: `/ck:react-best-practices`.)*
 
+## What it actually printed
+
+### The input
+
+```bash
+/ak:react-best-practices src/
+```
+
+**45 rules across 8 priority-ordered categories**, applied to 53 TS/TSX files: a Next.js 16
+App Router site, 9 client components, the rest server/RSC.
+
+### The best finding was one it refused to make
+
+Every component in this codebase does `import { Search, X } from 'lucide-react'` — which is
+the barrel-import rule's **exact "Incorrect" example**. A checklist pass flags it. We would
+have "fixed" it.
+
+````
+Bundle: barrel imports — fires textually, but is already handled
+
+  Next 16.2.10 ships lucide-react in the DEFAULT optimizePackageImports list
+  (node_modules/next/dist/server/config.js:988) — which is precisely the rule's
+  own "Alternative (Next.js 13.5+)" remedy.
+
+  No action. This is the finding I would have reported if I hadn't checked,
+  and it would have been false.
+````
+
+It only knew that because it went and read `node_modules`. **A negative result, reachable
+only by verification.**
+
+### The two CRITICAL categories did not fire at all
+
+````
+Eliminating Waterfalls (5 rules) — N/A
+
+  There is no async data fetching in this app. The only awaits in src/app/ are
+  `await params`. No fetch() in any server component, no Promise.all, no DB, no API.
+
+  There is no waterfall to eliminate because there is no network in the render path.
+````
+
+### It measured the hot path — then told us not to touch it
+
+The 91-item skills filter re-normalizes a static corpus on every keystroke: 273 `normalize()`
+calls over data that never changes. Textbook module-level-cache case. **The rule genuinely
+fires.**
+
+````
+So I measured it rather than assert it:
+
+  corpus: 91 skills
+  per keystroke (map+score+filter+sort): 0.2720 ms
+  normalize() calls per keystroke: 273
+
+The rule fires, the fix is ~10 lines, and it buys 0.27ms.
+Don't do it unless the corpus grows an order of magnitude.
+````
+
+### The one real defect: `&&` guarding a number
+
+````
+guides/[...slug]/page.tsx:85
+
+  {page.data.readingTime && (<span>{page.data.readingTime} min read</span>)}
+
+readingTime is z.number().optional() — no .positive(). A guide with `readingTime: 0`
+passes validation, `0 && …` evaluates to 0, and React renders a bare "0".
+
+Honest reachability: LATENT. None of the 14 guides sets readingTime at all — so the
+bug is unreachable today, AND this entire block is dead UI.
+
+The only place in the codebase where && guards a number. The other 19 JSX conditionals
+all guard strings, booleans, or objects; the .length ones are correctly written `> 0`.
+````
+
+We later ran [`/ak:debug`](/skills/debug) on it, which reproduced the bare `0` in real HTML —
+and confirmed the dead-UI half was the finding that actually mattered.
+
+## When NOT to reach for it
+
+- **Your app is mostly static.** Ours is, and it disarmed the two most expensive rule
+  categories outright. A performance audit that finds a lot on a static site is usually an
+  audit that is pattern-matching — and pattern-matching is what produces the "fix" that isn't
+  one.
+- **You haven't profiled.** The skill reasons about code. It cannot tell you which component
+  is actually slow in *your* users' browsers. Open the Profiler first.
+- **You want permission to optimize.** It will give you a rule that fires, and then a number
+  that says the rule does not matter here. Both are the output.
+
+## Combining it
+
+- **Rendering strategy first:** [`/ak:web-frameworks`](/skills/web-frameworks) decides what is
+  static vs dynamic. Get that wrong and no amount of memoization saves you.
+- **When it flags something real:** [`/ak:debug`](/skills/debug) to prove it reproduces before
+  you change anything.
+- **Design-level slowness:** [`/ak:ui-ux-pro-max`](/skills/ui-ux-pro-max) — sometimes the fix
+  is fewer things on screen, not faster rendering of too many.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you optimize React/Next apps regularly and want a consistent
@@ -59,8 +158,16 @@ review — component structure, rendering, bundle analysis.
 - **Skip it if** you profile occasionally — the evidence-first prompt above covers most of
   it, free.
 
+**One latent bug and three bounded opportunities out of 45 rules is what a clean, mostly-server
+codebase is supposed to look like.** The value of this run was the confidence that the
+expensive categories genuinely do not apply — not a long list of things to change.
+
+The output we would have been most tempted to act on was the one it correctly told us to
+ignore.
+
 ## Related
 
 - [Next.js frameworks (RSC, SSR, ISR)](/skills/web-frameworks)
+- [Debug workflow](/skills/debug) — prove a flagged issue before you fix it
 - [UI/UX design](/skills/ui-ux-pro-max)
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

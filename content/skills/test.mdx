@@ -1,12 +1,12 @@
 ---
 title: 'Generating Tests with Claude Code (Without the Slop)'
-description: How to get Claude Code to write tests that actually catch bugs, not tests that assert the code does what it does. The free method, and what AgentKit's test skill adds.
+description: How to get Claude Code to write tests that actually catch bugs, not tests that assert the code does what it does. The free method, what AgentKit's test skill adds, and a real suite we wrote and then broke on purpose.
 keywords:
   - claude code generate tests
   - claude code write tests
   - claude code unit tests
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 AI-generated tests have a failure mode: they assert that the code does exactly what it
@@ -50,8 +50,99 @@ regression, and QA reports.
 
 *(Legacy prefix: `/ck:test`.)*
 
-The generation prompt above is free and gets you good tests; the skill's value is being a
-consistent test *runner* and reporter across types.
+## What it actually printed
+
+### The honest starting point
+
+**This site had no tests.** No `test` script, no vitest, no jest. `playwright` sat in the
+dependencies, imported by nothing.
+
+That is worth stating plainly, because it exposes what the skill does and does not do:
+**`/ak:test` runs a suite. It does not conjure one out of an empty repo.** So the run became
+writing the first test — and the judgement about *what to assert* stayed with a human.
+
+We picked the invariant the whole site rests on: **a reference page is indexable only once
+someone has written real content for it.** Get that wrong and ~90 auto-generated pages ship,
+which Google treats as scaled content abuse — and the penalty lands on the whole domain, not
+just the thin pages that earned it.
+
+Nothing is hardcoded. The expected sets are derived from the catalog and from
+`content/skills/`, so the day the kit ships skill 92 the test still describes reality. A
+literal count would go quietly wrong instead.
+
+```ts
+// tests/noindex-gate.spec.ts
+const publishedSlugs = skills.map((s) => s.slug).filter((slug) => written.has(slug));
+const stubSlugs = skills.map((s) => s.slug).filter((slug) => !written.has(slug));
+
+test('the catalog splits into published pages and stubs', () => {
+  // If either side is empty the tests below would pass vacuously, asserting nothing.
+  expect(publishedSlugs.length).toBeGreaterThan(0);
+  expect(stubSlugs.length).toBeGreaterThan(0);
+});
+```
+
+### The run
+
+```bash
+npm test
+```
+
+````
+Running 93 tests using 8 workers
+
+  ✓  4 › a page with hand-written content is indexable › /skills/code-review (2.1s)
+  ✓ 22 › a page without hand-written content is noindex › /skills/cook (2.0s)
+  ✓ 74 › a page without hand-written content is noindex › /skills/security-scan (2.0s)
+  […]
+  ✓ 93 › the sitemap lists every published page and no stub (754ms)
+
+  93 passed (40.9s)
+````
+
+### Then we broke it on purpose
+
+**93 green proves nothing until you have watched it go red.** This is the step everyone
+skips, and it is the only one that tells you whether the tests are real.
+
+We added `noindex: true` to one published page's frontmatter — a plausible one-word mistake:
+
+````
+  ✘  4 › a page with hand-written content is indexable › /skills/code-review
+  ✘ 93 › the sitemap lists every published page and no stub
+
+  Error: expect(locator).toHaveAttribute(expected) failed
+  Expected pattern: /(?<!no)index/
+  Received string:  "noindex, follow"
+
+  Error: expect(received).toContain(expected)
+  Expected substring: "/skills/code-review<"
+````
+
+Two failures, on the two surfaces that matter: the crawler's robots directive, and the
+sitemap that invited it. Reverted; green again.
+
+Writing 93 assertions that all pass first time should make you suspicious, not pleased. Ours
+did pass first time. We only know they are real because we broke the thing they watch.
+
+## When NOT to reach for it
+
+- **You have no tests yet.** The skill runs a suite; it does not decide what is worth
+  asserting. That first decision is the whole game, and it is yours.
+- **You want coverage numbers to look good.** Coverage measures which lines ran, not which
+  bugs would be caught. A suite written from the implementation scores beautifully and
+  guards nothing.
+- **The thing you want to check is a build-time invariant.** A build assertion is cheaper and
+  runs on every push. We use both: `verify-build.ts` checks the build output; these tests
+  check what a crawler actually *receives* over HTTP. Different claims.
+
+## Combining it
+
+- **After implementing:** `/ak:cook` → [`/ak:code-review`](/skills/code-review) → `/ak:test`
+- **For a bug:** [`/ak:debug`](/skills/debug) to prove the cause → write the failing test →
+  `/ak:fix` → `/ak:test` until green. The test is the reproduction.
+- **For the browser specifically:** [`/ak:web-testing`](/skills/web-testing) is the
+  Playwright-shaped sibling — visual regression, a11y, Core Web Vitals.
 
 ## Buy if / Don't buy if
 
@@ -60,8 +151,14 @@ consistent test *runner* and reporter across types.
 - **Skip it if** you mostly need well-written tests — the behavior-first prompt above is
   the part that matters, and it's free.
 
+The honest summary of our run: **the suite is worth more than the skill invocation that
+produced it.** Everything valuable here — choosing the invariant, deriving the sets instead
+of hardcoding them, the guard against vacuous passes, breaking it deliberately — is judgement,
+not automation. The skill runs what you point it at. Point it at something worth running.
+
 ## Related
 
 - [Test-first workflow](/guides/claude-code-workflow-patterns)
 - [Web testing (Playwright/Vitest/k6)](/skills/web-testing)
-- [Debug workflow](/skills/debug)
+- [Debug workflow](/skills/debug) — prove the bug, then write the test that reproduces it
+- [Code review](/skills/code-review)
