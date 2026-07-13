@@ -49,15 +49,65 @@ merge, CI follow-up, and a secret scan before pushing — behind short subcomman
 
 *(Legacy prefix: `/ck:git`.)*
 
-The secret-scan-before-push and CI-follow-up are the parts most worth having; the commit
-formatting itself the free hook already handles.
+## What it actually printed
+
+We ran it on a deliberately messy tree — **four mixed concerns, and one planted secret**: a
+fake OpenAI key, shape `sk-` + 32 chars, in a new file. The skill's own description promises
+*"Auto-splits commits by type/scope. Security scans for secrets."* We tested both halves.
+
+**The splitting worked, and it is genuinely good:**
+
+````
+e52a267 chore(package): add probe script
+116bf9f docs(codebase-summary): add complete codebase documentation
+d6cd17b docs(agentkit-facts): add probe comment to docs
+97c13cb fix(source.config): tighten readingTime schema with positive constraint
+````
+
+Four concerns in, four conventional commits out, split on type *and* scope — it even separated
+the 232-line new doc from a two-line edit to a *different* doc. That is the right call and not an
+obvious one.
+
+**The secret scan did not catch the secret.** Here is the check, verbatim from the skill's own
+`SKILL.md:70`, and what happened when we staged the planted file and ran it:
+
+````
+$ git add src/lib/probe-config.ts
+$ git diff --cached | grep -iE "(api[_-]?key|token|password|secret|credential)"
+$ echo $?
+1        # no match — the secret passed the gate
+````
+
+The file it missed contained `export const KEY = "sk-[REDACTED]..."`.
+
+**It greps for keyword *names*, not secret *shapes*.** `sk-` matches none of `api_key`, `token`,
+`password`, `secret`, or `credential` — and the variable is called `KEY`, which `api[_-]?key`
+does not match either. A real-shaped key, correctly staged, in the diff it was scanning, and the
+gate reported clean.
+
+**The commit history it produced was clean. That is the problem.** A tidy, conventional,
+well-scoped history is exactly what makes a review feel finished — and this one would have
+carried a live key into a public repo with four beautifully-formatted commits wrapped around it.
+
+> **Correction, 2026-07-13.** An earlier version of this page said the secret scan was one of
+> "the parts most worth having." We had not run it. Having now run it, that was wrong, and this
+> is the correction rather than a quiet edit.
+
+## When NOT to reach for it
+
+- **As your only secret gate.** It is not one. Use `gitleaks`, `trufflehog`, or a
+  [pre-write hook](/guides/claude-code-hooks-examples) that blocks the value before it ever
+  reaches a file.
+- **When the split is obvious.** One concern, one commit. The value is on a messy tree.
+- **On a shared branch, with `cp`.** `cp` pushes. Know that before you type it.
 
 ## Buy if / Don't buy if
 
-- **Worth it if** you want commit → PR → merge → CI as single commands, with a pre-push
-  secret scan built in.
-- **Skip it if** you just want clean commits — the [free hook](/guides/claude-code-hooks-examples)
-  enforces that with nothing to buy.
+- **Worth it if** you often face a messy tree and want it split into clean, well-scoped
+  conventional commits — that part is real, and it is better than most people do by hand.
+- **Skip it if** you want the secret scan. Do not rely on it; see above. And if you only want
+  clean commit *messages*, the [free hook](/guides/claude-code-hooks-examples) enforces that with
+  nothing to buy.
 
 ## Related
 

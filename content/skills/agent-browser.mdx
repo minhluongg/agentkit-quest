@@ -43,7 +43,7 @@ security.
 ## What the kit's skill adds
 
 AgentKit's `agent-browser` skill (`/ak:agent-browser`) is built for longer autonomous
-sessions with self-verification — context-efficient page snapshots, video recording, and
+sessions with self-verification — accessibility-tree page snapshots, video recording, and
 cloud-browser support (Browserbase) — beyond one-off Playwright scripts.
 
 ```bash
@@ -52,11 +52,80 @@ cloud-browser support (Browserbase) — beyond one-off Playwright scripts.
 
 *(Legacy prefix: `/ck:agent-browser`.)*
 
+## What it actually printed
+
+We drove it against this site. **The snapshot format is the real product** — an accessibility
+tree, not a DOM dump, with stable refs you can act on without writing a selector:
+
+````
+- banner
+  - link "/ agentkit.quest" [ref=e1]
+  - navigation "Main" [ref=e2]
+    - link "Guides" [ref=e10]
+    - link "Skills" [ref=e11]
+    - link "Agents" [ref=e12]
+  - button "Search guides, skills, and agents" [ref=e3]
+    - StaticText "Search…"
+    - StaticText "⌘K"
+  - button "Toggle theme" [ref=e4]
+  - link "Get AgentKit" [ref=e5]
+- main
+  - StaticText "ClaudeKit is now AgentKit"
+  - heading "Every AgentKit skill, catalogued." [level=1, ref=e13]
+  […]
+````
+
+You can read that, and you can click `@e3` without a selector. Compared with a raw HTML dump it
+is a real improvement.
+
+**Then we measured the headline claim.** The skill's own description says
+*"~280 chars/snapshot (vs 8K+ for Playwright MCP)"*. That is a number, so we counted:
+
+````
+Claimed:                                    ~280 chars/snapshot
+                                            ("vs 8K+ for Playwright MCP")
+
+Measured, https://agentkit.quest/           18,098 chars
+Measured, /skills/cook (a near-empty stub)  11,743 chars
+````
+
+**Both are larger than the 8K+ it attributes to the tool it is beating.** The smaller of the two
+— then a `noindex` placeholder of a few paragraphs, the slightest page we could find — is 42× the
+claimed figure. The homepage is 64×.
+
+> **Note, added at publication.** `/skills/cook` was a near-empty stub on the day we measured it.
+> It is [a written page now](/skills/cook) — we wrote it in the same batch of work that published
+> this one. The number above is what the snapshot cost on the stub, and we are leaving it as
+> captured rather than re-measuring against a page that did not exist at the time. If you re-run
+> `wc -c` on `/skills/cook` today you will get a bigger number, and the point survives: it is
+> nowhere near 280.
+
+**The format is the product; the number is marketing.** Everything the snapshot actually gives
+you — semantic structure, stable refs, no CSS noise — is real, and none of it depended on being
+280 characters. But `~280 chars/snapshot` is a claim about your *context budget*, and context
+budget is the entire reason an agent-oriented browser tool exists. If you are planning a long
+autonomous session around that figure, you are planning around a number that is off by a factor
+of 50 on a small page.
+
+**Budget for what you measure on your own pages.** We only know because we ran `wc -c`.
+
+## When NOT to reach for it
+
+- **When you need your real Chrome profile.** This drives a fresh browser — no cookies, no
+  logged-in session. That is deliberate (it is reproducible), and it is a hard limit.
+- **When you want assertions, not exploration.** This drives and reports;
+  [`/ak:web-testing`](/skills/web-testing) is what you want if the output should be pass/fail.
+- **In a tight script, without a timeout.** Our first attempt hung for four minutes:
+  `agent-browser open` holds the browser and does not return. It works with an explicit timeout
+  and a separate `snapshot` call — but the failure mode is a hang, not an error.
+
 ## Buy if / Don't buy if
 
-- **Worth it if** you run long, self-verifying browser automations or need cloud browsers.
+- **Worth it if** you run long autonomous browser sessions and want an accessibility-tree
+  snapshot with stable refs instead of parsing a DOM dump.
 - **Skip it if** you need occasional screenshots or a test — Playwright plus Claude Code is
-  free and plenty.
+  free and plenty. And do not buy it for the context-budget claim; we measured it and it does
+  not hold.
 
 ## Related
 
