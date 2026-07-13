@@ -91,6 +91,67 @@ A single agent that produced a plausible-but-wrong answer will defend it. Three 
 agents told to attack it will not. This is how you stop confident-sounding mistakes from
 surviving.
 
+## Pattern 4 — Model escalation
+
+The three patterns above all move work *sideways*. This one moves it **up**.
+
+Subagents can run on different models. Most people use that to save money — send the
+disposable reading to a cheap tier, keep the thinking on an expensive one. The move almost
+nobody makes is the reverse: **let a cheap agent that is stuck call a stronger one, by
+itself, without a human noticing and switching the session model.**
+
+```text
+  tier     agent          may do
+  ─────────────────────────────────────────────
+  cheap    explorer       read only
+  mid      builder,       read + write
+           tester
+  top      advisor        advise only — cannot write
+
+  The tester hits a wall: repeated failures, or a design fork above its pay grade.
+
+      tester ──── spawns ───▶ advisor          (up a tier)
+         ▲                       │
+         └──── counsel ──────────┘             (one reply, no interview)
+
+  The tester still owns the work. Only the *thinking* was escalated.
+```
+
+**Why the escalated agent must be advisory-only.** This is the part that is easy to get
+wrong, and it is the whole safety property. If the stronger agent could write code, you
+have just handed your most capable model unsupervised write access to fix a problem it
+only half understands — it has the question, not your context. Restricting it to *advice*
+is not a limitation. It is what makes it safe to escalate at all.
+
+**And it must not ask questions.** An advisor that stops to interview defeats the point:
+the caller is a *machine*, mid-task, with nobody watching. It has to pick the most
+reasonable assumption from the evidence, proceed, and record what it assumed and how
+confident it was. A stalled escalation is a hung agent.
+
+**Do it free:** an advisory-only agent is a file. `.claude/agents/advisor.md`, with the
+strongest model you have access to, and a prompt that forbids editing:
+
+```md
+---
+name: advisor
+description: Counsel for a stuck agent. Advisory only — never writes code.
+tools: Read, Grep, Glob, WebSearch
+model: opus
+---
+
+You are consulted by other agents that are stuck. Read the code before opining.
+Return: the recommendation, what to avoid, the alternatives with honest costs, and
+every assumption you made in place of a question, with a confidence level.
+You never edit files. Your reply is the deliverable — there is no second turn.
+```
+
+Note the `tools:` line: no `Write`, no `Edit`, no `Bash`. **A system prompt that says
+"advisory only" is a promise; a tools list that omits `Write` is a fence.** Only one of
+those survives an agent that decides it would be helpful to just fix the thing.
+
+Then tell your agents, in your rules file, that being stuck is a reason to escalate rather
+than thrash. That is the entire pattern, and it costs nothing.
+
 ## The rules — when parallel corrupts
 
 Parallelism is not free, and used wrong it destroys work. The hard rules:
@@ -118,15 +179,40 @@ When you hand a task to a subagent, do **not** hand it your whole conversation. 
 A subagent with a clean, scoped brief does better work than one drowning in your history —
 the whole point was a fresh context, so don't refill it.
 
+## Where this stops: one session, many agents
+
+Everything above happens inside **one** Claude Code session. The controller spawns
+subagents, reads their summaries, and keeps the decisions.
+
+There is a further step — several *sessions* working the same repo as teammates, handing
+off through files rather than through a controller's context. AgentKit ships it as
+`/ak:team`. **Be honest about the size of this:** it is a niche feature. It earns its place
+when work genuinely runs for longer than one session survives, and it costs you the one
+thing single-session orchestration gives you for free — a single place where merges and
+approvals happen. Most work that feels like it needs a team needs a clearer plan instead.
+
+If you do reach for it, the rules from the parallel section apply twice as hard: file
+ownership must be explicit, and one session has to own the merge.
+
 ## How AgentKit does this
 
 [AgentKit](https://agentkit.best)'s value in this area is that its 16 subagents come
 pre-scoped: a `code-reviewer` with read-only tools, a `researcher`, a `planner`, a
 `debugger`, each already configured with the right tool access and a focused system
-prompt. You *can* build these yourself — the patterns above are all free — but "already
-built and tuned to hand off to each other" is the thing the kit sells. Whether that's
-worth $99 depends on how much of this you'd otherwise assemble; we wrote an
+prompt — plus `kongming`, an advisory-only agent on the strongest tier, which is the
+escalation target in Pattern 4 already wired up.
+
+You *can* build all of these yourself — the patterns above are all free, and the
+twenty-line advisor above is the whole of Pattern 4 — but "already built and tuned to hand
+off to each other" is the thing the kit sells. Whether that's worth $99 depends on how much
+of this you'd otherwise assemble; we wrote an
 [honest comparison](/guides/agentkit-vs-free-alternatives).
+
+**One caveat worth printing**, because the kit does not: the escalation to the strongest
+tier is guaranteed only on Claude Code. On other runtimes that tier is simply absent, and
+the agent runs on whatever the host defaults to — still following its prompt, but not
+actually stronger than its caller. An escalation that does not escalate is worth knowing
+about before you build a workflow on it.
 
 ## Related
 

@@ -19,7 +19,7 @@
 | **P2 skill pages** | 20 | ✅ **21** | 20 planned + `cook` (see below). All job-targeted, teach the free method, honest Buy/Don't-buy. **14 of 21 now carry a real captured transcript; the other 7 say plainly that they do not.** |
 | **P3 getting-started** | 4 | ✅ 4/4 | what-is, install, first-project, core-commands |
 | **Agent pages** | 13 | ✅ 13/13 | all agents, targeting the *subagent/worker* angle (distinct from skill action-keywords); niche ones (project-manager, journal-writer) say so honestly |
-| **P4 (68 remaining skill stubs)** | — | `noindex` by design | 68 stubs gated until they have real content |
+| **P4 (remaining stubs)** | — | `noindex` by design | **73 stubs** as of 2026-07-13 (70 skills + 3 agents). Gated until they have real content. Read the count from the build, never from this table. |
 
 Every page: indexable, in sitemap, internal links audited (all resolve), affiliate CTA with `?ref=` + `rel=sponsored` + 20%-off lever. **The priority content is done.** What remains is distribution (W3 — human) and the measurement loop (Phase 04).
 
