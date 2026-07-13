@@ -52,11 +52,86 @@ one.
 design system — it returns a full system (style + palette + fonts + anti-patterns), which
 is faster than assembling one from scratch.
 
+## What it actually printed
+
+We then pointed it at this site's own components in review mode, and **measured every claim on
+the live site with Playwright** rather than taking the report's word.
+
+**It found that keyboard focus escapes the open mobile drawer.** At 390px:
+
+````
+tab 5: IN-DRAWER  a "Get AgentKit"
+tab 6: >>ESCAPED  input "Filter skills"
+tab 7: >>ESCAPED  button "All 91"
+````
+
+No `role="dialog"`, no `aria-modal`, no focus trap. The page behind was scroll-locked and
+visually covered — so a keyboard user was tabbing through invisible controls. **The same
+codebase already got this right elsewhere:** the command palette traps Tab, closes on Escape,
+and restores focus. The drawer just never got the same treatment.
+
+**It found that guide tables force the whole page to scroll sideways on a phone:**
+
+````
+                                          360px viewport   overflow
+/guides/agentkit-vs-free-alternatives     478px            +118px
+/guides/claude-code-hooks-examples        406px            +46px
+/guides/agentkit-core-commands            393px            +33px
+/  and  /skills                           360px            clean
+````
+
+Code blocks *did* get `overflow-x: auto`. Tables were missed — and 11 of 14 guides contain one.
+
+**And then it retracted a Critical it had nearly filed:**
+
+````
+I initially measured the focus ring as `currentColor` and nearly filed an
+"invisible focus ring — WCAG fail" as critical.
+
+It was a measurement artifact — I was reading a computed style MID-TRANSITION.
+Settled, it is var(--ring) on every element: 3.68:1 light, 7.02:1 dark.
+Both clear the 3:1 bar.
+````
+
+### What a reader should notice
+
+**The interesting failures were not in the design system — they were at its edges.** Token
+discipline here is near-perfect. Yet both real bugs live where *authored content meets styled
+chrome*: tables got no scroll wrapper even though code blocks did; the drawer got no focus trap
+even though the palette did. Both are patterns solved once, correctly, and not carried across to
+a sibling. **That is where to look on a codebase that is otherwise careful.**
+
+**The retraction is the most valuable thing in the report.** On a carefully-built site, the
+correct prior is that *a surprising finding is a bad measurement*. Verify before you file, or a
+design audit becomes a generator of confident fiction.
+
+### What happened next
+
+It filed a third real finding we have not shown you: the active filter chip's count was set at
+70% opacity on its own background, giving 3.19:1 in dark mode against a 4.5:1 requirement —
+a contrast failure, measured, not eyeballed.
+
+So: **three real findings, one retracted, and all three of the real ones are now fixed** — you
+can read the commits. The drawer traps focus (`role="dialog"`, `aria-modal`, and a `trapFocus`
+helper), wide tables scroll themselves instead of the page, and the chip's count dropped the
+opacity and passes.
+
+That is the honest measure of an audit skill: not that it produced findings, but that the
+findings survived being checked and were worth acting on.
+
+## When NOT to reach for it
+
+- **On a surface the rules do not cover.** Roughly half its 200+ rules are mobile-app rules a
+  docs site cannot fail. Skipping 30 form rules on a site with no forms is correct, not lazy.
+- **As a substitute for measuring.** The report is a hypothesis list. The value came from
+  checking each one in a real browser — including the one that turned out to be wrong.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you build UIs often and want a curated design system chosen for you each
-  time instead of specifying one.
-- **Skip it if** you already have a design system — feed it to Claude directly, free.
+  time instead of specifying one — or want a priority-ranked audit of one you already have.
+- **Skip it if** you already have a design system and an a11y process — feed the system to
+  Claude directly, free.
 
 ## Related
 

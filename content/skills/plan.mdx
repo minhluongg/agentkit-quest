@@ -49,16 +49,102 @@ with modes for depth (`--hard`, `--deep`, `--parallel`) and TDD.
 /ak:plan --hard "refactor the auth layer"
 ```
 
-*(Legacy prefix: `/ck:plan`.)* This entire site was planned with this skill — including a
-red-team pass that caught a wrong revenue figure the plan was built on, before any content
-was written. That's the value: the plan is stress-tested before you invest in it.
+*(Legacy prefix: `/ck:plan`.)* This entire site was planned with this skill.
+
+## What it actually printed
+
+This one was not staged. **The work that produced the page you are reading was planned with
+`/ak:plan`** — and then we turned the same skill hostile against its own output:
+
+```bash
+/ak:plan "Write real captured output onto the 20 published skill pages"
+/ak:plan red-team plans/260713-1103-.../
+```
+
+The `red-team` subcommand spawns hostile reviewers, each with a different adversarial lens, and
+**each must back every finding with a `file:line` citation from the actual codebase.** Findings
+without evidence are rejected before adjudication.
+
+**27 findings. 14 survived deduplication and verification. Four were Critical. The plan had to
+be rewritten from scratch.**
+
+It found a path from a credential to a public page:
+
+````
+[Critical] .env.local holds a live VERCEL_OIDC_TOKEN. The plan points
+/ak:security-scan at "the repo" — and ak-security-scan/SKILL.md:46 runs secret
+scanning FIRST, ALWAYS — then orders "paste. Do not summarise" and "never edit
+what remains".
+
+The full path: token → runs/security-scan.md → content/skills/security-scan.mdx
+→ prerendered HTML → sitemap → Google → AI crawler caches.
+
+No step in the plan looked for this.
+````
+
+It found that the plan's central safety claim was a sentence, not a mechanism:
+
+````
+[Critical] git branch --show-current → main. A merge to main is a live deploy.
+
+  ak-git/SKILL.md:22   `cp` = "Stage files, create commits AND PUSH"
+  ak-ship/SKILL.md:3   "merge main, test, review, commit, push, PR"
+  ak-fix/SKILL.md:18   --auto is the DEFAULT
+
+The plan says mutating skills "run on a scratch branch" — with no step to create
+one, no check, no guard.
+````
+
+And it caught three things the plan had simply asserted:
+
+````
+Plan claimed                                  Verified reality
+─────────────────────────────────────────────────────────────────────────────────
+"Two-way guide links ✅ Holds"                4 of 20. Sixteen pages are orphans.
+"/skills/plan cannibalises the guide"         Zero keyword overlap. The proposed
+                                              "fix" would have discarded a real
+                                              head term.
+The 20 OWNER keywords (copied from the map)   10 of 20 differ from what the pages
+                                              actually ship. Following the table
+                                              would silently retarget 10 indexed
+                                              URLs.
+````
+
+**One finding was rejected.** A reviewer declared the whole plan dead — *"the `ak` kit is not
+installed […] so `/ak:` cannot resolve, and the real-output thesis is impossible."* It had checked
+the project directory and missed the global install. Rejected on the evidence.
+
+### What a reader should notice
+
+**The plan we would have executed was dangerous, and we did not know it.** Every one of those
+Criticals was invisible from inside the plan. They are things you find by *attacking* a plan, not
+by reading it again more carefully.
+
+**The `file:line` requirement is what makes it work.** A hostile reviewer with no evidence bar
+produces plausible-sounding objections. This one had to cite `.gitignore:62` and the actual
+`git check-ignore` output — so every finding could be checked, and one of them was checked and
+thrown out.
+
+**And it caught three of our own claims being false.** Confident prose in a planning document
+reads exactly like verified fact, and nothing in the document distinguishes them.
+
+## When NOT to reach for it
+
+- **Small, reversible work.** Six phases of planning for a two-file change is the ceremony this
+  skill's own `--fast` mode exists to skip.
+- **You already know the shape.** Planning is for when the risk is that you are solving the
+  wrong problem.
+- **You will not act on the red team.** Running it and then talking yourself out of the findings
+  is worse than not running it — you have paid for the counsel *and* built a record of ignoring
+  it.
 
 ## Buy if / Don't buy if
 
 - **Worth it if** you plan substantial features regularly and want research + phased plans +
-  red-teaming as one command.
-- **Skip it if** you plan occasionally — plan mode plus a "red-team this" prompt is the same
-  discipline, free.
+  an adversarial pass with an evidence bar, as one command.
+- **Skip it if** you plan occasionally — plan mode plus a "red-team this, and cite a file and
+  line for every claim" prompt is the same discipline, free. **The evidence bar is the part that
+  matters, and it costs nothing to demand.**
 
 ## Related
 
