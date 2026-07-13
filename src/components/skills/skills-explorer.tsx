@@ -11,6 +11,14 @@ import { cn } from '@/lib/utils';
 interface SkillsExplorerProps {
   skills: Skill[];
   categories: Category[];
+  /**
+   * Slugs with a hand-written page behind them — 20 of 91.
+   *
+   * Without this the grid showed 91 identical cards, so four clicks in five landed on a
+   * reference card when the reader was expecting a write-up. The cards are all worth having;
+   * they are not all the same thing, and the grid was pretending otherwise.
+   */
+  written: string[];
 }
 
 function subscribeToUrl(onChange: () => void): () => void {
@@ -34,7 +42,8 @@ function getUrlSearch(): string {
  * Instead the full list renders on the server, and the URL is read from
  * `window.location` after mount purely to seed the filter UI.
  */
-export function SkillsExplorer({ skills, categories }: SkillsExplorerProps) {
+export function SkillsExplorer({ skills, categories, written }: SkillsExplorerProps) {
+  const writtenUp = useMemo(() => new Set(written), [written]);
   // The URL is an external store, so read it with the primitive designed for that.
   // On the server the snapshot is empty (renders the full, crawlable list); on
   // hydration React swaps in the real one without a mismatch warning. Seeding the
@@ -166,7 +175,13 @@ export function SkillsExplorer({ skills, categories }: SkillsExplorerProps) {
               footer={
                 <>
                   <Badge>{labelOf.get(skill.category) ?? skill.category}</Badge>
-                  {skill.hasScripts && <Badge variant="outline">scripts</Badge>}
+                  {/* The reader deserves to know which of these is a write-up and which is a
+                      reference card, before they click rather than after. */}
+                  {writtenUp.has(skill.slug) ? (
+                    <Badge variant="accent">written up</Badge>
+                  ) : (
+                    <Badge variant="outline">reference</Badge>
+                  )}
                 </>
               }
             />
