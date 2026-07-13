@@ -101,6 +101,17 @@ carried a live key into a public repo with four beautifully-formatted commits wr
 - **When the split is obvious.** One concern, one commit. The value is on a messy tree.
 - **On a shared branch, with `cp`.** `cp` pushes. Know that before you type it.
 
+## Combining it
+
+- **Before you commit:** [`/ak:code-review`](/skills/code-review) on the diff, then `/ak:git`.
+  Splitting a mess into four clean commits does not make the mess correct — it makes it look
+  reviewed.
+- **The secret gate belongs earlier:** a
+  [pre-write hook](/guides/claude-code-hooks-examples) blocks a credential before it is typed into
+  a file. That is a real gate; this skill's grep for five English words is not one.
+- **Shipping:** `/ak:git` for the commits → `/ak:ship` for the PR. Know that `cp` pushes before you
+  type it.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you often face a messy tree and want it split into clean, well-scoped

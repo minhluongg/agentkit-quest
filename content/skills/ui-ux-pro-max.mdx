@@ -126,6 +126,19 @@ findings survived being checked and were worth acting on.
 - **As a substitute for measuring.** The report is a hypothesis list. The value came from
   checking each one in a real browser — including the one that turned out to be wrong.
 
+## Combining it
+
+- **Review the code, then drive the thing:** `/ak:ui-ux-pro-max` reads the components;
+  [`/ak:web-testing`](/skills/web-testing) measures the rendered page with a keyboard and a
+  contrast calculator. On our own site the review found two real bugs the code read alone would
+  have missed — and nearly filed a third that did not exist.
+- **Before optimising:** [`/ak:react-best-practices`](/skills/react-best-practices) makes rendering
+  faster. Sometimes the fix is fewer things on screen, not faster rendering of too many, and that
+  is this skill's call, not that one's.
+- **Anything it flags:** [`/ak:debug`](/skills/debug). A surprising finding on a careful codebase is
+  usually a bad measurement — verify before you file, or a design audit becomes a generator of
+  confident fiction.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you build UIs often and want a curated design system chosen for you each
