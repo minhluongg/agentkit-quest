@@ -13,6 +13,7 @@
     "postinstall": "fumadocs-mdx",
     "verify": "tsx scripts/verify-build.ts",
     "redact:check": "tsx scripts/redact-transcript.ts",
+    "prebuild": "tsx scripts/redact-transcript.ts content plans",
     "postbuild": "tsx scripts/verify-build.ts"
   },
   "dependencies": {
