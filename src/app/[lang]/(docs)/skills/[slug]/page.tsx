@@ -190,7 +190,10 @@ export default async function SkillPage({ params }: PageProps) {
 }
 
 /**
- * Rendered when no hand-written override exists — 71 of 91 skills, and 3 of 16 agents.
+ * Rendered for every skill with no hand-written override. Skills only — the agent pages carry
+ * their own stub, and it still opens with the apology described below. Extending this there is
+ * unfinished work, not an oversight to leave quiet: an agent has `tools` and a `model`, not an
+ * `argument-hint` or scripts, so it needs its own shape rather than this one.
  *
  * It used to open by apologising: "a full write-up is still being written." That sentence
  * was doing real damage, because it is not true that the page has nothing. The page has the
@@ -200,8 +203,12 @@ export default async function SkillPage({ params }: PageProps) {
  * back later by a page that already had their answer.
  *
  * So it states what it knows, plainly, and is honest about the one thing it does not have:
- * we have not run this skill against a real repository, and the twenty pages that link from
- * here have. That is a specific, checkable claim — not a placeholder.
+ * we have not run this skill against a real repository, and the pages that link from here
+ * have. That is a specific, checkable claim — not a placeholder.
+ *
+ * No count here on purpose. Every literal in this file went stale the day a page was added —
+ * "71 of 91", "the twenty pages" — and a number in a comment goes wrong silently, because
+ * nothing builds it. Read the real figures from `publishedSkillSlugs()` and the build output.
  *
  * It stays `noindex` (see src/lib/overrides.ts). This is the difference between *useful to
  * the person who found it* and *worth asking Google to rank* — and they are not the same
