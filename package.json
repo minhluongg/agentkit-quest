@@ -12,6 +12,7 @@
     "catalog:build": "tsx scripts/build-catalog.ts",
     "postinstall": "fumadocs-mdx",
     "verify": "tsx scripts/verify-build.ts",
+    "redact:check": "tsx scripts/redact-transcript.ts",
     "postbuild": "tsx scripts/verify-build.ts"
   },
   "dependencies": {
