@@ -95,6 +95,56 @@ for (const file of untrackedContent()) {
   );
 }
 
+// --- Every published skill page meets the same bar --------------------------
+//
+// Six pages were missing "Combining it", one was missing "When NOT to reach for it" too, and
+// one linked to no guide at all. They had been written across a long session to a standard
+// that drifted, and nothing noticed — the gaps were found by someone thinking to look.
+//
+// A standard that depends on remembering to audit it is not a standard. These are the four
+// things that make a skill page worth publishing rather than a paraphrase of the vendor's
+// description, so they are asserted.
+
+/** Headings every published skill page must carry. Matched on a distinctive prefix. */
+const REQUIRED_SECTIONS = [
+  // The free method IS the page's reason to rank. A page that withholds it loses to the
+  // official docs and dev.to, which do not.
+  'How to do it without a kit',
+  // A usage call, not a purchase call — when is the free way simply better?
+  'When NOT to reach for it',
+  // The workflow chain. A skill described in isolation is a skill nobody knows when to use.
+  'Combining it',
+];
+
+for (const path of mdxFiles(join(ROOT, 'content/skills'))) {
+  const rel = relative(ROOT, path).replace(/\\/g, '/');
+  const source = readFileSync(path, 'utf8');
+  const headings = [...source.matchAll(/^## (.+)$/gm)].map((m) => (m[1] ?? '').trim());
+
+  for (const required of REQUIRED_SECTIONS) {
+    if (!headings.some((h) => h.startsWith(required))) {
+      failures.push(`${rel} is missing its "## ${required}" section.`);
+    }
+  }
+
+  // Evidence, or an honest admission that there is none. Never silence — a page with neither
+  // reads exactly like a page nobody checked, and the reader cannot tell them apart.
+  const hasTranscript = /^````/m.test(source);
+  const admitsNoRun = /have not run|not one of them|not published a run/i.test(source);
+  if (!hasTranscript && !admitsNoRun) {
+    failures.push(
+      `${rel} has no captured transcript and does not say so. Show what the skill printed, or ` +
+        'state plainly that it was not run here and why. Silence is the one option that is not ' +
+        'available.',
+    );
+  }
+
+  // A skill page with no guide link is an orphan the pillar tier cannot feed.
+  if (!/\]\(\/guides\//.test(source)) {
+    failures.push(`${rel} links to no guide. It is an island.`);
+  }
+}
+
 // --- Report -----------------------------------------------------------------
 
 if (failures.length > 0) {

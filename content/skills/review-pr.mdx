@@ -57,19 +57,81 @@ pass — and can optionally `--fix` the issues and `--reply` on the PR.
 The `--fix` and `--reply` automation and the anti-slop pass are the parts that save real
 time over a hand-driven review.
 
-## We have not published a run of this one
+## What it actually printed
 
-Every other skill page here either shows a real transcript or says plainly why it does not.
-This one says the latter, and the reason is worth stating rather than hiding.
+We ran it — read-only, without `--fix` and without `--reply` — against a real open PR on this
+repository. Fourteen commits, 69 files.
 
-There *is* a genuine target — this site has an open PR, and reviewing it would be real work,
-not a staged example. What we do not yet have is the containment to run it safely: `--reply`
-posts to GitHub and `--fix` writes to the tree, and the harness that would let us run a
-write-and-post-capable skill without it reaching the live repo is not built yet.
+```bash
+$ gh pr view 1
+$ /ak:review-pr 1
+```
 
-So the honest position is: **the free method above is complete and we stand behind it; the
-kit's version is unexercised here.** A transcript lands when we can produce one without
-staging it — and if it turns out we cannot, that will be said here too.
+**The PR did not build, and nothing in the diff said so.**
+
+````
+Risk: High — head commit does not build.
+
+I bisected the CI state per commit:
+
+  dbcce1e (head)  failure   ← "docs(runs): three more real runs"
+  412df03         success
+  main d8d122a    success (production)
+
+The failing commit adds THREE MARKDOWN FILES and nothing else.
+
+Reproduced locally with the exact command Vercel runs:
+
+  $ npx tsx scripts/redact-transcript.ts content plans
+  ✗ 1 finding(s).
+    plans/.../runs/plan.md:99
+      rule: claude-dir (Local Claude config path)
+
+Exit 1 → `next build` never starts. Merging as-is turns main red.
+````
+
+The offending line was **prose** — a sentence describing what a reviewer had said, which happened
+to name `.claude/skills/` in backticks. Nothing leaked. The safety gate this very PR introduces was
+firing on its author's own writing.
+
+**No individual file in that diff is wrong.** `redact-transcript.ts` is correct. `plan.md` is
+correct. What is broken is the *interaction* between a gate added at commit 5 and a documentation
+file added at commit 13 — a bug that exists in no hunk, and that a file-by-file review approves
+twice.
+
+It also treated the PR description as a set of claims to check rather than context to trust, and
+verified them: 96 tests (`playwright test --list` → 96), keywords unchanged (byte-identical across
+nine pages), 91 skills / 16 agents. And it found a real conflict between the PR body and the
+product: the new test suite defined "published" as *a file exists*, while the code defines it as
+*a file exists **and** `noindex !== true`* — so using the documented kill-rule exactly as designed
+failed two tests. A legitimate product action and a real regression produced identical output.
+
+**That is what a PR-level review is for.** A diff review asks "is this code correct". This asks
+"after we merge, does the repository still work, and should this PR exist at all" — and neither
+question is answerable from any single file.
+
+Verdict: **Request changes.** We fixed the build, fixed the kill-rule test, and re-pushed.
+
+## When NOT to reach for it
+
+- **The PR is yours and one commit long.** [`/ak:code-review`](/skills/code-review) on the diff is
+  the cheaper tool. PR-level review earns its cost on a PR big enough to have emergent problems.
+- **You want the code checked, not the change justified.** Half of what this does is strategic —
+  *should this exist, is it one PR or three, does it duplicate something* — and if you have already
+  answered those, you are paying for a pass you do not need.
+- **You are not willing to hear "request changes".** It told us our own PR should have been three,
+  and that `/og` was hitching a ride on a content branch. That was correct and unwelcome.
+
+## Combining it
+
+- **Before you open the PR:** [`/ak:code-review`](/skills/code-review) on your own diff, then
+  [`/ak:test`](/skills/test). This skill finds what those two structurally cannot — the
+  interactions *between* commits.
+- **When it flags a build failure:** [`/ak:debug`](/skills/debug). It told us *that* the build was
+  red and bisected to the commit; proving *why* was a separate job.
+- **On your own branch:** [`/ak:git`](/skills/git) for the commits → `/ak:ship` for the PR → this
+  on the result. Reviewing your own PR through a tool that does not share your assumptions is the
+  closest thing to a second pair of eyes you get alone.
 
 ## Buy if / Don't buy if
 

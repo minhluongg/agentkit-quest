@@ -117,6 +117,19 @@ correct — but you cannot tell which ones from the report.
 - **Instead of a unit suite.** This tests the shipped page. It will not tell you *why* something
   broke — see [`/ak:test`](/skills/test) and [`/ak:debug`](/skills/debug).
 
+## Combining it
+
+- **After a rendering change:** [`/ak:web-frameworks`](/skills/web-frameworks) decides what is
+  static; this measures whether that decision actually reached the user. The build manifest and
+  the browser disagree more often than anyone expects.
+- **Before trusting a perf "fix":** [`/ak:react-best-practices`](/skills/react-best-practices) will
+  tell you a rule fires. This tells you whether it matters in a browser — on our own filter, the
+  rule fired and the answer was 0.27ms.
+- **Design and a11y together:** [`/ak:ui-ux-pro-max`](/skills/ui-ux-pro-max) reviews the code; this
+  drives the real thing with a keyboard.
+- **Turn a finding into a gate:** [`/ak:test`](/skills/test). A measurement is a snapshot; an
+  assertion is a promise. Only one of them stops the regression.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you want one skill spanning e2e/load/visual/a11y without configuring each

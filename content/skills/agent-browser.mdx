@@ -119,6 +119,16 @@ of 50 on a small page.
   `agent-browser open` holds the browser and does not return. It works with an explicit timeout
   and a separate `snapshot` call — but the failure mode is a hang, not an error.
 
+## Combining it
+
+- **Exploratory QA:** `agent-browser` to drive and look → [`/ak:web-testing`](/skills/web-testing)
+  to turn whatever you found into an assertion that fails next time. Driving is not testing until
+  something can go red.
+- **After a UI change:** [`/ak:ui-ux-pro-max`](/skills/ui-ux-pro-max) reviews the code; this drives
+  the rendered result. The two disagree more often than you would expect, and the browser wins.
+- **When a page renders wrong:** [`/ak:debug`](/skills/debug). A snapshot shows you *that* the tree
+  is wrong; it will not tell you why.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you run long autonomous browser sessions and want an accessibility-tree
