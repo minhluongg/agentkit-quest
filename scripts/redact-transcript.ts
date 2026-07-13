@@ -154,7 +154,10 @@ const RULES: Rule[] = [
   // a public repo"), and `/ak:scout` or `/ak:repomix` will happily echo its contents.
   // Naming the directory in prose, though, is documentation — not leakage.
   { name: 'private-kit', test: /agentkit-engineer[/\\]/, why: 'Private vendored kit path', scope: 'transcript' },
-  { name: 'claude-dir', test: /(?:^|[\s"'`([])\.claude[/\\]/, why: 'Local Claude config path', scope: 'transcript' },
+  // `~` and `/` join the leading char class: the old pattern caught `.claude/` but sailed
+  // past `~/.claude/`, so the same path written two ways got two different answers — in the
+  // same file, three lines apart. Neither sound nor complete.
+  { name: 'claude-dir', test: /(?:^|[\s"'`([~/])\.claude[/\\]/, why: 'Local Claude config path', scope: 'transcript' },
 ];
 
 /** Report the shape, never the value. */
@@ -241,15 +244,46 @@ function scan(file: string) {
   }
   if (state === 'meta') return;
 
-  const active = RULES.filter((rule) => rule.scope === 'always' || isTranscript(rel));
+  const transcript = isTranscript(rel);
+
+  /**
+   * Is this line inside a fenced code block?
+   *
+   * The transcript-scoped rules were written on a false assumption: that a file under
+   * `runs/` *is* captured output. It is not — it is a run *report*: mostly prose, tables
+   * and quotations, with the captured output quoted inside fences.
+   *
+   * So the gate blocked a sentence that merely *named* `.claude/skills/` while describing
+   * what a reviewer had said, and turned the build red on the author's own prose. That is
+   * the failure this script's own header warns about: a gate that cries wolf is a gate
+   * people learn to skip past.
+   *
+   * Captured output lives inside a fence. Prose about a path is documentation — on a site
+   * whose entire subject is Claude Code, it is the subject matter. Scope the rules to the
+   * fence and the distinction becomes structural rather than a guess about wording.
+   *
+   * Credential rules are unaffected: they stay `always`, and they scan every line of every
+   * file. A token has no business in prose either.
+   */
+  let inFence = false;
+  const fenceEdge = /^\s*(`{3,}|~{3,})/;
 
   source.split('\n').forEach((line, i) => {
+    if (fenceEdge.test(line)) {
+      inFence = !inFence;
+      return; // the fence marker itself carries nothing
+    }
+
     // Strip the redacted SPANS, then scan what is left.
     //
     // The old code skipped the whole LINE when it saw `[REDACTED]`. That is a bypass,
     // and the realistic one: a human redacts the token, the tool goes green, and the
     // home path sitting on the same line ships anyway.
     const remainder = line.replaceAll('[REDACTED]', '');
+
+    const active = RULES.filter(
+      (rule) => rule.scope === 'always' || (transcript && inFence),
+    );
 
     for (const rule of active) {
       if (rule.test.test(remainder)) {
