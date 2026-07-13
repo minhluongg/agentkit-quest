@@ -1,0 +1,120 @@
+---
+title: 'Implementing a Feature with Claude Code, Without It Going Off the Rails'
+description: How to get Claude Code to implement a feature end-to-end — scout, plan, build, review, test — instead of coding straight from a one-line prompt. The free method, and what AgentKit's cook skill adds.
+keywords:
+  - claude code implement a feature
+  - claude code implementation workflow
+  - claude code build from a plan
+kitVersion: 'v0.2.0'
+updated: '2026-07-13'
+---
+
+The failure mode of "just build it" is not that Claude writes bad code. It writes plausible
+code, immediately, against assumptions it never showed you — and you find out three files
+later. The fix is boring and it works: **make it scout, make it plan, make it prove the
+change did not break anything else.**
+
+## The job
+
+Take a feature or a fix from a description to working, reviewed, tested code — without a
+mid-way rewrite because the approach was wrong from the first file.
+
+## How to do it without a kit
+
+The whole technique is four gates. Each is a sentence in a prompt, and all four are free.
+
+**1. Scout before you plan.** Claude cannot plan against a codebase it has not read.
+
+> Before proposing anything: find the existing modules relevant to this task, the patterns
+> this codebase already uses for similar features, and any public contract this could
+> affect. Summarise in six bullets. Do not write code yet.
+
+**2. Plan before you build — and pin down "done" first.** The expensive ambiguity is not
+*how*; it is *what*, and *what counts as finished*.
+
+> Write the plan: expected output, acceptance criteria, what is explicitly out of scope,
+> and which existing files you will touch. Then stop and wait.
+
+**3. Build only what the plan says.** Scope creep during implementation is how a two-file
+change becomes a nine-file review nobody can read.
+
+**4. Prove it did not break anything else — and this is the gate people skip.** "The tests
+pass" is not the same as "nothing regressed."
+
+> Walk every caller of every function you changed. Check that no public contract moved —
+> signatures, exported types, API responses, env vars, config keys. Run the tests in the
+> modules that share files with this change, not just the ones you wrote.
+
+A [subagent](/guides/skills-vs-commands-vs-subagents) makes gate 4 much stronger: a fresh
+reviewer that never saw the code being written has no stake in it being correct. That is the
+[whole argument for orchestration](/guides/claude-code-agent-orchestration), and it is free.
+
+## What the kit's skill adds
+
+AgentKit's `cook` skill (`/ak:cook`) is those gates, enforced rather than remembered — plus
+the subagent hand-offs wired in. It detects intent from the input (a plan path runs the plan;
+"quick" skips research), then runs scout → plan → implement → review → test → finalise, with
+a mandatory `code-reviewer` subagent and a stop at each gate.
+
+```bash
+/ak:cook "add rate limiting to the search endpoint"
+/ak:cook plans/260713-1441-.../plan.md      # execute an existing plan
+/ak:cook "fix the flaky login test" --fast  # skip research, keep the gates
+```
+
+*(Legacy prefix: `/ck:cook`.)*
+
+The part that earns its place is the **anti-rationalisation table** in its own definition —
+a list of the excuses for skipping the plan step (*"this is too simple to plan"*, *"I'll plan
+as I go"*, *"just this once"*) with the rebuttal next to each. That is not a feature; it is
+an admission that the gates fail because a model talks itself out of them, and the fix is to
+name the excuses in advance.
+
+## We have not published a run of this one
+
+Fourteen skill pages on this site show what the skill actually printed — the bugs it found, the
+numbers it reported, the things it got wrong. **This is not one of them, and rather than pad the
+gap with a paraphrase of the vendor's description, here is the gap.**
+
+There is no captured transcript for `cook` in our [run log](/skills/scout). When there is one, it
+goes here. Until then, the free method above is the part we stand behind, because it is the part
+we can show you.
+
+*(An earlier draft of this page described, from memory, what `cook` "did" in a session — under a
+heading that on every other page means* here is the transcript. *A reviewer caught it. That is the
+unsourced-claim failure the rest of this site exists to avoid, and it is gone.)*
+
+## When NOT to reach for it
+
+- **A one-line change you can see the whole of.** The gates cost more than the edit. This is
+  what its own `--fast` mode is for, and sometimes the answer is not to use it at all.
+- **You do not yet know what to build.** `cook` implements; it does not decide. If the
+  requirements are fuzzy, that is a [planning](/skills/plan) or brainstorming problem, and
+  running an implementation workflow over a fuzzy goal just gets you to the wrong place faster.
+- **You will overrule the review gate.** A gate you always wave through is a gate that costs
+  time and buys nothing.
+
+## Combining it
+
+- **The full loop:** [`/ak:plan`](/skills/plan) → `/ak:plan red-team` → `/ak:cook <plan>` →
+  [`/ak:code-review`](/skills/code-review) → [`/ak:test`](/skills/test)
+- **For a bug, not a feature:** [`/ak:debug`](/skills/debug) to find the cause first. Cooking a
+  fix for a cause you have not proven is guessing with extra steps.
+- **Executing someone else's plan:** point it at the plan file. That hand-off through a file on
+  disk is what makes the workflow survive a context reset.
+
+## Buy if / Don't buy if
+
+- **Worth it if** you implement substantial features regularly and want the scout/plan/review/
+  regression gates enforced instead of remembered — especially the regression check, which is
+  the one everybody skips.
+- **Skip it if** you already work this way. The four prompts above *are* the method. The kit
+  sells you not having to remember them at 2am, which is a real thing to sell, and not the same
+  as a capability you cannot otherwise have.
+
+## Related
+
+- [Planning a feature first](/skills/plan) — the step before this one
+- [Code review](/skills/code-review) — the gate that catches what implementation missed
+- [Agent orchestration](/guides/claude-code-agent-orchestration) — why a fresh reviewer beats a self-review
+- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

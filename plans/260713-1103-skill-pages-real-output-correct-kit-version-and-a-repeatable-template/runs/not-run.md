@@ -24,6 +24,8 @@ someone has edited.
 | `databases` | No database. No `prisma/schema.prisma`, no ORM, no connection string. All content is MDX and generated JSON, resolved at build. | Same. |
 | `better-auth` | No authentication. No accounts, no sessions, no cookies — verified during the [security audit](/skills/security), which found the site has *no identity to spoof at all*. | Same. |
 | `mcp-builder` | No MCP server in this repo, and building one purely to screenshot it would be the contrived-success failure mode this plan spends two pages forbidding. | Same. |
+| `cook` | **No transcript, and the page shipped anyway** — it was written to close the `cook` link leak (10 guides pointed at a `noindex` stub), and the plan explicitly decoupled that from a capture. Added 2026-07-13 after review caught that the page had been published with no register entry: the *exact* hole that `review-pr` was added to close, re-dug in the same batch of work that closed it. | Says plainly there is no captured run, and that the free method is the part we stand behind. |
+| `review-pr` | **Different reason from the five above: a real target exists.** This repo has an open PR, so reviewing it would be genuine work. The blocker is containment, not absence — `--reply` posts to GitHub and `--fix` writes to the tree, and the harness for running a write-and-post-capable skill safely is not built. Added 2026-07-13, after this page was found to have fallen through the register entirely: no transcript, no entry, no page line. | States plainly that the kit's version is unexercised here, and why. |
 
 ## Why this is not a gap in the pages
 

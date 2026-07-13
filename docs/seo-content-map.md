@@ -16,7 +16,7 @@
 | **W1 link engine** | repo + hooks guide | ✅ | [github.com/minhluongg/claude-code-hooks](https://github.com/minhluongg/claude-code-hooks), CI green 3 OS |
 | **P0 commercial** | 5 rows | ✅ 5/5 | vs-free, which-kit, review(=vs-free), migration, + which-kit. Row 2 (do-i-need) dropped — cannibalises row 1. |
 | **P1 pillars** | 6 rows | ✅ 6/6 | skills-vs-commands, how-to-write-skill, hooks, workflow-patterns, orchestration, vs-cursor |
-| **P2 skill pages** | 20 | ✅ 20/20 | all job-targeted, teach the free method, honest Buy/Don't-buy |
+| **P2 skill pages** | 20 | ✅ **21** | 20 planned + `cook` (see below). All job-targeted, teach the free method, honest Buy/Don't-buy. **14 of 21 now carry a real captured transcript; the other 7 say plainly that they do not.** |
 | **P3 getting-started** | 4 | ✅ 4/4 | what-is, install, first-project, core-commands |
 | **Agent pages** | 13 | ✅ 13/13 | all agents, targeting the *subagent/worker* angle (distinct from skill action-keywords); niche ones (project-manager, journal-writer) say so honestly |
 | **P4 (68 remaining skill stubs)** | — | `noindex` by design | 68 stubs gated until they have real content |
@@ -187,6 +187,17 @@ Routes already exist (the skeleton generates all 88, currently `noindex` stubs).
 | 33 | `/skills/review-pr` | claude code review a github pr *(distinct from row 15)* | `/ak:review-pr` | NOINDEX |
 | 34 | `/skills/scout` | claude code explore a large codebase | `/ak:scout` | NOINDEX |
 | 22 | `/skills/plan` | *(retarget or drop — row 13 owns planning)* | `/ak:plan` | NOINDEX |
+| 35 | `/skills/cook` | claude code implement a feature | `/ak:cook` | **LIVE** |
+
+**Row 35 (`cook`) was not in the original 20, and it is the one row here with a real trigger.**
+Ten guides named `cook` in `relatedSkills` while it was a `noindex` stub — ten indexed pillar pages
+pouring link equity into a URL we told Google to ignore. That is the P4 promotion rule's second
+trigger (*"a P1 pillar needs it as a genuine internal-link target"*) satisfied honestly, not
+manufactured. Published 2026-07-13.
+
+**Status column above is stale for rows 15-34** — they read `NOINDEX` but all 20 have been live
+since launch (see the launch header). Left as-is here only because fixing it belongs with the
+whole-table pass, not this row. **Do not trust this column; trust `publishedSkillSlugs()`.**
 
 **Overlaps flagged and resolved:** row 15 (code review) vs 33 (review a PR) — distinct keywords, kept. Row 24 (Vercel deploy) vs 25 (Docker) — row 25 previously targeted *Docker AND Kubernetes in one row*, which ranks for neither; K8s dropped. Row 16 (debug) vs 34 (explore codebase) — distinct enough, watch in GSC.
 
