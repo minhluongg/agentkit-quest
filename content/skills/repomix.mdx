@@ -1,12 +1,12 @@
 ---
 title: 'Pack a Repo for an LLM with Claude Code (Repomix)'
-description: How to pack a whole codebase into a single AI-friendly file with Repomix, for LLM context, audits, or onboarding. The free method, and what AgentKit's repomix skill adds.
+description: How to pack a whole codebase into a single AI-friendly file with Repomix, for LLM context, audits, or onboarding. The free method, a real run on this site, and what AgentKit's skill adds.
 keywords:
   - repomix claude code
   - pack repo for llm
   - claude code codebase snapshot
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 Sometimes you want to hand an entire codebase to an LLM at once — for a security audit, to
@@ -41,11 +41,57 @@ best for humans; plain text is smallest.
 Then paste (or attach) the packed file into your LLM of choice. This is a genuinely useful
 free tool for third-party library analysis and audits.
 
+## What it actually printed
+
+We packed this site's own `src/` — 57 files of Next.js app code:
+
+```bash
+npx repomix src --style markdown --compress
+```
+
+Real output (ANSI codes stripped, the absolute output path redacted — it was a home
+directory, not yours):
+
+````
+✔ Packing completed successfully!
+
+📈 Top 5 Files by Token Count:
+──────────────────────────────
+1.  data/skills.generated.json (14,712 tokens, 59,257 chars, 48.9%)
+2.  data/agents.generated.json (2,612 tokens, 11,299 chars, 8.7%)
+3.  app/[lang]/(marketing)/page.tsx (786 tokens, 3,364 chars, 2.6%)
+4.  app/[lang]/(docs)/skills/[slug]/page.tsx (684 tokens, 2,939 chars, 2.3%)
+5.  components/affiliate/kit-cta.tsx (623 tokens, 2,593 chars, 2.1%)
+
+🔎 Security Check:
+──────────────────
+✔ No suspicious files detected.
+
+📊 Pack Summary:
+────────────────
+  Total Files: 57 files
+ Total Tokens: 30,068 tokens
+  Total Chars: 122,635 chars
+       Output: [REDACTED]/repomix-src.md
+     Security: ✔ No suspicious files detected
+````
+
+**Two generated JSON files are 57.6% of the pack.** `skills.generated.json` alone is 14,712
+tokens — 48.9% — and it is a build artefact, not code anyone reads. Pack `src/` naively and
+more than half your context budget goes to data the model does not need in order to reason
+about the app. The fix is one `--ignore` glob, and you only know to reach for it **because the
+tool ranked the files for you.**
+
+That ranking is the thing a `cat`-everything-into-a-file approach never gives you. Neither is
+the security scan: it checked all 57 files for credentials before writing the pack. This repo
+does have a live token in a `.env` file — `src/` does not contain it, and repomix *confirms*
+that rather than asking you to assume it.
+
 ## What the kit's skill adds
 
-AgentKit's `repomix` skill (`/ak:repomix`) wraps this with sensible defaults for the common
-jobs — codebase snapshots, LLM-context prep, security audits, third-party analysis — and
-the format flags, with scripts.
+AgentKit's `repomix` skill (`/ak:repomix`) wraps the tool with sensible defaults for the common
+jobs — codebase snapshots, LLM-context prep, security audits, third-party analysis — and the
+format flags, with scripts.
 
 ```bash
 /ak:repomix . --style xml
@@ -53,15 +99,37 @@ the format flags, with scripts.
 
 *(Legacy prefix: `/ck:repomix`.)*
 
-Since Repomix itself is free and open source, the skill is convenience over the raw tool
-rather than new capability — worth knowing before you weigh it.
+**Be clear about what you are buying.** Everything in the run above came from `npx repomix`,
+which is free and MIT-licensed. The skill is convenience over the raw tool, not new capability.
+That is worth knowing before you weigh it, and we would rather say so than imply otherwise.
+
+## When NOT to reach for it
+
+- **You only need part of the repo.** Packing everything to ask about one module is the
+  expensive way to get a cheap answer. [`/ak:scout`](/skills/scout) explores without filling
+  your context.
+- **You are already in Claude Code, in the repo.** Claude can read the files directly. Packing
+  is for getting a codebase *out* — into a different model, a web UI, an audit.
+- **The repo is large.** 57 files was 30k tokens. A real application will blow any context
+  window; scope it hard, or pick a different tool.
+
+## Combining it
+
+- **Onboarding an unfamiliar library:** `/ak:repomix` the dependency → ask a model to explain
+  it → [`/ak:scout`](/skills/scout) your own repo for the integration points
+- **Security audit:** `/ak:repomix` for the whole-picture pass →
+  [`/ak:security`](/skills/security) for the threat-modelled one
+- **Docs:** pack it, then [`/ak:docs`](/skills/docs) — but verify what the summary claims
 
 ## Buy if / Don't buy if
 
-- **Worth it if** you already own the kit and want the packing patterns integrated.
-- **Skip it if** packing is all you need — `npx repomix` is free and does the whole job.
+- **Worth it if** you already own the kit and want the packing patterns integrated with the
+  rest of your workflow.
+- **Skip it if** packing is all you need. `npx repomix` is free and does the entire job shown
+  above — every number on this page came from the free tool.
 
 ## Related
 
-- [Explore a large codebase](/skills/scout)
+- [Explore a large codebase](/skills/scout) — the cheaper move when you only need orientation
+- [Generate documentation](/skills/docs)
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

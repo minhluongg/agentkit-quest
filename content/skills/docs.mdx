@@ -1,12 +1,12 @@
 ---
 title: 'Generating Project Documentation with Claude Code'
-description: How to get accurate, maintainable docs out of Claude Code instead of a wall of restated code. The free method, and what AgentKit's docs skill adds for init, update, and summarize.
+description: How to get accurate, maintainable docs out of Claude Code instead of a wall of restated code. The free method, what AgentKit's docs skill adds — and the two things it got wrong when we ran it.
 keywords:
   - claude code generate documentation
   - claude code docs
   - claude code write readme
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 Ask Claude to "document this project" and you often get a README that restates the code in
@@ -50,13 +50,89 @@ docs set, update it against recent changes, or summarize the codebase.
 The `update` mode — reconciling docs with what actually changed — is the part that's tedious
 to do by hand and where the skill earns its place.
 
+## What it actually printed
+
+We ran `/ak:docs summarize` against this site's own source and then **checked every claim it
+made.** That second step is the whole reason this section is worth reading.
+
+**What it got right, and it is not nothing.** In about two minutes it produced a 232-line
+summary that correctly identified the repo's three-stage data flow and found the single most
+important mechanism in the codebase without being told to look for it:
+
+````
+2. **Content Override Gate** (`source.config.ts` + `src/lib/overrides.ts`)
+   - Skills/agents have stub pages (auto-generated from catalog) + optional
+     overrides in `content/skills/` and `content/agents/`
+   - An override file with real content makes a skill/agent page indexable;
+     without it, page carries `noindex` (spam prevention)
+````
+
+That is accurate. Finding the load-bearing abstraction in an unfamiliar repo is the expensive
+part of writing a summary, and it did that.
+
+**Then it invented an incident that never happened.** What it wrote:
+
+````
+The site initially shipped auto-generated stubs for all 91+ skills/agents.
+This triggered Google's spam classifier (scaled thin content). The gate
+mechanism now: ...
+````
+
+What the source comment it was paraphrasing actually says:
+
+````
+ * Without this gate we would ship 91 auto-generated skill pages and 16 agent
+ * pages whose only content is a paraphrase of upstream metadata. Google
+ * classifies that as scaled content abuse...
+````
+
+The source is **conditional and preventive**: *without this gate we **would** ship…*. The
+summary turned it into **a past event, stated as fact**: the site shipped them, and Google
+penalised it. Neither happened. The gate was built before launch, precisely so it would not.
+
+**And it got the counts wrong, in a very specific way.** It reported "88 skills" twice. The
+catalog has 91 — and the comment it was reading says 91, four lines above the passage it
+paraphrased correctly. `88` happens to be a figure this project already retracted in public: a
+count from a superseded kit.
+
+## When NOT to reach for it
+
+- **When you need the output to be true without checking it.** See above. Use it to get the
+  *shape*, then verify every number yourself.
+- **Be especially suspicious of history.** Words like *"initially"*, *"originally"*, *"this
+  caused"* are where fabrication lives — because the code it read contains no history, so
+  those sentences are the model filling a gap with something plausible.
+- **For a one-time README.** The free prompt above does that, and you will read the output
+  closely anyway.
+
+## Combining it
+
+- **Onboarding a repo:** [`/ak:scout`](/skills/scout) for the map → `/ak:docs summarize` for
+  the draft → **read it against the source before you commit it**
+- **After a feature lands:** `/ak:cook` → `/ak:docs update` — the update mode is the one that
+  is genuinely tedious by hand
+- **Feeding another model:** [`/ak:repomix`](/skills/repomix) packs the repo; `docs` explains
+  it. Different jobs.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you maintain living docs across a real project and want update/summarize
-  as repeatable commands.
+  as repeatable commands. The structure it produces is good.
 - **Skip it if** you need a one-time README — the prompt above does that free.
+
+**And treat it as a drafting tool, not a source of truth.** We did not merge the summary it
+generated. Adopting it would have written a fabricated Google penalty and a retracted count
+into our own reference docs — where the next person, and the next model, would have read them
+as fact.
+
+That is not an argument against the skill. It is the argument for the rule we already keep:
+every number on this site has to be verified against the thing itself before it ships. We
+wrote that rule after publishing a wrong count. The kit's own docs skill just tried to
+reintroduce the same one.
 
 ## Related
 
+- [Explore a large codebase](/skills/scout) — get the map before the summary
+- [Pack a repo for an LLM](/skills/repomix)
 - [What is AgentKit](/guides/what-is-agentkit)
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

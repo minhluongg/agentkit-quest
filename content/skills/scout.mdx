@@ -1,12 +1,12 @@
 ---
 title: 'Exploring a Large Codebase with Claude Code'
-description: How to get oriented in an unfamiliar or large codebase with Claude Code without flooding your context. The free method with subagents, and what AgentKit's scout skill adds.
+description: How to get oriented in an unfamiliar or large codebase with Claude Code without flooding your context. The free method with subagents, and what AgentKit's scout skill adds — with a real run.
 keywords:
   - claude code explore codebase
   - claude code understand large codebase
   - claude code find files
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 Dropping Claude into a big, unfamiliar repo and asking it to "understand the codebase"
@@ -45,17 +45,88 @@ is X" resolves quickly without you orchestrating the subagents by hand.
 /ak:scout "where is rate limiting implemented"
 ```
 
-*(Legacy prefix: `/ck:scout`.)* This site's own build used scouting to map the vendored kit
-before writing anything — it's a genuine time-saver on large trees.
+*(Legacy prefix: `/ck:scout`.)*
+
+## What it actually printed
+
+We ran it on this site's own repo. To keep it honest, we asked a question we **already knew
+the answer to** — so the reply could be checked rather than trusted:
+
+```bash
+/ak:scout "Where is the decision made that a skill page is noindex vs indexable?
+           Trace the path from an MDX file to the robots meta tag and the sitemap."
+```
+
+It split the question across two explorer agents running in parallel and merged their
+reports. The trace it returned:
+
+````
+  content/skills/<slug>.mdx exists
+    → source.config.ts:78     skillOverrides = defineCollections({ dir: 'content/skills' })
+    → src/lib/overrides.ts:10 skillMap = new Map(skillOverrides.map(...))
+    → src/lib/overrides.ts:36 isPublished(kind, slug)
+                              return entry !== undefined && entry.noindex !== true
+    → page.tsx:38             noindex: !published || override?.noindex === true
+    → src/lib/seo.ts:50       robots: noindex
+                                ? { index: false, follow: true }
+                                : { index: true, follow: true, ... }
+
+DRIFT — three surfaces decide "is this page discoverable", and only one asks:
+
+  src/app/sitemap.ts:35        .filter((s) => isPublished('skill', s.slug))   ✓ gated
+  src/app/llms.txt/route.ts:30 ...skills.map(...)                             ✗ no gate
+  src/lib/search-index.ts:36   skills.map((skill) => ({ ... }))               ✗ no gate
+````
+
+The trace was correct. **The second half is the part we hadn't asked for**, and we checked
+it against the real build output rather than taking its word:
+
+````
+$ grep -c '<loc>[^<]*/skills/' .next/server/app/sitemap.xml.body
+20
+$ grep -c '/skills/' .next/server/app/llms.txt.body
+91
+$ grep -o '"/skills/' .next/server/app/search-index.json.body | wc -l
+91
+````
+
+Twenty pages in the sitemap; ninety-one in the other two. Real, not inferred.
+
+**And the right response turned out not to be a patch.** A comment in our own
+`overrides.ts` says stub pages exist so *"users can land on them from search of the exact
+skill name"* — so the search index carrying all 91 is deliberate. `noindex` is an
+instruction to Google, not to our own command palette. That left one genuine open question
+about `llms.txt`, which we're still sitting with.
+
+That is the shape of the value: **a grep answers the question you asked. This answered the
+question and told us which of our assumptions had quietly diverged.**
+
+## When NOT to reach for it
+
+- **You know the file.** If you can name it, open it. Scouting a known path is slower than
+  reading it.
+- **The repo is small.** Under a few dozen files, the fan-out costs more than it saves.
+- **You need to *change* something, not find it.** Scout maps; it doesn't edit. Hand off to
+  [debug](/skills/debug) or a fix step once you know where to look.
+
+## Combining it
+
+Scout is the front of most workflows, rarely the whole one:
+
+- **Bug hunt:** `/ak:scout` → [`/ak:debug`](/skills/debug) → `/ak:fix` → [`/ak:test`](/skills/test)
+- **Before a review:** `/ak:scout` for edge cases → [`/ak:code-review`](/skills/code-review)
+- **Onboarding a repo:** `/ak:scout` for the map, then [`/ak:repomix`](/skills/repomix) if you
+  need the whole thing in one file for a different model.
 
 ## Buy if / Don't buy if
 
 - **Worth it if** you work in large codebases often and want fast parallel scouting on tap.
 - **Skip it if** you can spawn an explore-subagent yourself — the free method above is the
-  same idea.
+  same idea, and on a small repo it is the better one.
 
 ## Related
 
 - [Explore-then-edit workflow](/guides/claude-code-workflow-patterns)
 - [Pack a repo for an LLM](/skills/repomix)
 - [Agent orchestration](/guides/claude-code-agent-orchestration)
+- [Skills vs commands vs subagents](/guides/skills-vs-commands-vs-subagents)
