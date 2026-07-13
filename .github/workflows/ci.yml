@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A second push to the same PR makes the first run irrelevant. Cancel it rather than
+# queueing behind it.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+      - run: npm run lint
+
+      # `npm run build` fires `prebuild` (the redaction gate) and `postbuild`
+      # (verify-build.ts) on its own. A leaked credential or a stale kit version fails
+      # here, before anything reaches a preview URL.
+      #
+      # There is no .env.local on a runner, so the gate's literal-value matching has
+      # nothing to match — it says so, and its shape rules still run. That is the
+      # expected CI posture, not a silent degradation.
+      - run: npm run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # The suite runs against `next start`, so it needs the build above. It asserts what
+      # a crawler actually receives — the robots directive, the sitemap, the absence of
+      # horizontal overflow at a phone width, the drawer's focus trap.
+      #
+      # Without this job those assertions only ever ran when someone remembered to type
+      # `npm test`, which makes them decoration rather than a gate.
+      - run: npm test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
