@@ -154,6 +154,24 @@ Real demand, weak SERPs. But these readers largely want the *free* way — **jud
 
 **Kill rule (P1).** Below position 20 at 6 months **and** zero links earned → cut. Authority-building has to actually build authority.
 
+**The instrument, named — 2026-07-13.** This rule was unfireable until now: it has two clauses and
+we had no way to measure either. A rule nobody can measure is not a gate, it is a reassurance.
+
+| Clause | Instrument | Threshold |
+|---|---|---|
+| *"Below position 20 at 6 months"* | **Search Console → Performance → Queries**, filtered to the page, `Average position` | ≥ 20 = failing |
+| *"and zero links earned"* | **Search Console → Links → External links → Top linking sites** — free, already connected, reports referring domains | **< 3 referring domains** = zero-for-our-purposes. One link from a fork of our own repo is not a link. |
+
+**Both clauses must fail to cut.** A page at position 30 that earned 5 referring domains is working —
+it is early, not dead. A page at position 12 with no links is *also* working; it found its query
+without help. Only the page that ranks nowhere *and* attracted nobody has failed at both jobs it was
+given, and that is the one to cut.
+
+No backlink tool (Ahrefs/SEMrush) is available to this project, and none is needed for this: GSC's
+Links report is the same signal for free. **Do not substitute impressions.** Impressions on a
+6-month-old zero-authority domain measure the domain's age, not the page's quality — the exact
+confound the P0 kill rule already calls out.
+
 ---
 
 ## Tier P2 — The 20 skill pages, targeted at job keywords.
@@ -246,7 +264,9 @@ pages now carry a correction callout rather than a quiet edit.
 Knock-on effects, all handled:
 - 6 skills left the kit (`docx`, `pdf`, `pptx`, `xlsx`, `ghpm`, `ckm-design`) — none had written
   pages, so no published URL 404s.
-- 9 skills and 3 agents (`advisor`, `explore`, `kongming`) are new → `noindex` stubs, 74 total.
+- 9 skills and 3 agents (`advisor`, `explore`, `kongming`) are new → `noindex` stubs. **73 stubs
+  as of 2026-07-13** (was 74; `cook` was published — see row 35). Never count these by hand:
+  `publishedSkillSlugs()` / `publishedAgentSlugs()` are the source, and the build prints the total.
 - Skill slugs preserved: the new kit names skills `ak:plan`, and slugging that raw would have
   moved every `/skills/*` URL. The slug is the bare name.
 
@@ -267,7 +287,31 @@ Promote out of P4 only on a specific trigger: a real query appears in Search Con
 | **W0** | ✅ Delete placeholder pages (done — they were indexable, in the sitemap, body text *"Placeholder body."*). **Then** Search Console + sitemap. **Buy the kit.** | Never let a domain's first crawl see thin pages. |
 | **W1** | **R1 repo** + row 11 | The link engine. |
 | **W2** | Rows 9, 12 | The weakest SERPs. Ranking proof. |
-| **W3** | **Distribution** — repo → awesome-lists; guides → HN, Reddit, dev.to (canonical back here) | The previous draft had **no distribution phase at all**. |
+| **W3** | **Distribution — social FIRST, lists second.** ① Show HN + Reddit with the repo. ② Then the `rohitg00` Ecosystem table (a real outbound link). ③ Then the `hesreallyhim` issue form. Guides cross-posted to dev.to with `rel=canonical` back here. | The previous draft had **no distribution phase at all** — and then got the order backwards. See below. |
+
+### W3 ordering — corrected 2026-07-13, on the maintainer's own words
+
+This row used to read *"repo → awesome-lists; guides → HN, Reddit, dev.to"* — lists first. **The
+maintainer of the largest list (49,903★) states in writing that this order is the common way to
+fail.** From `hesreallyhim/awesome-claude-code/CONTRIBUTING.md`:
+
+> "Too many people think like this: (i) Build something awesome; (ii) Submit to Awesome Claude Code;
+> (iii) Get accepted, because of being awesome; (iv) Get users. However, a more likely chain of
+> events is: (i) Build something awesome; (ii) **Get users**; (iii) Submit it — or just focus on the
+> project, and I'll notice it if it gathers enough interest. **If 'getting on the list' is any part
+> of a promotional strategy for your project, you should be prepared to have a backup plan.**"
+
+Measured the same day: **643 open issues**, eight new resource submissions in one day, ~one merged
+resource in the past month. **A list submission is a lottery ticket, not a distribution strategy.**
+Buy the ticket — it costs five minutes — but do not schedule anything behind it.
+
+**Two traps, recorded so nobody walks into them later.** `karanb192/claude-code-hooks` (445★) and the
+`hooks/scripts/` path of `rohitg00/awesome-claude-code-toolkit` are **not lists**. Their contribution
+process **copies your hooks into their repo**. Contributing there donates the asset to a competitor
+and returns no link. `rohitg00`'s **Ecosystem table** is the outbound-link section — target that one.
+
+Full drafts, exact entry formats, and the issue-form field values:
+[`docs/w3-distribution-playbook.md`](./w3-distribution-playbook.md).
 | **W4** | P0 (rows 1, 2, 3, 4, 6) | Conversions — now with a kit we own and a domain with links. |
 | **W5+** | P1 remainder → P2 | Volume, once the domain can rank. |
 
