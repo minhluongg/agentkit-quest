@@ -24,7 +24,6 @@ export const docs = defineDocs({
       description: z.string(),
       category: z.string(),
       difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
-      readingTime: z.number().optional(),
       // Strict date: sitemap.ts feeds this straight into `new Date()`, so a typo
       // would otherwise surface as an Invalid Date deep in the build.
       updated: z.iso.date(),

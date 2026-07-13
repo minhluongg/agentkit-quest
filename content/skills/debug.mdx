@@ -146,6 +146,17 @@ display that nothing populates?" — and the quick fix would have buried it.
 Reproducing cost a build. It bought a finding reasoning could not reach, because the reasoning
 was about the code and the finding was about the *content*.
 
+<Callout type="info" title="What we did about it">
+We deleted the block and the schema field. Not `.positive()` — that would have kept a
+reading-time display nothing populates, and a hand-authored minute count in frontmatter is wrong
+the first time anyone edits the guide, with nothing to catch it. If it comes back, it gets derived
+from the body.
+
+**The transcript above quotes code that no longer exists.** It was true when it ran, and rewriting
+it to match today's repo would be exactly the fabrication this page argues against. The
+disposition belongs in a note, not in the evidence.
+</Callout>
+
 ## Related
 
 - [Reproduce-before-fix workflow](/guides/claude-code-workflow-patterns)
