@@ -8,7 +8,7 @@ import { KitCta } from '@/components/affiliate/kit-cta';
 import { LinkCard } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { JsonLd, breadcrumbSchema, techArticleSchema } from '@/components/seo/json-ld';
-import { skills, getSkill, getRelatedSkills, getCategory } from '@/lib/catalog';
+import { skills, getSkill, getRelatedSkills, getCategory, type Skill } from '@/lib/catalog';
 import { getSkillOverride, isPublished } from '@/lib/overrides';
 import { source } from '@/lib/source';
 import { buildMetadata } from '@/lib/seo';
@@ -128,7 +128,7 @@ export default async function SkillPage({ params }: PageProps) {
               <MDX components={getMDXComponents()} />
             </div>
           ) : (
-            <StubBody skillName={skill.invocation} />
+            <StubBody skill={skill} category={category?.label} />
           )}
 
           <Provenance kitVersion={override?.kitVersion} updated={override?.updated} />
@@ -190,19 +190,86 @@ export default async function SkillPage({ params }: PageProps) {
 }
 
 /**
- * Rendered when no hand-written override exists. States facts only, and the page
- * carries `noindex` — see src/lib/overrides.ts for why that matters.
+ * Rendered when no hand-written override exists — 71 of 91 skills, and 3 of 16 agents.
+ *
+ * It used to open by apologising: "a full write-up is still being written." That sentence
+ * was doing real damage, because it is not true that the page has nothing. The page has the
+ * skill's real invocation, its real argument list read from `SKILL.md`'s `argument-hint`,
+ * whether it ships executable scripts or reference docs, its category, and its neighbours.
+ * A reader who arrived asking "what is this and how do I call it" was being told to come
+ * back later by a page that already had their answer.
+ *
+ * So it states what it knows, plainly, and is honest about the one thing it does not have:
+ * we have not run this skill against a real repository, and the twenty pages that link from
+ * here have. That is a specific, checkable claim — not a placeholder.
+ *
+ * It stays `noindex` (see src/lib/overrides.ts). This is the difference between *useful to
+ * the person who found it* and *worth asking Google to rank* — and they are not the same
+ * bar.
  */
-function StubBody({ skillName }: { skillName: string }) {
+function StubBody({ skill, category }: { skill: Skill; category?: string }) {
+  const { references, scripts, whenToUse } = skill;
+
+  // The header already carries the title, the description, the category, the keywords and the
+  // invocation. Repeating any of it here is what made this page read as filler — half of it was
+  // the same page, twice. So this says only what the header cannot.
   return (
     <div className="prose-doc">
+      {whenToUse && (
+        <p>
+          <strong>When to reach for it:</strong> {whenToUse}
+        </p>
+      )}
+
+      <h2>How deep does it go?</h2>
       <p>
-        This page is a factual reference for <code>{skillName}</code>, generated from the AgentKit
-        skill catalog. A full write-up — what it does, when to reach for it, and a worked example
-        — is still being written.
+        Counted from the installed kit — not from a feature list. A vendor&rsquo;s page tells you a
+        skill exists; it does not tell you whether it is a paragraph of instructions or a body of
+        work you could not write in an afternoon.
+      </p>
+
+      <ul>
+        <li>
+          <strong>
+            {references.length > 0 ? `${references.length} reference doc${references.length === 1 ? '' : 's'}` : 'No reference docs'}
+          </strong>
+          {references.length > 0 ? (
+            <>
+              , loaded on demand rather than carried in context:{' '}
+              {references.slice(0, 8).map((file, i) => (
+                <span key={file}>
+                  {i > 0 && ', '}
+                  <code>{file}</code>
+                </span>
+              ))}
+              {references.length > 8 && `, and ${references.length - 8} more`}.
+            </>
+          ) : (
+            ' — everything it knows is in the skill file itself.'
+          )}
+        </li>
+
+        <li>
+          <strong>
+            {scripts.length > 0
+              ? `${scripts.length} executable script${scripts.length === 1 ? '' : 's'}`
+              : 'No executable scripts'}
+          </strong>
+          {scripts.length > 0
+            ? ' — this one runs code, not just a prompt.'
+            : ' — it is instructions, not a program.'}
+        </li>
+      </ul>
+
+      <h2>What this page does not have</h2>
+      <p>
+        <strong>We have not run this skill against a real repository.</strong> Some skills on this
+        site have a page showing what they actually printed — the bugs they found, the numbers they
+        got wrong, the things they invented. This is not one of them.
       </p>
       <p>
-        In the meantime, the source file linked at the bottom of this page is authoritative.
+        Rather than pad the gap with a rewording of the vendor&rsquo;s description, here is the
+        gap. The facts above are checked. The judgement is not here yet.
       </p>
     </div>
   );

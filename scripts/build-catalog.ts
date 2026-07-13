@@ -58,6 +58,10 @@ const skillFrontmatterSchema = z.object({
   category: z.string().default('other'),
   keywords: z.array(z.string()).default([]),
   'argument-hint': z.string().optional(),
+  // 88 of the 91 skills carry this. It is a curated "should I reach for this?" sentence,
+  // distinct from `description`'s "what is it?" — and it is the single most useful field
+  // for a reader who has landed on a skill they have never used.
+  when_to_use: z.string().optional(),
 });
 
 const agentFrontmatterSchema = z.object({
@@ -107,6 +111,18 @@ function cleanAgentDescription(raw: string): string {
   return cut.replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * Markdown filenames in a directory, without the extension. Empty when the directory does
+ * not exist — an absent `references/` is a fact about the skill, not an error.
+ */
+function filesIn(path: string): string[] {
+  if (!existsSync(path)) return [];
+  return readdirSync(path, { withFileTypes: true })
+    .filter((e) => e.isFile())
+    .map((e) => e.name.replace(/\.(md|mdx|ts|js|py|sh|cjs|mjs)$/, ''))
+    .sort();
+}
+
 function dirsIn(path: string): string[] {
   return readdirSync(path, { withFileTypes: true })
     .filter((e) => e.isDirectory())
@@ -131,6 +147,20 @@ function buildSkills() {
         category: fm.category,
         keywords: fm.keywords,
         argumentHint: fm['argument-hint'] ?? null,
+
+        // `when_to_use` is a distinct, per-skill, hand-curated sentence in every SKILL.md —
+        // 88 of the 91 carry one — and it answers the reader's actual first question
+        // ("should I reach for this?") in a way `description` ("what is it?") does not.
+        // It was being dropped, so 71 stub pages had nothing to say beyond a paraphrase.
+        whenToUse: fm.when_to_use ?? null,
+
+        // Counts and names, not a boolean. "has references: yes" tells a reader nothing;
+        // "12 reference docs, including backend-authentication.md" tells them how deep this
+        // goes and whether it covers their case. These are filesystem facts about the kit
+        // they are considering paying for — not a paraphrase of its marketing.
+        scripts: filesIn(join(skillDir, 'scripts')),
+        references: filesIn(join(skillDir, 'references')),
+
         hasScripts: existsSync(join(skillDir, 'scripts')),
         hasReferences: existsSync(join(skillDir, 'references')),
         // No sourceUrl: the kit is purchase-gated, so a link would 404 — and it

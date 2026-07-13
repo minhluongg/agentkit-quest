@@ -3,6 +3,7 @@ import { PageHeader } from '@/components/common/page-header';
 import { SkillsExplorer } from '@/components/skills/skills-explorer';
 import { JsonLd, breadcrumbSchema, itemListSchema } from '@/components/seo/json-ld';
 import { skills, categories } from '@/lib/catalog';
+import { publishedSkillSlugs } from '@/lib/overrides';
 import { buildMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildMetadata({
@@ -37,7 +38,7 @@ export default function SkillsPage() {
         description={`Every skill AgentKit ships — ${skills.length} of them, across ${categories.length} categories.`}
       />
 
-      <SkillsExplorer skills={skills} categories={categories} />
+      <SkillsExplorer skills={skills} categories={categories} written={publishedSkillSlugs()} />
     </>
   );
 }

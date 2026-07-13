@@ -19,6 +19,9 @@
       "report"
     ],
     "argumentHint": "[prompt-or-url] [--html] [--md] [--wiki] [--github] [--agent]",
+    "whenToUse": "Invoke when the user wants honest advice, a second opinion, or requirement reframing on an idea, issue, or proposal — before planning or implementation.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -45,6 +48,13 @@
       "vercel-sandbox"
     ],
     "argumentHint": "[url or task]",
+    "whenToUse": "Invoke for browser/app automation that needs snapshots or clicks and does not require the user's real Chrome profile state.",
+    "scripts": [],
+    "references": [
+      ".gitkeep",
+      "agent-browser-vs-chrome-devtools",
+      "browserbase-cloud-setup"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -66,6 +76,16 @@
       "agent-tool"
     ],
     "argumentHint": "[feature-or-module] [--both|--mcp|--cli] [--auto|--ask]",
+    "whenToUse": "Invoke to expose existing code as a reusable CLI or MCP tool.",
+    "scripts": [],
+    "references": [
+      "agent-centric-design",
+      "auth-resolution-chain",
+      "challenge-framework",
+      "deployment-guide",
+      "mcp-transports",
+      "monorepo-layout"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -87,6 +107,13 @@
       "quality"
     ],
     "argumentHint": "[task to route]",
+    "whenToUse": "Invoke at the start of multi-step or multi-domain work, when the right skill is unclear, when skills need sequencing into a workflow, or when deciding whether and when to spawn subagents.",
+    "scripts": [],
+    "references": [
+      "chaining-patterns",
+      "subagent-timing",
+      "task-taxonomy"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -104,6 +131,24 @@
       "styles"
     ],
     "argumentHint": "[concept] [--mode search|creative|wild|all] [--provider auto|google|openrouter] [--skip]",
+    "whenToUse": "Invoke for visual assets, prompt search, or mockups.",
+    "scripts": [
+      "core",
+      "generate",
+      "search"
+    ],
+    "references": [
+      "advanced-techniques",
+      "domain-code",
+      "domain-data",
+      "domain-marketing",
+      "domain-patterns",
+      "domain-writing",
+      "image-prompting",
+      "llm-prompting",
+      "nano-banana",
+      "reasoning-techniques"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -122,6 +167,17 @@
       "Gemini"
     ],
     "argumentHint": "[file-path] [prompt]",
+    "whenToUse": "Invoke for Gemini vision, OCR, media generation, or transcription.",
+    "scripts": [],
+    "references": [
+      "audio-processing",
+      "image-generation",
+      "minimax-generation",
+      "music-generation",
+      "video-analysis",
+      "video-generation",
+      "vision-understanding"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -138,6 +194,9 @@
       "architecture"
     ],
     "argumentHint": "[technical-question]",
+    "whenToUse": "Invoke for analysis-only answers before changing code.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -159,6 +218,9 @@
       "umbrella"
     ],
     "argumentHint": null,
+    "whenToUse": "Invoke to route autonomous research loops to the right variant.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -178,6 +240,21 @@
       "graphql"
     ],
     "argumentHint": "[framework] [task]",
+    "whenToUse": "Invoke when backend/API implementation is the main surface.",
+    "scripts": [],
+    "references": [
+      "backend-api-design",
+      "backend-architecture",
+      "backend-authentication",
+      "backend-code-quality",
+      "backend-debugging",
+      "backend-devops",
+      "backend-mindset",
+      "backend-performance",
+      "backend-security",
+      "backend-technologies",
+      "backend-testing"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -196,6 +273,17 @@
       "sessions"
     ],
     "argumentHint": "[auth-method or feature]",
+    "whenToUse": "Invoke for Better Auth setup, sessions, OAuth, MFA, or RBAC.",
+    "scripts": [
+      "better_auth_init",
+      "requirements.txt"
+    ],
+    "references": [
+      "advanced-features",
+      "database-integration",
+      "email-password-auth",
+      "oauth-providers"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -213,6 +301,15 @@
       "boilerplate"
     ],
     "argumentHint": "[requirements] [--full|--auto|--fast|--parallel]",
+    "whenToUse": "Invoke to start a new project or full-stack setup from scratch.",
+    "scripts": [],
+    "references": [
+      "shared-phases",
+      "workflow-auto",
+      "workflow-fast",
+      "workflow-full",
+      "workflow-parallel"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -230,6 +327,9 @@
       "decisions"
     ],
     "argumentHint": "[topic or problem]",
+    "whenToUse": "Invoke before choosing among unclear technical options.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -250,6 +350,20 @@
       "cookies"
     ],
     "argumentHint": null,
+    "whenToUse": "Invoke when browser automation needs the user's real Chrome profile, cookies, account, or a deterministic profile target.",
+    "scripts": [
+      "chrome_profile_cli",
+      "install",
+      "install.cmd",
+      "test_chrome_profile",
+      "uninstall",
+      "uninstall.cmd"
+    ],
+    "references": [
+      "architecture",
+      "mcp-config-recipes",
+      "troubleshooting"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -267,6 +381,20 @@
       "reliability"
     ],
     "argumentHint": "[#PR | COMMIT | --pending | codebase [parallel]]",
+    "whenToUse": "Invoke to review diffs, PRs, commits, or full codebases.",
+    "scripts": [],
+    "references": [
+      "checklist-workflow",
+      "code-review-reception",
+      "codebase-scan-workflow",
+      "edge-case-scouting",
+      "input-mode-resolution",
+      "parallel-review-workflow",
+      "requesting-code-review",
+      "spec-compliance-review",
+      "task-management-reviews",
+      "verification-before-completion"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -284,6 +412,9 @@
       "format"
     ],
     "argumentHint": "[0-5]",
+    "whenToUse": "Invoke when response depth should match user expertise.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -296,6 +427,9 @@
     "category": "other",
     "keywords": [],
     "argumentHint": null,
+    "whenToUse": null,
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -314,6 +448,23 @@
       "optimization"
     ],
     "argumentHint": "[topic or question]",
+    "whenToUse": "Invoke for context budget, memory, or agent architecture issues.",
+    "scripts": [
+      "compression_evaluator",
+      "context_analyzer"
+    ],
+    "references": [
+      "context-compression",
+      "context-degradation",
+      "context-fundamentals",
+      "context-optimization",
+      "evaluation",
+      "memory-systems",
+      "multi-agent-patterns",
+      "project-development",
+      "runtime-awareness",
+      "tool-design"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -331,6 +482,15 @@
       "pipeline"
     ],
     "argumentHint": "[task|plan-path] [--interactive|--fast|--parallel|--auto|--no-test] [--tdd]",
+    "whenToUse": "Invoke to implement known scope after requirements are clear.",
+    "scripts": [],
+    "references": [
+      "intent-detection",
+      "review-cycle",
+      "subagent-patterns",
+      "workflow-routing",
+      "workflow-steps"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -348,6 +508,20 @@
       "landing-page"
     ],
     "argumentHint": "[copy-type] [context]",
+    "whenToUse": "Invoke for conversion copy, headlines, emails, or style transfer.",
+    "scripts": [
+      "extract-writing-styles"
+    ],
+    "references": [
+      "copy-formulas",
+      "cta-patterns",
+      "email-copy",
+      "headline-templates",
+      "landing-page-copy",
+      "power-words",
+      "social-media-copy",
+      "writing-styles"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -369,6 +543,20 @@
       "forensics"
     ],
     "argumentHint": "[target] [--yolo] [--case|--sweep|--query|--flow]",
+    "whenToUse": "Invoke for OSINT, exposure review, or threat intelligence reports.",
+    "scripts": [
+      "cti_docx_charts",
+      "cti_docx_diagrams",
+      "cti_docx_postprocess",
+      "cti_docx_sections",
+      "cti_docx_styles",
+      "generate-cti-docx",
+      "generate-cti-docx-hybrid",
+      "install",
+      "requirements.txt",
+      "sample-cti-report-data.json"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -387,6 +575,24 @@
       "queries"
     ],
     "argumentHint": "[query or schema task]",
+    "whenToUse": "Invoke when schema, query, migration, or index work is central.",
+    "scripts": [
+      "db_backup",
+      "db_migrate",
+      "db_performance_check",
+      "requirements.txt"
+    ],
+    "references": [
+      "db-design",
+      "mongodb-aggregation",
+      "mongodb-atlas",
+      "mongodb-crud",
+      "mongodb-indexing",
+      "postgresql-administration",
+      "postgresql-performance",
+      "postgresql-psql-cli",
+      "postgresql-queries"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -404,6 +610,23 @@
       "test-failures"
     ],
     "argumentHint": "[error or issue description]",
+    "whenToUse": "Invoke when root cause must be proven before a fix.",
+    "scripts": [
+      "find-polluter",
+      "find-polluter.test"
+    ],
+    "references": [
+      "defense-in-depth",
+      "frontend-verification",
+      "investigation-methodology",
+      "log-and-ci-analysis",
+      "performance-diagnostics",
+      "reporting-standards",
+      "root-cause-tracing",
+      "systematic-debugging",
+      "task-management-debugging",
+      "verification"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -422,6 +645,11 @@
       "Cloudflare"
     ],
     "argumentHint": "[platform] [environment]",
+    "whenToUse": "Invoke when the goal is hosting or publishing an app.",
+    "scripts": [],
+    "references": [
+      "platform-config-templates"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -441,6 +669,30 @@
       "identity"
     ],
     "argumentHint": "[design-type] [context]",
+    "whenToUse": "Invoke for brand systems and visual identity, not UI code.",
+    "scripts": [],
+    "references": [
+      "banner-sizes-and-styles",
+      "cip-deliverable-guide",
+      "cip-design",
+      "cip-prompt-engineering",
+      "cip-style-guide",
+      "design-routing",
+      "icon-design",
+      "logo-color-psychology",
+      "logo-design",
+      "logo-prompt-engineering",
+      "logo-style-guide",
+      "poster-design",
+      "poster-prompt-engineering",
+      "slides",
+      "slides-copywriting-formulas",
+      "slides-create",
+      "slides-html-template",
+      "slides-layout-patterns",
+      "slides-strategies",
+      "social-photos-design"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -459,6 +711,25 @@
       "cicd"
     ],
     "argumentHint": "[platform] [task]",
+    "whenToUse": "Invoke for cloud, containers, Kubernetes, CI/CD, or GitOps.",
+    "scripts": [
+      "cloudflare_deploy",
+      "docker_optimize",
+      "requirements.txt"
+    ],
+    "references": [
+      "browser-rendering",
+      "cloudflare-d1-kv",
+      "cloudflare-platform",
+      "cloudflare-r2-storage",
+      "cloudflare-workers-advanced",
+      "cloudflare-workers-apis",
+      "cloudflare-workers-basics",
+      "docker-basics",
+      "docker-compose",
+      "gcloud-platform",
+      "gcloud-services"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -476,6 +747,15 @@
       "summarize"
     ],
     "argumentHint": "init|update|summarize",
+    "whenToUse": "Invoke to create, refresh, or audit project documentation.",
+    "scripts": [],
+    "references": [
+      "documentation-management",
+      "init-workflow",
+      "llms",
+      "summarize-workflow",
+      "update-workflow"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -494,6 +774,17 @@
       "context7"
     ],
     "argumentHint": "[library-name] [topic]",
+    "whenToUse": "Invoke when current library or framework docs are needed.",
+    "scripts": [
+      "analyze-llms-txt",
+      "detect-topic",
+      "fetch-docs"
+    ],
+    "references": [
+      "advanced",
+      "context7-patterns",
+      "errors"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -506,6 +797,9 @@
     "category": "other",
     "keywords": [],
     "argumentHint": null,
+    "whenToUse": null,
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -524,6 +818,21 @@
       "SVG"
     ],
     "argumentHint": null,
+    "whenToUse": "Invoke for editable canvas diagrams or codebase visual maps.",
+    "scripts": [],
+    "references": [
+      "auto-diagram-guide",
+      "color-palette",
+      "design-methodology",
+      "element-templates",
+      "file-workflow",
+      "json-schema",
+      "mcp-workflow",
+      "pyproject.toml",
+      "render_excalidraw",
+      "render_template.html",
+      "uv.lock"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -545,6 +854,13 @@
       "constrained-writing"
     ],
     "argumentHint": "[task or question to reason through]",
+    "whenToUse": "Invoke when a task needs careful reasoning rather than a routine answer — diagnosis, review, root-cause analysis, architecture or strategy decisions, contested claims, high-stakes writing, or output that must satisfy a mechanically checkable constraint (letter bans, word counts, acrostics, strict formats). Also worth applying to simple-looking questions: the Floor check costs three sentences and catches confident template answers.",
+    "scripts": [],
+    "references": [
+      "content-taste",
+      "design-taste",
+      "worked-examples"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -562,6 +878,11 @@
       "search"
     ],
     "argumentHint": "[capability or task description]",
+    "whenToUse": "Invoke when the user is looking for a skill capability.",
+    "scripts": [],
+    "references": [
+      "domain-routing"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -580,6 +901,23 @@
       "lint"
     ],
     "argumentHint": "[issue] --auto|--review|--quick|--parallel",
+    "whenToUse": "Invoke when there is a concrete bug, error, or CI failure.",
+    "scripts": [],
+    "references": [
+      "complexity-assessment",
+      "mode-selection",
+      "parallel-exploration",
+      "review-cycle",
+      "skill-activation-matrix",
+      "workflow-ci",
+      "workflow-deep",
+      "workflow-logs",
+      "workflow-quick",
+      "workflow-standard",
+      "workflow-test",
+      "workflow-types",
+      "workflow-ui"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -597,6 +935,33 @@
       "prototyping"
     ],
     "argumentHint": null,
+    "whenToUse": "Invoke when visual fidelity and polished UI are primary.",
+    "scripts": [],
+    "references": [
+      "ai-multimodal-overview",
+      "analysis-best-practices",
+      "analysis-prompts",
+      "analysis-techniques",
+      "animejs",
+      "asset-generation",
+      "design-extraction-overview",
+      "extraction-best-practices",
+      "extraction-output-templates",
+      "extraction-prompts",
+      "motion-craft",
+      "technical-accessibility",
+      "technical-best-practices",
+      "technical-optimization",
+      "technical-overview",
+      "technical-workflows",
+      "visual-analysis-overview",
+      "workflow-3d",
+      "workflow-describe",
+      "workflow-immersive",
+      "workflow-quick",
+      "workflow-screenshot",
+      "workflow-video"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -614,6 +979,9 @@
       "mui"
     ],
     "argumentHint": "[component or feature]",
+    "whenToUse": "Invoke for React/TypeScript frontend implementation.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -632,6 +1000,18 @@
       "merge"
     ],
     "argumentHint": "cm|cp|pr|merge [args]",
+    "whenToUse": "Invoke for commits, PRs, branch hygiene, or release git steps.",
+    "scripts": [],
+    "references": [
+      "branch-management",
+      "commit-standards",
+      "gh-cli-guide",
+      "safety-protocols",
+      "workflow-commit",
+      "workflow-merge",
+      "workflow-pr",
+      "workflow-push"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -648,6 +1028,14 @@
       "gitlab"
     ],
     "argumentHint": "[symbol or query]",
+    "whenToUse": "Invoke for semantic code navigation and impact analysis.",
+    "scripts": [],
+    "references": [
+      "cli-commands",
+      "http-api",
+      "language-support",
+      "mcp-tools"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -666,6 +1054,17 @@
       "vertex-ai"
     ],
     "argumentHint": "[agent or feature]",
+    "whenToUse": "Invoke for Google ADK agents, A2A, MCP, or Vertex deployment.",
+    "scripts": [],
+    "references": [
+      "agent-types-and-architecture",
+      "callbacks-plugins-observability",
+      "deployment-cloud-run-vertex-gke",
+      "evaluation-testing-cli",
+      "multi-agent-and-a2a-protocol",
+      "sessions-state-memory-artifacts",
+      "tools-and-mcp-integration"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -684,6 +1083,9 @@
       "ast"
     ],
     "argumentHint": "[path] [--mcp|--report|--watch]",
+    "whenToUse": "Invoke to turn code or docs into a queryable graph.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -696,6 +1098,11 @@
     "category": "other",
     "keywords": [],
     "argumentHint": null,
+    "whenToUse": null,
+    "scripts": [
+      "skills_data.yaml"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -718,6 +1125,9 @@
       "hyperframes"
     ],
     "argumentHint": "[video brief, source URL, repo, template id, or project id]",
+    "whenToUse": "Invoke for HTML-first video generation, template-driven promos, explainers, data videos, or social clips that should render locally through Chromium and ffmpeg.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -741,6 +1151,9 @@
       "validate"
     ],
     "argumentHint": "<github-issue-url | issue-number> [--repo owner/name] [--plan-ready-label <name>] [--decision-label <name>]",
+    "whenToUse": "Invoke when a user wants one command to take a GitHub issue through scouting, an audit/brainstorm gate, and (only if it passes) plan generation, validation, red-team, a pushed plan branch, and an issue handoff — stopping before implementation.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -758,6 +1171,9 @@
       "session"
     ],
     "argumentHint": "[topic or reflection]",
+    "whenToUse": "Invoke for technical session reflection or decision records.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -774,6 +1190,13 @@
       "AI-context"
     ],
     "argumentHint": "[path|url] [--full] [--output path]",
+    "whenToUse": "Invoke to produce LLM-friendly indexes like llms.txt.",
+    "scripts": [
+      "generate-llms-txt"
+    ],
+    "references": [
+      "llms-txt-specification"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -791,6 +1214,15 @@
       "loop"
     ],
     "argumentHint": "[Goal/Metric description] or inline config block",
+    "whenToUse": "Invoke only when an objective metric can drive repeated trials.",
+    "scripts": [],
+    "references": [
+      "autonomous-loop-protocol",
+      "git-memory-pattern",
+      "guard-and-noise",
+      "metric-library",
+      "results-logging"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -808,6 +1240,11 @@
       "preview"
     ],
     "argumentHint": "[file-or-directory]",
+    "whenToUse": "Invoke to read long markdown comfortably in the browser.",
+    "scripts": [
+      "server"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -825,6 +1262,14 @@
       "integration"
     ],
     "argumentHint": "[service or API to integrate]",
+    "whenToUse": "Invoke when building an MCP server or tool surface.",
+    "scripts": [
+      "connections",
+      "evaluation",
+      "example_evaluation.xml",
+      "requirements.txt"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -843,6 +1288,28 @@
       "images"
     ],
     "argumentHint": "[input-file] [operation]",
+    "whenToUse": "Invoke for FFmpeg, ImageMagick, or batch media work.",
+    "scripts": [
+      "README",
+      "batch-remove-background",
+      "batch_resize",
+      "media_convert",
+      "remove-background",
+      "remove-bg-node",
+      "requirements.txt",
+      "video_optimize"
+    ],
+    "references": [
+      "common-workflows",
+      "ffmpeg-encoding",
+      "ffmpeg-filters",
+      "ffmpeg-streaming",
+      "format-compatibility",
+      "imagemagick-batch",
+      "imagemagick-editing",
+      "rmbg-background-removal",
+      "troubleshooting"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -860,6 +1327,15 @@
       "charts"
     ],
     "argumentHint": "[diagram-type or description]",
+    "whenToUse": "Invoke when inline Mermaid v11 diagrams are needed.",
+    "scripts": [],
+    "references": [
+      "cli-usage",
+      "configuration",
+      "diagram-types",
+      "examples",
+      "integration"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -877,6 +1353,16 @@
       "Mintlify"
     ],
     "argumentHint": "[task] [path]",
+    "whenToUse": "Invoke for Mintlify docs site structure, MDX, or local checks.",
+    "scripts": [],
+    "references": [
+      "ai-features-and-integrations-reference",
+      "api-documentation-components-reference",
+      "deployment-and-continuous-integration-reference",
+      "docs-json-configuration-reference",
+      "mdx-components-reference",
+      "navigation-structure-and-organization-reference"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -895,6 +1381,16 @@
       "ios"
     ],
     "argumentHint": "[platform] [feature]",
+    "whenToUse": "Invoke when the target is an iOS or Android app.",
+    "scripts": [],
+    "references": [
+      "mobile-android",
+      "mobile-best-practices",
+      "mobile-debugging",
+      "mobile-frameworks",
+      "mobile-ios",
+      "mobile-mindset"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -923,6 +1419,15 @@
       "arbiter"
     ],
     "argumentHint": "<job-spec.yaml | task description | --resume <run-dir>> [--yes] [--internal]",
+    "whenToUse": "Invoke when work should be split across headless coding-agent runtimes or in-session harness subagents, routed to best-fit models per task type, or run as isolated job prompts and then reviewed before handoff.",
+    "scripts": [],
+    "references": [
+      "harness-profiles",
+      "internal-routing",
+      "job-spec",
+      "model-routing",
+      "runtime-matrix"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -941,6 +1446,18 @@
       "qr"
     ],
     "argumentHint": "[provider] [task]",
+    "whenToUse": "Invoke for checkout, subscriptions, webhooks, or QR payments.",
+    "scripts": [
+      ".env.example",
+      "checkout-helper",
+      "package.json",
+      "polar-webhook-verify",
+      "sepay-webhook-verify",
+      "test-scripts"
+    ],
+    "references": [
+      "multi-provider-order-management-patterns"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -963,6 +1480,24 @@
       "publish"
     ],
     "argumentHint": "[task] [--fast|--hard|--deep|--parallel|--two] [--tdd|--no-tasks] [--html] [--github] [--wiki] OR [archive|red-team|validate]",
+    "whenToUse": "Invoke when work needs phases, architecture, or a roadmap.",
+    "scripts": [],
+    "references": [
+      "archive-workflow",
+      "codebase-understanding",
+      "output-standards",
+      "plan-organization",
+      "red-team-personas",
+      "red-team-workflow",
+      "research-phase",
+      "scope-challenge",
+      "solution-design",
+      "task-management",
+      "validate-question-framework",
+      "validate-workflow",
+      "verification-roles",
+      "workflow-modes"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -981,6 +1516,11 @@
       "timeline"
     ],
     "argumentHint": "[deprecated flags are accepted with warnings]",
+    "whenToUse": "Invoke to open or inspect the plans dashboard.",
+    "scripts": [
+      "open-dashboard"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -998,6 +1538,9 @@
       "risk"
     ],
     "argumentHint": "<feature description or change proposal> [--files <glob>] [--chain reason|probe]",
+    "whenToUse": "Invoke before high-risk changes that need persona debate.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1016,6 +1559,18 @@
       "HTML"
     ],
     "argumentHint": "[path] OR [--html] --explain|--slides|--diagram|--ascii [topic] OR --html --diff|--plan-review|--recap",
+    "whenToUse": "Invoke for visual explanations, file previews, or diagrams.",
+    "scripts": [],
+    "references": [
+      "generation-modes",
+      "html-css-patterns",
+      "html-design-guidelines",
+      "html-libraries",
+      "html-responsive-nav",
+      "html-slide-patterns",
+      "view-mode",
+      "visual-explanation-routing"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1033,6 +1588,17 @@
       "simplify"
     ],
     "argumentHint": "[problem description]",
+    "whenToUse": "Invoke when stuck and needing structured reframing.",
+    "scripts": [],
+    "references": [
+      "attribution",
+      "collision-zone-thinking",
+      "inversion-exercise",
+      "meta-pattern-recognition",
+      "scale-game",
+      "simplification-cascades",
+      "when-stuck"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1050,6 +1616,15 @@
       "reports"
     ],
     "argumentHint": "[task: status, hydrate, sync, report]",
+    "whenToUse": "Invoke for progress tracking, plan status, or handoffs.",
+    "scripts": [],
+    "references": [
+      "documentation-triggers",
+      "hydration-workflow",
+      "progress-tracking",
+      "reporting-patterns",
+      "task-operations"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1067,6 +1642,13 @@
       "layout"
     ],
     "argumentHint": "[directories or files to organize]",
+    "whenToUse": "Invoke when deciding file paths or project layout.",
+    "scripts": [],
+    "references": [
+      "directory-patterns",
+      "markdown-body-templates",
+      "naming-conventions"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1084,6 +1666,9 @@
       "vercel"
     ],
     "argumentHint": "[component or pattern]",
+    "whenToUse": "Invoke for React/Next.js performance and rendering issues.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1101,6 +1686,9 @@
       "rendering"
     ],
     "argumentHint": "[video or component]",
+    "whenToUse": "Invoke for programmatic video generation with React.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1118,6 +1706,17 @@
       "llm-context"
     ],
     "argumentHint": "[path] [--style xml|markdown|plain|json]",
+    "whenToUse": "Invoke to pack repositories for LLM context or audits.",
+    "scripts": [
+      "README",
+      "repomix_batch",
+      "repos.example.json",
+      "requirements.txt"
+    ],
+    "references": [
+      "configuration",
+      "usage-patterns"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1135,6 +1734,9 @@
       "solutions"
     ],
     "argumentHint": "[topic]",
+    "whenToUse": "Invoke for deep technical research before implementation.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1152,6 +1754,12 @@
       "review"
     ],
     "argumentHint": "[timeframe] [--compare] [--team] [--format html|md]",
+    "whenToUse": "Invoke to summarize engineering history from git activity.",
+    "scripts": [],
+    "references": [
+      "metrics-guide",
+      "report-template"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1174,6 +1782,12 @@
       "ai-slop"
     ],
     "argumentHint": "<PR number or URL> [--fix] [--reply]",
+    "whenToUse": "Invoke to review a GitHub PR by number/URL, optionally fix findings, optionally post the review back to GitHub.",
+    "scripts": [],
+    "references": [
+      "anti-ai-slop",
+      "project-rules-example"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1192,6 +1806,9 @@
       "iterations"
     ],
     "argumentHint": "<file path or feature description> [--iterations N] [--saturation]",
+    "whenToUse": "Invoke to expand requirements into edge cases and QA scenarios.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1209,6 +1826,12 @@
       "search"
     ],
     "argumentHint": "[search-target] [ext]",
+    "whenToUse": "Invoke for fast file discovery and codebase orientation.",
+    "scripts": [],
+    "references": [
+      "external-scouting",
+      "internal-scouting"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1229,6 +1852,12 @@
       "vulnerability-discovery"
     ],
     "argumentHint": "<scope glob or 'full'> [--fix] [--red-team] [--iterations N]",
+    "whenToUse": "Invoke for threat-modeled security audit or auto-fix loops.",
+    "scripts": [],
+    "references": [
+      "red-team-personas",
+      "stride-owasp-checklist"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1246,6 +1875,12 @@
       "OWASP"
     ],
     "argumentHint": "[scope] [--secrets-only] [--deps-only] [--full]",
+    "whenToUse": "Invoke for secrets, dependency, and OWASP-style scans.",
+    "scripts": [],
+    "references": [
+      "secret-patterns",
+      "vulnerability-patterns"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1262,6 +1897,19 @@
       "analysis"
     ],
     "argumentHint": "[problem to analyze step-by-step]",
+    "whenToUse": "Invoke for multi-step reasoning with revisions.",
+    "scripts": [
+      "format-thought",
+      "process-thought"
+    ],
+    "references": [
+      "advanced-strategies",
+      "advanced-techniques",
+      "core-patterns",
+      "examples-api",
+      "examples-architecture",
+      "examples-debug"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1279,6 +1927,22 @@
       "webgl"
     ],
     "argumentHint": "[effect or pattern]",
+    "whenToUse": "Invoke for GLSL, procedural visuals, or WebGL effects.",
+    "scripts": [],
+    "references": [
+      "glsl-cellular-voronoi-worley-noise-patterns",
+      "glsl-colors-rgb-hsb-gradients-mixing-color-spaces",
+      "glsl-fbm-fractional-brownian-motion-turbulence-octaves",
+      "glsl-fundamentals-data-types-vectors-precision-coordinates",
+      "glsl-noise-random-perlin-simplex-cellular-voronoi",
+      "glsl-pattern-symmetry-truchet-domain-warping",
+      "glsl-patterns-tiling-fract-matrices-transformations",
+      "glsl-procedural-textures-clouds-marble-wood-terrain",
+      "glsl-shader-builtin-functions-complete-api-reference",
+      "glsl-shapes-polygon-star-polar-sdf-combinations",
+      "glsl-shapes-sdf-circles-rectangles-polar-distance-fields",
+      "glsl-shaping-functions-step-smoothstep-curves-interpolation"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1297,6 +1961,13 @@
       "release"
     ],
     "argumentHint": "[official|beta] [--skip-tests] [--skip-review] [--skip-journal] [--skip-docs] [--dry-run]",
+    "whenToUse": "Invoke when a completed branch needs PR shipping workflow.",
+    "scripts": [],
+    "references": [
+      "auto-detect",
+      "pr-template",
+      "ship-workflow"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1314,6 +1985,16 @@
       "checkout"
     ],
     "argumentHint": "[extension-type] [feature]",
+    "whenToUse": "Invoke for Shopify apps, themes, extensions, or billing.",
+    "scripts": [
+      "requirements.txt",
+      "shopify_init"
+    ],
+    "references": [
+      "app-development",
+      "extensions",
+      "themes"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1331,6 +2012,14 @@
       "presentation"
     ],
     "argumentHint": "[markdown-or-prompt]",
+    "whenToUse": "Invoke to create a self-contained showcase or demo page.",
+    "scripts": [
+      "capture-sections",
+      "package.json",
+      "preferences",
+      "preferences.test"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -1349,6 +2038,36 @@
       "templates"
     ],
     "argumentHint": "[skill-name or description]",
+    "whenToUse": "Invoke when creating or refining Claude skills.",
+    "scripts": [
+      "encoding_utils",
+      "init_skill",
+      "package_skill",
+      "quick_validate"
+    ],
+    "references": [
+      "benchmark-optimization-guide",
+      "distribution-guide",
+      "mcp-skills-integration",
+      "metadata-quality-criteria",
+      "plugin-marketplace-hosting",
+      "plugin-marketplace-overview",
+      "plugin-marketplace-schema",
+      "plugin-marketplace-sources",
+      "plugin-marketplace-troubleshooting",
+      "script-quality-criteria",
+      "skill-anatomy-and-requirements",
+      "skill-creation-workflow",
+      "skill-design-patterns",
+      "skillmark-benchmark-criteria",
+      "structure-organization-criteria",
+      "testing-and-iteration",
+      "token-efficiency-criteria",
+      "troubleshooting-guide",
+      "validation-checklist",
+      "writing-effective-instructions",
+      "yaml-frontmatter-reference"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1366,6 +2085,19 @@
       "Tailwind"
     ],
     "argumentHint": "[design prompt or action]",
+    "whenToUse": "Invoke for AI-generated UI designs and design-to-code handoff.",
+    "scripts": [
+      "package.json",
+      "stitch-export",
+      "stitch-generate",
+      "stitch-quota"
+    ],
+    "references": [
+      "design-to-code-pipeline",
+      "quota-management",
+      "stitch-mcp-setup",
+      "stitch-sdk-api"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1384,6 +2116,13 @@
       "router"
     ],
     "argumentHint": "[framework] [feature]",
+    "whenToUse": "Invoke for TanStack Start, Form, Router, or AI features.",
+    "scripts": [],
+    "references": [
+      "tanstack-ai",
+      "tanstack-form",
+      "tanstack-start"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1401,6 +2140,14 @@
       "collaboration"
     ],
     "argumentHint": "<template> <context> [--devs|--researchers|--reviewers N] [--delegate]",
+    "whenToUse": "Invoke for coordinated multi-session agent teamwork.",
+    "scripts": [],
+    "references": [
+      "agent-teams-controls-and-modes",
+      "agent-teams-examples-and-best-practices",
+      "agent-teams-official-docs",
+      "team-coordination-rules"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1423,6 +2170,26 @@
       "visualization"
     ],
     "argumentHint": "[diagram-type or system description]",
+    "whenToUse": "Invoke for publish-grade architecture or flow diagrams.",
+    "scripts": [
+      "README",
+      "generate-diagram",
+      "generate-from-template",
+      "test-all-styles",
+      "validate-svg"
+    ],
+    "references": [
+      "icons",
+      "style-1-flat-icon",
+      "style-2-dark-terminal",
+      "style-3-blueprint",
+      "style-4-notion-clean",
+      "style-5-glassmorphism",
+      "style-6-claude-official",
+      "style-7-openai",
+      "style-diagram-matrix",
+      "svg-layout-best-practices"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1441,6 +2208,13 @@
       "coverage"
     ],
     "argumentHint": "[context] OR ui [url]",
+    "whenToUse": "Invoke for running or designing validation suites.",
+    "scripts": [],
+    "references": [
+      "report-format",
+      "test-execution-workflow",
+      "ui-testing-workflow"
+    ],
     "hasScripts": false,
     "hasReferences": true
   },
@@ -1459,6 +2233,35 @@
       "gltf"
     ],
     "argumentHint": "[3D scene or feature]",
+    "whenToUse": "Invoke for 3D, WebGL/WebGPU, GLTF, physics, or XR.",
+    "scripts": [
+      "core",
+      "extract_examples",
+      "generate_csv_from_json",
+      "search"
+    ],
+    "references": [
+      "00-fundamentals",
+      "01-getting-started",
+      "02-loaders",
+      "03-textures",
+      "04-cameras",
+      "05-lights",
+      "06-animations",
+      "07-math",
+      "08-interaction",
+      "09-postprocessing",
+      "10-controls",
+      "11-materials",
+      "11-materials-advanced",
+      "12-performance",
+      "13-node-materials",
+      "14-physics-vr",
+      "15-specialized-loaders",
+      "16-webgpu",
+      "17-shader",
+      "18-geometry"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1476,6 +2279,21 @@
       "themes"
     ],
     "argumentHint": "[component or layout]",
+    "whenToUse": "Invoke for shadcn, Tailwind, themes, or component styling.",
+    "scripts": [
+      "requirements.txt",
+      "shadcn_add",
+      "tailwind_config_gen"
+    ],
+    "references": [
+      "canvas-design-system",
+      "shadcn-accessibility",
+      "shadcn-components",
+      "shadcn-theming",
+      "tailwind-customization",
+      "tailwind-responsive",
+      "tailwind-utilities"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1493,6 +2311,13 @@
       "fonts"
     ],
     "argumentHint": null,
+    "whenToUse": "Invoke for UX strategy, design systems, accessibility, or review.",
+    "scripts": [
+      "core",
+      "design_system",
+      "search"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -1512,6 +2337,21 @@
       "mcp-client"
     ],
     "argumentHint": "[task]",
+    "whenToUse": "Invoke for MCP tool discovery or controlled tool execution.",
+    "scripts": [
+      ".env.example",
+      ".gitignore",
+      "cli",
+      "mcp-client",
+      "package.json",
+      "smoke-test",
+      "tsconfig.json"
+    ],
+    "references": [
+      "configuration",
+      "gemini-cli-integration",
+      "mcp-protocol"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1535,6 +2375,9 @@
       "ci"
     ],
     "argumentHint": "[--ship] [--beta] <github-issue-url | feature request>",
+    "whenToUse": "Invoke when a user wants one command to take a GitHub issue or feature request from planning through implementation, PR review, shipping, and optional merge.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1558,6 +2401,12 @@
       "next-steps"
     ],
     "argumentHint": null,
+    "whenToUse": "Invoke for end-of-session handoffs, progress summaries, cross-branch worktree status, unfinished plan discovery, and next-step recommendations.",
+    "scripts": [
+      "watzup-scan",
+      "watzup-scan.test"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -1574,6 +2423,9 @@
       "ux-audit"
     ],
     "argumentHint": "[file-or-pattern]",
+    "whenToUse": "Invoke for accessibility and UX guideline reviews.",
+    "scripts": [],
+    "references": [],
     "hasScripts": false,
     "hasReferences": false
   },
@@ -1592,6 +2444,23 @@
       "rsc"
     ],
     "argumentHint": "[framework] [feature]",
+    "whenToUse": "Invoke for Next.js, RSC, SSR, ISR, Turborepo, or caching.",
+    "scripts": [
+      "__init__",
+      "nextjs_init",
+      "requirements.txt",
+      "turborepo_migrate"
+    ],
+    "references": [
+      "nextjs-app-router",
+      "nextjs-data-fetching",
+      "nextjs-optimization",
+      "nextjs-server-components",
+      "remix-icon-integration",
+      "turborepo-caching",
+      "turborepo-pipelines",
+      "turborepo-setup"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1610,6 +2479,37 @@
       "load-testing"
     ],
     "argumentHint": "[test-type] [target]",
+    "whenToUse": "Invoke for browser, visual, load, or accessibility tests.",
+    "scripts": [
+      "analyze-test-results",
+      "init-playwright"
+    ],
+    "references": [
+      "accessibility-testing",
+      "api-testing",
+      "ci-cd-testing-workflows",
+      "component-testing",
+      "contract-testing",
+      "cross-browser-checklist",
+      "database-testing",
+      "e2e-testing-playwright",
+      "functional-testing-checklist",
+      "interactive-testing-patterns",
+      "load-testing-k6",
+      "mobile-gesture-testing",
+      "performance-core-web-vitals",
+      "playwright-component-testing",
+      "pre-release-checklist",
+      "security-checklists",
+      "security-testing-overview",
+      "shadow-dom-testing",
+      "test-data-management",
+      "test-flakiness-mitigation",
+      "testing-pyramid-strategy",
+      "unit-integration-testing",
+      "visual-regression",
+      "vulnerability-payloads"
+    ],
     "hasScripts": true,
     "hasReferences": true
   },
@@ -1627,6 +2527,12 @@
       "isolation"
     ],
     "argumentHint": "[feature-description] OR [project] [feature]",
+    "whenToUse": "Invoke for isolated worktrees, stale cleanup, or worktree audits.",
+    "scripts": [
+      "worktree",
+      "worktree.test"
+    ],
+    "references": [],
     "hasScripts": true,
     "hasReferences": false
   },
@@ -1645,6 +2551,11 @@
       "repo"
     ],
     "argumentHint": "<github-url-or-owner/repo|local-path> [feature] [--compare|--copy|--improve|--port] [--auto|--fast]",
+    "whenToUse": "Invoke for repo feature ports.",
+    "scripts": [],
+    "references": [
+      "challenge-framework"
+    ],
     "hasScripts": false,
     "hasReferences": true
   }
