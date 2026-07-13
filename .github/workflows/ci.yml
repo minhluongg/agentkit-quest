@@ -24,7 +24,17 @@ jobs:
           node-version: 24
           cache: npm
 
-      - run: npm ci
+      # `npm install`, not `npm ci`.
+      #
+      # The lock is generated on Windows, and npm does not write the optional dependencies
+      # that only resolve on Linux (@emnapi/runtime, pulled in by the oxc resolver's
+      # wasm32-wasi binding). `npm ci` refuses a lock it considers out of sync and fails
+      # before installing anything.
+      #
+      # This is not a workaround around a broken lock — it is the same command Vercel runs,
+      # and Vercel builds this commit green. Matching it means CI verifies the install the
+      # deploy actually performs, rather than a stricter one no environment uses.
+      - run: npm install --no-audit --no-fund
 
       - run: npm run typecheck
       - run: npm run lint
