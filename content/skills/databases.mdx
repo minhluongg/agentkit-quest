@@ -52,6 +52,39 @@ MongoDB and PostgreSQL, with scripts (including psql CLI use).
 
 The migration and aggregation-pipeline help is where it saves the most hand-holding.
 
+## We have not run this one
+
+Other skill pages here show what the skill actually printed against this repository — [the bugs
+it found](/skills/code-review), [the numbers it got wrong](/skills/docs). This page has no
+transcript.
+
+**This site has no database.** No schema, no ORM, no connection string; every page is MDX and
+generated JSON, resolved at build time. There was nothing to point the skill at.
+
+We could have stood up a throwaway Postgres so this page had a terminal block. We did not,
+because an example staged purely to be screenshotted is a fake wearing evidence's clothes — and
+it would tell you nothing about how the skill behaves on *your* schema, which is the only thing
+you actually want to know.
+
+## When NOT to reach for it
+
+- **You know SQL.** A skill will not out-think you on a query you can already write. Its value is
+  in the parts that are tedious and easy to get subtly wrong — migrations, aggregation pipelines,
+  index choices.
+- **The schema decision is a product decision.** Multi-tenancy, soft deletes, event sourcing —
+  these are business calls with database consequences, not database calls. Decide first, then ask.
+- **You have a slow query and no measurements.** Get `EXPLAIN ANALYZE` output first.
+  [`/ak:debug`](/skills/debug) exists for the same reason: a fix proposed without a reproduction
+  is a guess.
+
+## Combining it
+
+- **Designing a feature:** `/ak:plan` for the shape → `/ak:databases` for the schema →
+  [`/ak:backend-development`](/skills/backend-development) for the API over it.
+- **A migration that must not lose data:** `/ak:databases` to write it →
+  [`/ak:code-review`](/skills/code-review) on the migration itself → [`/ak:test`](/skills/test)
+  against a copy. A migration is the one change you cannot casually revert.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you do frequent schema/migration/query work and want it structured across

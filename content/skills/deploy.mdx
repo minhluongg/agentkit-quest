@@ -52,6 +52,37 @@ Cloudflare vs Railway vs Fly.io vs Render and runs the right flow.
 
 *(Legacy prefix: `/ck:deploy`.)*
 
+## We have not run this one
+
+Other skill pages on this site show what the skill actually printed against this repository —
+[the bugs it found](/skills/code-review), [the numbers it got wrong](/skills/docs). This page has
+no transcript, and the reason is worth stating plainly rather than hiding.
+
+**This site deploys through its owner's Vercel account.** Running `/ak:deploy` here would drive a
+CLI against someone else's project and someone else's billing. That is not ours to do, so we did
+not do it — and we would rather leave the gap visible than manufacture an example against a
+throwaway project that proves nothing about the flow you would actually use.
+
+The free method above is the part we stand behind, because it is the part we can show you.
+
+## When NOT to reach for it
+
+- **You deploy to one host.** `vercel --prod` is one command. A skill that detects which of six
+  platforms you are on solves a problem you do not have.
+- **Your deploy is already automatic.** This site pushes to git and Vercel builds it. There is no
+  deploy command to run, and a skill cannot improve on a step that does not exist.
+- **The deploy is failing.** Auto-detection picks the right command; it does not diagnose a broken
+  build. Use [`/ak:debug`](/skills/debug) to find out why, then deploy.
+
+## Combining it
+
+- **Before shipping:** [`/ak:test`](/skills/test) → [`/ak:code-review`](/skills/code-review) →
+  deploy. The order matters: a deploy is the most expensive place to discover a bug.
+- **After a rendering change:** [`/ak:web-frameworks`](/skills/web-frameworks) decides what is
+  static; [`/ak:web-testing`](/skills/web-testing) measures whether that reached the user.
+- **Preview URLs:** whatever you deploy with, make sure previews are `noindex` — a `*.vercel.app`
+  competing with production is a real, quiet SEO cost.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you deploy across several platforms and want one command that detects the
@@ -61,4 +92,5 @@ Cloudflare vs Railway vs Fly.io vs Render and runs the right flow.
 ## Related
 
 - [DevOps: Docker, Kubernetes, GCP](/skills/devops)
+- [Debug workflow](/skills/debug) — for when the deploy is failing, not just unrun
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

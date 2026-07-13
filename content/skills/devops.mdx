@@ -50,6 +50,38 @@ so common infra flows are guided rather than assembled command-by-command.
 
 *(Legacy prefix: `/ck:devops`.)*
 
+## We have not run this one
+
+Other skill pages here show what the skill actually printed against this repository. This one has
+no transcript.
+
+**This site has no containers.** No Dockerfile, no Kubernetes manifests, no cloud infrastructure
+of its own — it is a static Next.js build that a CDN serves. There was no infra to point the skill
+at.
+
+Writing a throwaway Dockerfile so this page had a terminal block would have demonstrated that the
+skill can produce a Dockerfile. That is not in doubt, and it is not what you are trying to find
+out.
+
+## When NOT to reach for it
+
+- **You have one Dockerfile and it works.** Container tooling is where cargo-culting is most
+  expensive: a config you did not write, do not understand, and cannot debug at 3am is worse than
+  a simple one you do.
+- **The cluster is already on fire.** This guides infra flows; it does not diagnose a failing
+  deploy. Read the logs, then [`/ak:debug`](/skills/debug).
+- **Your host does not need containers.** Vercel, Netlify and Cloudflare Pages take a git push.
+  Reaching for Docker because it feels more serious is how a simple site becomes an infra project.
+
+## Combining it
+
+- **Containerising an app:** [`/ak:backend-development`](/skills/backend-development) for the app
+  → `/ak:devops` for the container → [`/ak:security`](/skills/security), because a container image
+  is a supply chain and it is the part people forget to audit.
+- **Shipping it:** `/ak:devops` for the infra → [`/ak:deploy`](/skills/deploy) for the release.
+- **CI:** the pipeline is where a test suite stops being decoration. If nothing runs your tests,
+  you do not have tests — you have files.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you work across Docker + K8s + a cloud regularly and want guided flows

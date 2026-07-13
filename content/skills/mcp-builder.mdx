@@ -52,6 +52,36 @@ resource providers — with scripts, so it's a guided build rather than a from-s
 
 *(Legacy prefix: `/ck:mcp-builder`.)*
 
+## We have not run this one
+
+Other skill pages here show what the skill actually printed against this repository. This one has
+no transcript.
+
+**There is no MCP server in this repo**, and building one purely so this page had a screenshot is
+the exact failure the rest of this site argues against: an example staged for the photograph
+rather than encountered in real work. A reader can tell the difference, and the one thing that
+would make this page worth reading — *what happened when we pointed it at something real* — is the
+one thing a staged demo cannot give you.
+
+## When NOT to reach for it
+
+- **A CLI would do.** Not everything needs to be an MCP server. If the agent can shell out to a
+  command you already have, wrapping it in a protocol adds a moving part and buys nothing.
+- **You have not designed the tools yet.** The hard part of an MCP server is not the scaffolding —
+  it is deciding what the tools *are*, what they return, and how an agent fails safely when one of
+  them errors. Scaffolding a bad tool surface faster does not help.
+- **You want to consume MCP tools, not build them.** That is a different skill —
+  [`/ak:use-mcp`](/skills/use-mcp) — and confusing the two costs an afternoon.
+
+## Combining it
+
+- **Exposing an existing API:** `/ak:plan` for the tool surface → `/ak:mcp-builder` for the server
+  → [`/ak:code-review`](/skills/code-review) on the error paths, because an agent hitting an
+  unhandled tool error fails in ways a human user never would.
+- **The tools touch data:** [`/ak:security`](/skills/security). An MCP server is an API you are
+  handing to a model, and the model will call it in orders you did not anticipate.
+- **Consuming rather than building:** [`/ak:use-mcp`](/skills/use-mcp).
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you build MCP servers regularly and want the scaffolding + tool-design

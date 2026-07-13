@@ -27,6 +27,21 @@ someone has edited.
 | `cook` | **No transcript, and the page shipped anyway** — it was written to close the `cook` link leak (10 guides pointed at a `noindex` stub), and the plan explicitly decoupled that from a capture. Added 2026-07-13 after review caught that the page had been published with no register entry: the *exact* hole that `review-pr` was added to close, re-dug in the same batch of work that closed it. | Says plainly there is no captured run, and that the free method is the part we stand behind. |
 | `review-pr` | **Different reason from the five above: a real target exists.** This repo has an open PR, so reviewing it would be genuine work. The blocker is containment, not absence — `--reply` posts to GitHub and `--fix` writes to the tree, and the harness for running a write-and-post-capable skill safely is not built. Added 2026-07-13, after this page was found to have fallen through the register entirely: no transcript, no entry, no page line. | States plainly that the kit's version is unexercised here, and why. |
 
+## This register was wrong, and the correction is the point
+
+For a day, every row above claimed the page "says plainly that we did not exercise the skill."
+**None of them did.** The five pages were never touched: no transcript, no admission, no *When NOT
+to reach for it*, no *Combining it*. They sat among sixteen pages that carried evidence, looking
+identical to them, and a reader had no way to tell which was which.
+
+The register asserted something about the pages that was not true of the pages. **That is the same
+failure as a fabricated transcript, one level up** — a document vouching for evidence that does not
+exist. It was caught by checking the claim against the files instead of trusting the file that
+made the claim.
+
+Fixed 2026-07-13: all five pages now carry an honest "We have not run this one" section naming the
+specific reason, plus the two missing sections. Verified by grep, not by re-reading this table.
+
 ## Why this is not a gap in the pages
 
 Each of the five keeps its full **free-method** section — the part a reader actually came for, and

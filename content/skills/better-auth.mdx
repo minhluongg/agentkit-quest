@@ -53,6 +53,42 @@ with scripts, so each auth feature is a guided add rather than a docs-diving exe
 
 *(Legacy prefix: `/ck:better-auth`.)*
 
+## We have not run this one
+
+Other skill pages here show what the skill actually printed against this repository. This one has
+no transcript.
+
+**This site has no authentication.** No accounts, no sessions, no cookies — a
+[security audit](/skills/security) of the whole repo found it has *no identity to spoof at all*,
+which is why five of the six STRIDE categories are structurally inapplicable to it. There was
+nothing here to protect.
+
+Scaffolding an auth flow purely so this page had a screenshot would have proved that
+`better-auth` can produce a login form. It would not have told you the thing you want to know —
+how it behaves against a real user model with real edge cases — and we would rather show the gap
+than fill it with something that looks like an answer.
+
+## When NOT to reach for it
+
+- **Auth is a one-time setup and you have done it before.** The library's own docs are good. This
+  packages the patterns; it does not replace understanding them, and you will be living with the
+  result for years.
+- **You need a hosted identity provider.** Better Auth is a library you run. If the answer is
+  Clerk, Auth0 or WorkOS, this is the wrong tool and the skill will not tell you so.
+- **You are debugging a session bug.** Setup patterns will not find it.
+  [`/ak:debug`](/skills/debug) — prove the cause before you change the auth flow, because auth is
+  the worst place to fix a symptom.
+
+## Combining it
+
+- **Adding auth to an app:** `/ak:plan` → `/ak:better-auth` for the setup →
+  [`/ak:security`](/skills/security) for the threat model. Those are different questions: one asks
+  "does this work", the other asks "who benefits if it doesn't".
+- **Auth touches the schema:** [`/ak:databases`](/skills/databases) for the user and session
+  tables — get them wrong and the migration is painful later.
+- **Before it ships:** [`/ak:code-review`](/skills/code-review). Auth code is the code where a
+  plausible-looking mistake is most expensive.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you set up auth across projects and want the OAuth/2FA/passkey patterns
