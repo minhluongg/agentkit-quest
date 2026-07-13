@@ -31,10 +31,29 @@ lottery ticket — cheap to buy, low odds, and the odds are stated on the tin.
 
 ---
 
-## §1 — rohitg00/awesome-claude-code-toolkit (2,305★) · the one real, actionable link
+## §1 — rohitg00/awesome-claude-code-toolkit (2,305★) · ✅ **PR OPEN**
 
-**This is the best target and it is not close.** It accepts PRs, it accepts brand-new zero-star
-projects, and it has a direct precedent.
+> **Shipped 2026-07-13:** [PR #646](https://github.com/rohitg00/awesome-claude-code-toolkit/pull/646)
+> — `Add claude-code-hooks to Ecosystem`. One file, one line, MERGEABLE. Nothing else to do here but
+> wait. **Expect a wait:** that repo has 30 open PRs and its last merge was 2026-05-12, two months
+> ago. It merges third-party PRs in bursts when the maintainer is awake.
+
+**This was the best target and it was not close.** It accepts PRs, it accepts brand-new zero-star
+projects, and it had a direct precedent.
+
+**Where it landed, and why that mattered.** The README has *three* places a hooks repo could go, in
+three different formats — and two of them are wrong for us:
+
+| Section | Format | Verdict |
+|---|---|---|
+| `### All Plugins` | 2-column table | **Wrong.** These are installable plugins with a `.claude-plugin/plugin.json` manifest. We have none. |
+| `### Related SDKs` | bullet list | **Wrong.** That is where `Payshak/claude-code-hooks` (a TypeScript SDK) sits. We are not an SDK. |
+| `## Ecosystem` | `\| name \| stars \| description \|` | **Right.** `disler/claude-hooks-mastery` — a standalone hooks collection, like ours — is already listed here. |
+
+The PR body names the two hook collections already on the list (`claude-hooks-mastery`, UV +
+Python; `yurukusa/claude-code-hooks`, Bash) and says plainly what is different about this one. A
+maintainer looking at a third hooks repo will ask that question; answering it first is cheaper than
+letting them conclude *"another one."*
 
 > ⚠️ **Do NOT contribute to its `hooks/scripts/` path.** Its `CONTRIBUTING.md` says *"Hook Scripts —
 > Scripts go in `hooks/scripts/` with an update to `hooks/hooks.json`."* That **copies your hooks
@@ -199,10 +218,17 @@ will outrank our own page for our own keyword, with our own text. dev.to support
 
 ## What to do, in order
 
-1. **§3 HN + Reddit.** This is what produces users and stars, and everything else keys off it.
-2. **§1 rohitg00 PR** (Ecosystem table, *not* `hooks/scripts/`). Ten minutes, real link, may sit.
-3. **§2 hesreallyhim form.** Five minutes in a browser. A ticket, not a plan. Better odds *after*
-   §3 has produced traction — which is exactly what the maintainer said.
+| | Step | Who | Status |
+|---|---|---|---|
+| 1 | **§3 Show HN + Reddit** — produces the users and stars everything else keys off | **You** | ⬜ **the whole phase now rests on this** |
+| 2 | §1 rohitg00 Ecosystem PR | — | ✅ [#646](https://github.com/rohitg00/awesome-claude-code-toolkit/pull/646), open, awaiting a dormant maintainer |
+| 3 | §2 hesreallyhim issue form — 5 min in a browser, agent-submission forbidden | **You** | ⬜ better odds *after* step 1, on the maintainer's own advice |
+
+**Step 1 is the phase.** Steps 2 and 3 are tickets. The repo has 0 stars, and a list entry for a
+0-star repo is a line nobody clicks; a Show HN that lands is what makes the line worth having.
+
+**Do not confuse "a PR is open" with "distribution happened."** It is not the same thing, and the
+one that matters is still undone.
 
 ---
 
