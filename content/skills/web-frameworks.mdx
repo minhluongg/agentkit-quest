@@ -1,12 +1,12 @@
 ---
 title: 'Building with Next.js and Claude Code (RSC, SSR, ISR)'
-description: How to use Claude Code with Next.js App Router — Server Components, SSR, ISR, and Turborepo monorepos. The free method, and what AgentKit's web-frameworks skill adds.
+description: How to use Claude Code with Next.js App Router — Server Components, SSR, ISR, Turborepo. The free method, what AgentKit's web-frameworks skill adds, and a real audit that was mostly right and confidently wrong once.
 keywords:
   - claude code nextjs
   - claude code app router
   - claude code next.js server components
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 Next.js's App Router gives you several rendering strategies — Server Components, SSR, ISR,
@@ -52,6 +52,115 @@ setup, with scripts.
 
 *(Legacy prefix: `/ck:web-frameworks`.)*
 
+## What it actually printed
+
+### The input
+
+```bash
+/ak:web-frameworks src/
+```
+
+Target: this site — Next.js 16.2.10, App Router, React 19, static-first.
+
+### It caught that the skill's own references are out of date
+
+Before trusting the checklist, it checked the checklist:
+
+````
+Important caveat about the skill: its references are Next 13/14-era.
+
+  references/nextjs-app-router.md:39      teaches the SYNCHRONOUS `params: { slug }` form
+  references/nextjs-data-fetching.md:816  same
+  references/nextjs-optimization.md:1300  teaches experimental.ppr
+
+On Next 16 the repo is right and the skill is stale.
+I used the skill for WHAT TO CHECK, not for WHAT IS TRUE.
+````
+
+**That paragraph is the most useful thing in the report.** A checklist written against Next 14
+will confidently tell you to "fix" correct Next 16 code — and a model's priors about Next.js
+are usually a year old too.
+
+### It audited the build output, not the source's intentions
+
+````
+.next/prerender-manifest.json: 131 routes prerendered
+/og is the ONLY app route not prerendered.
+
+So: 100% static, plus one dynamic-by-necessity image endpoint. For a content site
+whose data all lives in the repo, that is the correct architecture, not an anti-pattern.
+````
+
+### The real finding: a font subset nobody on this site can read
+
+````
+src/lib/fonts.ts:6,13 — subsets: ['latin', 'vietnamese']
+src/lib/fonts.ts:3-4  — comment claims "It costs nothing today."
+
+That comment is false, and I verified it against the built HTML.
+
+.next/server/app/en.html emits exactly 4 <link rel="preload" as="font">:
+  IBM Plex Sans,  latin
+  JetBrains Mono, latin
+  IBM Plex Sans,  unicode-range: U+1EA0-1EF9, U+20AB   ← Vietnamese
+  JetBrains Mono,                                      ← Vietnamese
+
+`rel="preload" as="font"` fetches at HIGH priority, UNCONDITIONALLY. `unicode-range`
+gates lazy @font-face activation — it does NOT gate an explicit preload.
+
+So half the eagerly-fetched font bytes on every page are glyphs this English-only
+site can never render, competing with LCP resources.
+````
+
+Invisible in the source, whose comment asserts the opposite. Undeniable in the emitted HTML.
+
+### And then it got one thing confidently wrong
+
+It declared `/og` — the site's only dynamic route — **correct** to export no cache config,
+reasoning from the library's source:
+
+````
+ImageResponse sets cache-control: public, immutable, max-age=31536000 in production
+  (node_modules/next/dist/compiled/@vercel/og/index.node.js:21490)
+Adding `dynamic` or `revalidate` to /og would range from useless to breaking.
+````
+
+The line it quotes is real. **The conclusion is false**, and we only know because we ran it:
+
+````
+$ npm run build && NODE_ENV=production npx next start
+$ curl -sI localhost:3000/og?title=test | grep cache-control
+cache-control: no-cache, no-store
+````
+
+The library's production branch never fires in a built app. `no-store` tells every CDN to keep
+nothing — so every distinct `?title=` was a fresh function invocation rasterizing a PNG, billed
+per request. A [security run](/skills/security) had flagged exactly this; the framework run read
+the source and talked itself out of it.
+
+**Both audits were half right, and neither had run the endpoint.**
+
+## When NOT to reach for it
+
+- **You already know App Router.** The server-first prompt above keeps Claude honest for free,
+  and you will catch a stale reference faster than the skill will.
+- **Your app is fully static.** Most of the Next.js audit surface — ISR windows, `use cache`,
+  PPR, streaming boundaries, request-time cache headers — simply evaporates when every route
+  is prerendered. The honest finding is usually that the headline features are *correctly
+  declined*, not missed.
+- **You want it to tell you what's true about the framework.** Use it for *what to check*.
+  Verify *what is true* against the version you actually have installed.
+
+## Combining it
+
+- **Rendering strategy first, then perf:** `/ak:web-frameworks` decides static vs dynamic;
+  [`/ak:react-best-practices`](/skills/react-best-practices) optimizes within that choice. Get
+  the order backwards and you memoize your way around an architecture problem.
+- **Anything it flags as a defect:** [`/ak:debug`](/skills/debug) to reproduce before you
+  change it. Ours needed exactly that.
+- **The one dynamic endpoint:** [`/ak:security`](/skills/security) — on a static site, the
+  route that still executes *is* the attack surface.
+
 ## Buy if / Don't buy if
 
 - **Worth it if** you build Next.js apps often and want the RSC/caching/monorepo patterns
@@ -59,8 +168,17 @@ setup, with scripts.
 - **Skip it if** you know App Router — the server-first prompt above keeps Claude honest,
   free.
 
+**Audit the build output, not the source's intentions.** That is this run's own best advice,
+and the one place it failed to take it is the one place it was wrong.
+
+The real risk in a static-first Next app is not "what should we cache" but "what could silently
+opt a page out of static rendering" — and those bugs are invisible in the source and obvious in
+`.next/`. This codebase has scars from exactly that: a `useSearchParams()` that once served
+crawlers an empty hub page, and a proxy matcher that once 404'd every social card on the site.
+
 ## Related
 
-- [React performance](/skills/react-best-practices)
+- [React performance](/skills/react-best-practices) — optimize *within* the rendering strategy
+- [Security audit](/skills/security) — on a static site, the dynamic route is the surface
+- [Debug workflow](/skills/debug)
 - [Deploy to Vercel](/skills/deploy)
-- [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

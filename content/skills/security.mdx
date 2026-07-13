@@ -1,12 +1,12 @@
 ---
 title: 'Claude Code Security Audit: Finding Real Vulnerabilities'
-description: How to run a security audit with Claude Code — threat-modeling by attacker perspective, not a generic scan. The free method, and what AgentKit's STRIDE/OWASP security skill adds.
+description: How to run a security audit with Claude Code — threat-modeling by attacker perspective, not a generic scan. The free method, what AgentKit's STRIDE/OWASP skill adds, and a real audit that found one thing worth fixing.
 keywords:
   - claude code security audit
   - claude code security scan
   - claude code find vulnerabilities
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 Asking Claude to "check this for security issues" gets you a list of generic advice — use
@@ -53,8 +53,93 @@ severity-categorized, with an optional red-team discovery loop and an auto-fix m
 
 *(Legacy prefix: `/ck:security`.)*
 
-The multi-persona loop and iterative red-team are the real add — hard to reproduce by hand
-without a lot of prompting.
+## What it actually printed
+
+### The input
+
+```bash
+/ak:security full --red-team
+```
+
+129 tracked files. All four personas, plus `npm audit` and a secret scan across the full git
+history. The target is a static Next.js content site — **no database, no auth, no user
+accounts, no write endpoints.**
+
+### The first thing it did was subtract
+
+````
+Route handlers                                                  3
+  …of those, force-static (compiled to a file, never executes)  2
+Dynamic endpoints that execute per-request on attacker input    1   ← /og
+Write endpoints (POST/PUT/PATCH/DELETE)                         0
+Server-side outbound requests (SSRF surface)                    0
+Auth / sessions / cookies                                       0
+Databases, user records, PII                                    0
+
+The whole runtime attack surface of this website is
+  GET /og?title=<attacker-controlled string>
+Everything else is a prerendered file on a CDN.
+````
+
+### [Medium] The one endpoint that executes was uncached and unbounded
+
+````
+src/app/og/route.tsx:13   const title = searchParams.get('title') ?? siteConfig.name;
+src/app/og/route.tsx:37   fontSize: title.length > 60 ? 56 : 68   ← reads length, never bounds it
+
+Exports: contentType only. No dynamic, no revalidate, no Cache-Control.
+Compare: llms.txt/route.ts:6 and search-index.json/route.ts:3 both export force-static.
+````
+
+Every distinct `?title=` was a CDN miss → a fresh function invocation rasterizing a 1200×630
+PNG through satori, which is CPU-bound. A loop over random titles bypassed the cache entirely
+and billed the owner per request. No rate limit, no WAF.
+
+**Denial of wallet, not a breach.** It is not XSS — satori rasterizes text to pixels, it does
+not execute markup.
+
+**We fixed it. The first fix did not work.** We added `export const revalidate` and measured
+the header: unchanged. `ImageResponse` builds its own `Response`, and its header wins over
+Next's segment config. The route now writes `cache-control` itself, and three tests assert it
+— because both guards are invisible when they break. The images keep rendering; the bill just
+grows.
+
+### [Info] The scanner's output was not a risk register
+
+````
+npm audit: 3 moderate, 0 reachable
+
+postcss <8.5.10   XSS via unescaped </style>. Transitive, inside next@16's bundled copy.
+                  Requires attacker-controlled CSS. Our CSS is first-party, compiled at
+                  build. UNREACHABLE.
+
+                  `npm audit fix --force` "fixes" this by installing next@9.3.3 —
+                  a SEVEN-major-version downgrade.
+
+js-yaml           Flagged as a direct devDependency — but grep says it is never imported
+                  anywhere in src/ or scripts/. A dead devDep. UNREACHABLE.
+````
+
+## When NOT to reach for it
+
+- **When you want a number to put in a report.** Five of six STRIDE categories are not "no
+  findings" on this site — they are *structurally inapplicable*. There are no accounts, so
+  nothing to spoof. No privileges, so nothing to elevate to. No user can perform any action,
+  so nothing to repudiate and nothing worth logging.
+- **When a hook would be cheaper.** Auditing for committed secrets is worth doing once;
+  [blocking them at write time](/guides/claude-code-hooks-examples) is worth doing forever.
+- **Instead of running the thing.** Both audits we ran on `/og` reasoned about the cache
+  header from source. Both were wrong. `curl -I` settled it in one second.
+
+## Combining it
+
+- **Before a security-sensitive merge:** [`/ak:code-review`](/skills/code-review) asks "is
+  this correct"; `/ak:security` asks "who benefits if it isn't". Different questions — run
+  both.
+- **On a dependency you're about to adopt:** [`/ak:repomix`](/skills/repomix) to pack it →
+  `/ak:security` on the pack.
+- **The finding is only half the job:** [`/ak:test`](/skills/test) to assert the fix, because
+  a security guard that regresses silently is worse than one that was never there.
 
 ## Buy if / Don't buy if
 
@@ -63,8 +148,20 @@ without a lot of prompting.
 - **Skip it if** an occasional perspective-based prompt (above) meets your needs — for
   light use it's most of the value, free.
 
+**A threat model is mostly an exercise in subtraction, and the subtraction is the
+deliverable.** Once you have honestly established that there is no identity, no privilege, no
+write path and no server-side fetch, you have also established that the only thing left worth
+defending is the one endpoint that still executes on a request — and that is exactly where
+the one real finding turned out to be.
+
+A checklist would have generated "no CSP", "no rate limiting", "missing audit logs": all
+technically true, all noise on a brochure site, and all of it burying the one thing that
+actually costs money. **An audit that manufactures severity to justify itself teaches the
+person reading it to stop reading.**
+
 ## Related
 
 - [Block secrets before they're written (free hook)](/guides/claude-code-hooks-examples)
-- [Code review](/skills/code-review)
+- [Code review](/skills/code-review) — correctness, not adversaries
+- [Generate tests](/skills/test) — assert the fix, so it cannot regress in silence
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)

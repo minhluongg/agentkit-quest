@@ -1,12 +1,12 @@
 ---
 title: 'Debugging with Claude Code: Root Cause Before the Fix'
-description: How to debug effectively with Claude Code — reproduce first, prove the cause, then fix. The free method, and what AgentKit's debug skill adds for systematic root-cause analysis.
+description: How to debug effectively with Claude Code — reproduce first, prove the cause, then fix. The free method, what AgentKit's debug skill adds, and a real bug where building it beat reasoning about it.
 keywords:
   - claude code debugging
   - claude code debug workflow
   - debug with claude code
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 The fastest way to debug slowly is to let Claude jump straight to a fix. It patches the
@@ -53,8 +53,79 @@ multi-layer validation, log analysis, CI/CD failure diagnosis, and database diag
 
 *(Legacy prefix: `/ck:debug`.)*
 
-It ships with scripts, so it's doing more than prompting — it's a structured investigation
-rather than a one-shot ask.
+## What it actually printed
+
+### The input
+
+A real defect in this site, handed over **unproven** — an audit had spotted it by reading
+the code:
+
+> `guides/[...slug]/page.tsx:85` renders `{page.data.readingTime && (<span>…</span>)}`, and
+> `readingTime` is `z.number().optional()` with no `.positive()`. So `readingTime: 0` should
+> pass validation, `0 && …` should evaluate to `0`, and React should render a bare **"0"**.
+
+```bash
+/ak:debug "a guide with readingTime: 0 renders a stray 0 into the page metadata row"
+```
+
+### The output — it refused to stop at the code read
+
+````
+The mechanism is as the audit describes — but I did not stop at reasoning.
+I reproduced it.
+
+  1. Added `readingTime: 0` to content/guides/install-agentkit.mdx frontmatter
+  2. npm run build  →  build PASSES, no zod error (confirms 0 slips through the schema)
+  3. grep the real prerendered HTML
+````
+
+The proof, from the shipped HTML:
+
+````
+.next/server/app/en/guides/install-agentkit.html
+
+...text-muted-foreground">beginner</span>0<span class="flex items-center gap-1.5"><svg ...
+                                        ^
+                                        the bare "0", in real output
+````
+
+A lone `0` between the closing tag of the difficulty badge and the opening tag of the
+"Updated" block. The RSC payload carries the same `0` at the matching position in the tree —
+so it came from *that* JSX branch, not by coincidence from other content. Then it reverted
+the frontmatter and confirmed a clean tree.
+
+### And then it found the thing that actually mattered
+
+````
+grep readingTime content/guides/*.mdx   →   0 results across all 14 guides.
+
+So today, in production, page.data.readingTime is ALWAYS undefined.
+`undefined && (...)` renders nothing. The entire "Clock icon + N min read" block
+is 100% dead code.
+
+The bug is real and fires the moment anyone sets readingTime: 0 — but its impact
+today is zero, because the feature was never wired to real content.
+````
+
+## When NOT to reach for it
+
+- **You already have a reliable reproduction.** If you can trigger it on demand, you are
+  past the step this skill exists to enforce. Read the stack trace.
+- **Reproducing is genuinely expensive.** This bug took one build. A race condition under
+  production load, or a leak that needs a day of traffic, does not. The discipline is still
+  right, but "reproduce it" is a cheap instruction to give and sometimes a costly one to
+  follow — and the skill will not make it cheaper.
+- **You want the fix, not the cause.** It will not give you one. That is the point.
+
+## Combining it
+
+- **The full loop:** [`/ak:scout`](/skills/scout) to find where it lives → `/ak:debug` to
+  prove why → `/ak:fix` → [`/ak:test`](/skills/test) to lock the reproduction in as a
+  regression guard.
+- **When a review finds a bug:** [`/ak:code-review`](/skills/code-review) reports; `/ak:debug`
+  proves. A reported bug is a hypothesis until someone reproduces it.
+- **Turn the reproduction into a test.** The failing test *is* the reproduction — write it
+  before the fix, and the bug can never come back unnoticed.
 
 ## Buy if / Don't buy if
 
@@ -63,8 +134,21 @@ rather than a one-shot ask.
 - **Skip it if** the prompt above is enough — for most bugs, "prove the cause first" typed
   into a bare Claude Code session gets you there.
 
+**The lesson from our run is not about the skill; it is about the discipline.** The code read
+gave the right answer and the wrong conclusion. *"The `&&` guard is wrong for `0`"* is true,
+and on its own it produces a one-line fix — `.positive()` on the schema — that closes the bug
+and misses the point entirely.
+
+Building it exposed the real finding: **nobody uses this field.** Not one of fourteen guides.
+The honest question was never "how do we make the guard safe" but "why is there a reading-time
+display that nothing populates?" — and the quick fix would have buried it.
+
+Reproducing cost a build. It bought a finding reasoning could not reach, because the reasoning
+was about the code and the finding was about the *content*.
+
 ## Related
 
 - [Reproduce-before-fix workflow](/guides/claude-code-workflow-patterns)
-- [Generate tests](/skills/test) — to lock in the reproduction as a regression guard
+- [Generate tests](/skills/test) — lock the reproduction in as a regression guard
+- [Code review](/skills/code-review) — reports bugs; debug proves them
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
