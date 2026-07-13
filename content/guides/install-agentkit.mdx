@@ -86,8 +86,8 @@ We ran this on Windows 11 on 2026-07-13. The real output:
 [OK] bootstrap verifier pin verified
 [OK] verified release archive written to ...\verified-release.zip
 [i] extracting authenticated release
-[OK] installed ak.exe -> C:\Users\Admin\bin\ak.exe
-WARNING: C:\Users\Admin\bin was added to your user PATH. Open a NEW terminal for it to take effect.
+[OK] installed ak.exe -> C:\Users\<you>\bin\ak.exe
+WARNING: C:\Users\<you>\bin was added to your user PATH. Open a NEW terminal for it to take effect.
 [i] ak 2.1.0
 [OK] done. Run 'ak --help' to get started.
 ```
@@ -115,13 +115,13 @@ to run** if you try to skip checksum verification.
 |                              -> run: ak setup
 |
 |  OTHER
-|  [!]  install provenance        content present in C:\Users\Admin\.claude without an AK marker
+|  [!]  install provenance        content present in C:\Users\<you>\.claude without an AK marker
 |                                 — this may be a ClaudeKit install ... Run `ak setup`
 |  [!]  agentkit auth session     not logged in; remote kit install/update requires an
 |                                 AgentKit account session  -> run: ak login
 |  [!]  ck shim collision         legacy ck collision detected: ck resolves to
 |                                 C:\nvm4w\nodejs\ck.cmd, but the current ak executable is
-|                                 C:\Users\Admin\bin\ak.exe
+|                                 C:\Users\<you>\bin\ak.exe
 |
 |  Summary: 6 [OK]  6 [!]  1 [X]
 ```
@@ -211,6 +211,11 @@ written, and nothing in `~/.claude` touched.
 Nothing breaks. On our machine `ck` (claudekit-cli 4.5.0) still worked normally after
 installing `ak`, and both binaries coexist:
 
+{/* The `engineer@v2.20.0` below is CAPTURED OUTPUT and is correct: the legacy claudekit-cli
+    genuinely reports its own kit as v2.20.0. It is not the AgentKit Engineer kit (v0.2.0).
+    Do not "fix" it in a version sweep — it is the evidence, not the error. It is allowlisted
+    in scripts/verify-build.ts for exactly this reason. */}
+
 ```bash
 $ ck --version
 CLI Version: 4.5.0
@@ -219,6 +224,11 @@ Local Kit Version: engineer@v2.20.0
 $ ak --version
 ak 2.1.0
 ```
+
+That `v2.20.0` is the **legacy** kit's version, reported by the legacy CLI. The AgentKit Engineer
+kit `ak` installs is **v0.2.0** — two different kits, two different numbers, and confusing them is
+an easy mistake to make. We made it ourselves on
+[another page](/guides/agentkit-vs-free-alternatives), and corrected it in public.
 
 But `ak doctor` flags it as a **`ck` shim collision**, because AgentKit also wants to own a
 `ck` shim for backwards compatibility and yours resolves to the old npm package. The fix is
