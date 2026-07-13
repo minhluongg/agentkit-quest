@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { SearchEntry, SearchEntryType } from '@/lib/search-index';
 import { scoreEntry, tokenize } from '@/lib/search-match';
 import { track } from '@/lib/analytics';
+import { trapFocus } from '@/lib/focus-trap';
 import { cn } from '@/lib/utils';
 
 const TYPE_ICON: Record<SearchEntryType, typeof FileText> = {
@@ -17,8 +18,6 @@ const TYPE_ICON: Record<SearchEntryType, typeof FileText> = {
 const MAX_RESULTS = 12;
 const LISTBOX_ID = 'search-results';
 
-/** Focusable elements inside the dialog, for the focus trap. */
-const FOCUSABLE = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
 
 export function CommandPalette() {
   const router = useRouter();
@@ -145,28 +144,10 @@ export function CommandPalette() {
 
   if (!open) return null;
 
-  /** Focus trap: Tab must not escape the dialog into the page behind it. */
-  function trapFocus(event: React.KeyboardEvent) {
-    if (event.key !== 'Tab') return;
-
-    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE);
-    if (!focusable || focusable.length === 0) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (!first || !last) return;
-
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
-
   function onKeyDown(event: React.KeyboardEvent) {
-    trapFocus(event);
+    // Shared with the mobile drawer — see src/lib/focus-trap.ts. This implementation was
+    // correct and the drawer had none, which is exactly why it now lives in one place.
+    trapFocus(event, dialogRef.current);
 
     if (event.key === 'Escape') {
       event.preventDefault();
