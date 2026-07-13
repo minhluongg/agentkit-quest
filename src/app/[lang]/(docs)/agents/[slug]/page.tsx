@@ -4,6 +4,7 @@ import { getMDXComponents } from '@/mdx-components';
 import { Breadcrumb } from '@/components/docs/breadcrumb';
 import { DocsToc } from '@/components/docs/docs-toc';
 import { KitCta } from '@/components/affiliate/kit-cta';
+import { Provenance } from '@/components/docs/provenance';
 import { LinkCard } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { JsonLd, breadcrumbSchema, techArticleSchema } from '@/components/seo/json-ld';
@@ -106,6 +107,8 @@ export default async function AgentPage({ params }: PageProps) {
               </p>
             </div>
           )}
+
+          <Provenance kitVersion={override?.kitVersion} updated={override?.updated} />
 
           <section className="mt-12 flex flex-col gap-5 border-t border-border pt-8">
             <h2 className="font-mono text-lg font-semibold text-foreground">Other agents</h2>
