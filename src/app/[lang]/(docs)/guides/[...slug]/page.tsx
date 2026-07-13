@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Clock, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar } from 'lucide-react';
 import type { Metadata } from 'next';
 import { findNeighbour } from 'fumadocs-core/page-tree';
 import { getMDXComponents } from '@/mdx-components';
@@ -80,14 +80,16 @@ export default async function GuidePage({ params }: PageProps) {
               {page.data.description}
             </p>
 
+            {/* No reading time. The field existed, no guide ever set it, and the block
+                rendered nothing — while `{readingTime && …}` would have printed a bare "0"
+                the day someone wrote `readingTime: 0`, because `0` is falsy but still a
+                value React renders.
+
+                If it comes back, derive it from the body. A hand-authored minute count in
+                frontmatter is wrong the first time anyone edits the guide, and nothing
+                would ever catch it. */}
             <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
               <Badge variant="outline">{page.data.difficulty}</Badge>
-              {page.data.readingTime && (
-                <span className="flex items-center gap-1.5">
-                  <Clock className="size-3.5" aria-hidden="true" />
-                  {page.data.readingTime} min read
-                </span>
-              )}
               <span className="flex items-center gap-1.5">
                 <Calendar className="size-3.5" aria-hidden="true" />
                 Updated {page.data.updated}
