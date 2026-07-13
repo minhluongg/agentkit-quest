@@ -42,9 +42,33 @@ function MdxLink({ href = '', children, ...props }: ComponentProps<'a'>) {
   );
 }
 
+/**
+ * A markdown table wide enough to overflow scrolls *itself*, not the page.
+ *
+ * Fenced code blocks already got this right (`.prose-doc pre` has `overflow-x: auto`).
+ * Tables were missed, and they are worse: a table has no soft wrap points, so its columns
+ * force a minimum width and the whole document scrolls sideways behind it. Measured at a
+ * 360px viewport, `/guides/agentkit-vs-free-alternatives` had a 478px body — the reader
+ * drags the entire page to read one row.
+ *
+ * 11 of 14 guides contain a table.
+ *
+ * `tabIndex={0}` is not decoration: a scroll container holding no focusable child is
+ * unreachable by keyboard without it, so the columns off the right edge would be readable
+ * with a mouse and invisible without one.
+ */
+function MdxTable(props: ComponentProps<'table'>) {
+  return (
+    <div className="my-6 overflow-x-auto" tabIndex={0} role="region" aria-label="Table">
+      <table {...props} />
+    </div>
+  );
+}
+
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     a: MdxLink,
+    table: MdxTable,
     Callout,
     Steps,
     Step,
