@@ -58,9 +58,9 @@ export const docs = defineDocs({
 const overrideSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
-  // Strict date, matching the guide schema above. This is rendered as provenance
-  // ("examples run against v0.2.0, 13 July 2026"), so a loose string would ship
-  // `Invalid Date` to a live page with a green build.
+  // Strict date, matching the guide schema above. It is rendered as provenance
+  // ("Documented against AgentKit Engineer v0.2.0 · updated 13 July 2026"), so a loose
+  // string would ship `Invalid Date` to a live page with a green build.
   updated: z.iso.date().optional(),
   // Overrides the vendor's invocation-flavoured keywords. A page that targets the
   // *job* ("claude code code review") must not ship the invocation keyword

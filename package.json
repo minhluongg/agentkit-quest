@@ -14,7 +14,7 @@
     "verify": "tsx scripts/verify-build.ts",
     "redact:check": "tsx scripts/redact-transcript.ts",
     "test": "playwright test",
-    "prebuild": "tsx scripts/redact-transcript.ts content plans",
+    "prebuild": "tsx scripts/redact-transcript.ts content plans && tsx scripts/verify-content.ts",
     "postbuild": "tsx scripts/verify-build.ts"
   },
   "dependencies": {
