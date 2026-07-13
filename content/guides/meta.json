@@ -1,6 +1,7 @@
 {
   "title": "Guides",
   "pages": [
+    "agentkit-complete-guide",
     "what-is-agentkit",
     "install-agentkit",
     "agentkit-first-project",
