@@ -13,6 +13,7 @@
     "postinstall": "fumadocs-mdx",
     "verify": "tsx scripts/verify-build.ts",
     "redact:check": "tsx scripts/redact-transcript.ts",
+    "test": "playwright test",
     "prebuild": "tsx scripts/redact-transcript.ts content plans",
     "postbuild": "tsx scripts/verify-build.ts"
   },
@@ -31,6 +32,7 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "4.3.2",
     "@types/js-yaml": "4.0.9",
     "@types/mdast": "4.0.4",
