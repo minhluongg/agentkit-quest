@@ -1,12 +1,12 @@
 ---
 title: 'Claude Code Code Review: How to Do It Well (Free and Paid)'
-description: How to run an effective AI code review in Claude Code — the free prompt-based method, and what AgentKit's code-review skill adds. Reviews diffs, PRs, and commits for real bugs.
+description: How to run an effective AI code review in Claude Code — the free prompt-based method, and what AgentKit's code-review skill adds. With a real run that broke our own security gate.
 keywords:
   - claude code code review
   - ai code review claude
   - claude code review pull request
 kitVersion: 'v0.2.0'
-updated: '2026-07-12'
+updated: '2026-07-13'
 ---
 
 Getting Claude Code to review code is easy. Getting it to review code *well* — to find
@@ -51,15 +51,85 @@ findings before reporting so you get fewer false positives.
 ```bash
 /ak:code-review --pending        # review uncommitted changes
 /ak:code-review 142              # review PR #142
-/ak:code-review codebase parallel # full scan, parallel subagents
+/ak:code-review main...HEAD      # review a branch
 ```
 
 *(Legacy prefix: `/ck:code-review`.)*
 
-We used this skill's underlying reviewer throughout building this site — it caught real
-bugs a hand-written prompt missed, including a security-guard bypass. That's the value:
-not that you *can't* prompt a review yourself, but that a tuned, verifying reviewer with
-edge-case scouting catches more.
+## What it actually printed
+
+We pointed it at our own open branch — 51 files, ~330 lines of new TypeScript. The
+centrepiece was a script whose entire job is to stop a credential reaching a published
+page: it scans captured terminal output for API keys and machine paths before any of it
+becomes a web page.
+
+**We had already tested that script.** Six fixtures — a fake token, a real one, a private
+path — all six blocked. We believed it worked.
+
+The review's opening line:
+
+````
+`verify-build.ts` and `page.tsx` are sound — I tried to break them and could not.
+`redact-transcript.ts` does not do what its header comment claims. I constructed
+five files containing an OpenAI-shaped key, a real Windows home path, or both;
+the gate printed `✓ clean` and exited 0 on FOUR of them.
+````
+
+The most instructive of the four:
+
+````
+Critical 1 — redact-transcript.ts:176 — the [REDACTED] skip is a whole-line bypass.
+
+  if (line.includes('[REDACTED]')) return;
+
+It skips the entire line, not the redacted span. Any secret sharing a line with
+the marker is invisible.
+
+Input (in a runs/ file), actual output `✓ clean`, exit 0:
+
+  token=[REDACTED] cwd=C:\Users\<name>\Documents\secret-project
+
+This is the realistic failure, not an exotic one: a human redacts the token on a
+line, the tool goes green, and the username on the same line ships.
+````
+
+Read that last sentence again. **Redacting a secret correctly was what created the hole.**
+Nobody who wrote that line was ever going to see it.
+
+It found three more — a frontmatter "parser" that was really `split('---')[1]` and could be
+forged by a horizontal rule in the body; an exemption check so strict that a non-canonical
+value skipped the scan entirely; and case-sensitive path regexes on Windows, where the
+lowercase rendering of a home path sails past the check written to catch its uppercase twin.
+Then it noted the gate was wired to nothing: its own header promised *"nothing leaves `runs/`
+until it has passed through here"*, enforced only by a human remembering to type the command.
+
+We reproduced all four, fixed them, and kept the fixtures as regression tests. The gate now
+runs in `prebuild`, so a leak fails the build.
+
+**The part that is easy to miss:** it also listed what it attacked and *failed* to break —
+regex backtracking, the date parsing, the allowlist path handling, hydration safety on a new
+component. A clean bill of health is worth something when it is a report of an attempt rather
+than an absence of effort.
+
+## When NOT to reach for it
+
+- **The diff is trivial.** A one-line copy change does not need a staff-engineer pass.
+- **You want style or formatting.** That is a linter's job, and a reviewer told to ignore
+  style will — correctly — ignore it.
+- **You have not run the code.** A review reads; it does not observe. It is not a substitute
+  for executing the thing.
+- **You need someone to agree with you.** It is tuned to find defects, and on a diff you are
+  proud of, that is exactly when it stings.
+
+## Combining it
+
+- **After implementing:** `/ak:cook` → `/ak:code-review` → [`/ak:test`](/skills/test) → ship
+- **On someone else's PR:** [`/ak:review-pr`](/skills/review-pr) is the PR-shaped sibling —
+  same rigour, plus the GitHub round-trip
+- **When it finds a real bug:** hand off to [`/ak:debug`](/skills/debug) to prove the cause
+  before changing anything
+- **Before a security-sensitive merge:** [`/ak:security`](/skills/security) asks a different
+  question than "is this code correct"
 
 ## Buy if / Don't buy if
 
@@ -68,8 +138,14 @@ edge-case scouting catches more.
 - **Skip it if** an occasional scoped-diff prompt covers you — the free method above is
   genuinely most of the value for light use.
 
+The honest version of our own experience: the free prompt would probably have caught the
+lowercase-path bug. We are much less sure it would have caught the `[REDACTED]` bypass — that
+one needed an adversary who had not written the code, and who therefore did not share its
+blind spots.
+
 ## Related
 
 - [Review a GitHub PR](/skills/review-pr) — PR-specific workflow
 - [Debug workflow](/skills/debug) — for when the review finds a bug you need to trace
+- [Security audit](/skills/security) — a different question from correctness
 - [Is AgentKit worth it?](/guides/agentkit-vs-free-alternatives)
