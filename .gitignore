@@ -59,8 +59,18 @@ GoogleService-Info.plist
 
 repomix-output.xml
 .serena/cache
-plans/**/*
-!plans/templates/*
+# Plans are local scratch, with two exceptions. Git cannot re-include a file whose
+# parent directory is excluded, so each parent must be un-excluded on the way down —
+# the previous `plans/**/*` + `!plans/templates/*` pair silently tracked nothing.
+plans/**
+# The page template: cloned by every skill page, so it is a shared contract, not scratch.
+!plans/templates/
+!plans/templates/**
+# Captured skill transcripts: the evidence behind every "here is what it actually
+# printed" claim we publish. Untracked evidence is evidence nobody can check.
+!plans/*/
+!plans/*/runs/
+!plans/*/runs/**
 screenshots/*
 docs/screenshots/*
 logs.txt

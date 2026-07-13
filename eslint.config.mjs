@@ -14,6 +14,10 @@ const config = [
       'claude-code-hooks/**',
       '.claude/**',
       'plans/**',
+      // Git worktrees for isolated skill runs. They are full checkouts of this repo,
+      // so without this every file gets linted twice and every finding is reported
+      // against a path nobody is editing.
+      'worktrees/**',
     ],
   },
   ...coreWebVitals,

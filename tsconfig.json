@@ -42,6 +42,7 @@
   "exclude": [
     "node_modules",
     "claudekit-engineer",
-    "agentkit-engineer"
+    "agentkit-engineer",
+    "worktrees"
   ]
 }
