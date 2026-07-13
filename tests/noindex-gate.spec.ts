@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import skills from '../src/data/skills.generated.json' with { type: 'json' };
 
@@ -23,14 +23,41 @@ import skills from '../src/data/skills.generated.json' with { type: 'json' };
 
 const ROOT = join(import.meta.dirname, '..');
 
+/**
+ * "Published" is not "has a file". It is `src/lib/overrides.ts:36`:
+ *
+ *     entry !== undefined && entry.noindex !== true
+ *
+ * The `noindex` frontmatter flag is the kill-rule — `source.config.ts` describes it as the
+ * way to "pull a page back out of the index without deleting the file". An earlier version
+ * of this suite defined published as *the file exists*, which meant that using the kill-rule
+ * exactly as designed failed two tests.
+ *
+ * That is worse than a missing test. It makes a legitimate product action and a real
+ * regression produce identical output — so the suite would have trained someone to ignore
+ * the failure the one time it mattered.
+ */
+function isKilled(slug: string): boolean {
+  const source = readFileSync(join(ROOT, 'content/skills', `${slug}.mdx`), 'utf8');
+  const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---/.exec(source)?.[1] ?? '';
+  return /^noindex:\s*true\s*$/m.test(frontmatter);
+}
+
 const written = new Set(
   readdirSync(join(ROOT, 'content/skills'))
     .filter((file) => file.endsWith('.mdx'))
     .map((file) => file.replace(/\.mdx$/, '')),
 );
 
-const publishedSlugs = skills.map((s) => s.slug).filter((slug) => written.has(slug));
-const stubSlugs = skills.map((s) => s.slug).filter((slug) => !written.has(slug));
+const publishedSlugs = skills
+  .map((s) => s.slug)
+  .filter((slug) => written.has(slug) && !isKilled(slug));
+
+// A stub has no override — OR has one that opted itself back out. Both are noindex, and the
+// page cannot tell you which, so neither can this test. That is the correct symmetry.
+const stubSlugs = skills
+  .map((s) => s.slug)
+  .filter((slug) => !written.has(slug) || isKilled(slug));
 
 test('the catalog splits into published pages and stubs', () => {
   // If either side is empty the tests below would pass vacuously, asserting nothing.
