@@ -108,6 +108,10 @@ external/
 # Git worktrees (local development only)
 worktrees/
 
+# Playwright run artifacts
+test-results/
+playwright-report/
+
 # ---------------------------------------------------------------------------
 # agentkit.quest (Next.js app)
 # ---------------------------------------------------------------------------
