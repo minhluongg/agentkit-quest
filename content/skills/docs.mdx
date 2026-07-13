@@ -52,8 +52,23 @@ to do by hand and where the skill earns its place.
 
 ## What it actually printed
 
-We ran `/ak:docs summarize` against this site's own source and then **checked every claim it
-made.** That second step is the whole reason this section is worth reading.
+### The input
+
+Run against this site's own source — 57 files of Next.js app code, plus `content/`,
+`source.config.ts` and `scripts/`:
+
+```bash
+/ak:docs summarize
+```
+
+Note this mode **writes**: per the skill's own reference, `summarize` analyses the codebase
+and *updates* `docs/codebase-summary.md`. We ran it in a throwaway git worktree for that
+reason — which turned out to matter.
+
+### The output
+
+Then we **checked every claim it made.** That second step is the whole reason this section is
+worth reading.
 
 **What it got right, and it is not nothing.** In about two minutes it produced a 232-line
 summary that correctly identified the repo's three-stage data flow and found the single most

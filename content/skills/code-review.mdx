@@ -58,13 +58,33 @@ findings before reporting so you get fewer false positives.
 
 ## What it actually printed
 
-We pointed it at our own open branch — 51 files, ~330 lines of new TypeScript. The
-centrepiece was a script whose entire job is to stop a credential reaching a published
-page: it scans captured terminal output for API keys and machine paths before any of it
-becomes a web page.
+### The input
+
+We pointed it at our own open branch, while it was still open:
+
+```bash
+$ git log --oneline main..HEAD
+5d7d2de chore(safety): gate captured transcripts before they reach content
+866096a fix(content): correct the kit version, and stop it rotting silently
+d6d7d2e fix(content): redact the author's machine path from published transcripts
+4380f7c docs(plans): record the capture environment and the plan behind it
+
+$ git diff --stat main...HEAD | tail -1
+ 51 files changed, 787 insertions(+), 51 deletions(-)
+```
+
+```bash
+/ak:code-review main...HEAD
+```
+
+The substance was ~330 lines of new TypeScript. Its centrepiece was a script whose entire
+job is to stop a credential reaching a published page: it scans captured terminal output for
+API keys and machine paths before any of it becomes a web page.
 
 **We had already tested that script.** Six fixtures — a fake token, a real one, a private
 path — all six blocked. We believed it worked.
+
+### The output
 
 The review's opening line:
 
