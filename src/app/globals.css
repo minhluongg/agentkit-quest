@@ -130,6 +130,13 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* Press feedback scales the button by 3%. With transitions cut to 0.01ms above, that
+     stops being an ease and becomes a snap — which is more jarring than no feedback at
+     all. So it does not scale here; the colour change still acknowledges the press. */
+  *:active {
+    transform: none !important;
+  }
 }
 
 /* ---------------------------------------------------------------------------

@@ -131,7 +131,7 @@ export function SkillsExplorer({ skills, categories }: SkillsExplorerProps) {
 
       <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
         <FilterChip active={!category} onClick={() => selectCategory(undefined)}>
-          All <span className="text-muted-foreground">{skills.length}</span>
+          All <span>{skills.length}</span>
         </FilterChip>
 
         {categories.map((item) => (
@@ -140,7 +140,7 @@ export function SkillsExplorer({ skills, categories }: SkillsExplorerProps) {
             active={category === item.id}
             onClick={() => selectCategory(category === item.id ? undefined : item.id)}
           >
-            {item.label} <span className="text-muted-foreground">{item.count}</span>
+            {item.label} <span>{item.count}</span>
           </FilterChip>
         ))}
       </div>
@@ -192,10 +192,27 @@ function FilterChip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border px-3 py-1.5 text-xs font-medium transition-colors duration-200',
+        // `min-h-11` = 44px. The chips were 30px — above the WCAG 2.2 AA floor of 24px, but
+        // below the 44px touch target every mobile guideline asks for, and these are the
+        // primary control on the page.
+        //
+        // `active:` is press feedback. There was none anywhere in the codebase, and on touch
+        // there is no hover either — so a tap produced no acknowledgement at all until the
+        // filter result changed.
+        'flex min-h-11 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border px-3 py-1.5 text-xs font-medium transition-colors duration-200 active:scale-[0.97]',
+        // The chip owns the count's colour, in both states.
+        //
+        // It used to be `text-muted-foreground` hardcoded at the call site, with the active
+        // chip overriding it to `text-primary-foreground/70` — a 70% opacity that composited
+        // to 3.19:1, failing WCAG AA on 12px text that carries real information.
+        //
+        // Removing the override made it worse, not better: the span fell back to
+        // `text-muted-foreground` — slate-400 on a blue fill — and measured **1.43:1**. The
+        // fix was not to delete the override but to own the colour on both sides. Measured,
+        // not reasoned about: the first attempt was a regression.
         active
-          ? 'border-primary bg-primary text-primary-foreground [&_span]:text-primary-foreground/70'
-          : 'border-border bg-surface text-foreground hover:border-primary',
+          ? 'border-primary bg-primary text-primary-foreground [&_span]:text-primary-foreground'
+          : 'border-border bg-surface text-foreground [&_span]:text-muted-foreground hover:border-primary',
       )}
     >
       {children}
