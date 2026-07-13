@@ -130,6 +130,8 @@ export default async function SkillPage({ params }: PageProps) {
             <StubBody skillName={skill.invocation} />
           )}
 
+          {override?.kitVersion && <Provenance kitVersion={override.kitVersion} updated={override.updated} />}
+
           {mentionedIn.length > 0 && (
             <section className="mt-12 flex flex-col gap-5 border-t border-border pt-8">
               <h2 className="font-mono text-lg font-semibold text-foreground">
@@ -183,6 +185,41 @@ export default async function SkillPage({ params }: PageProps) {
         {override && <DocsToc items={override.toc} />}
       </div>
     </>
+  );
+}
+
+/**
+ * Which kit version this page was written against.
+ *
+ * The version used to live in frontmatter and be read by nobody — every page
+ * declared `kitVersion: '2.20.0'`, a number from the superseded ClaudeKit-era kit,
+ * and nothing surfaced it, so nothing caught it. A pin that is never displayed is a
+ * pin that silently rots.
+ *
+ * The wording is deliberately "documented against", not "examples run against":
+ * these pages do not carry worked examples yet. When a page gains a real captured
+ * transcript, the transcript is its own evidence and this line dates it.
+ *
+ * Renders nothing when the version is absent. A wrong pin is worse than no pin.
+ */
+function Provenance({ kitVersion, updated }: { kitVersion: string; updated?: string }) {
+  const date =
+    updated &&
+    // The schema enforces ISO, so this parses — but a UTC-anchored format keeps the
+    // rendered date stable regardless of the server's timezone.
+    new Date(`${updated}T00:00:00Z`).toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    });
+
+  return (
+    <p className="mt-10 border-t border-border pt-6 text-sm text-muted-foreground">
+      Documented against AgentKit Engineer{' '}
+      <span className="font-mono text-foreground">{kitVersion}</span>
+      {date && <> · updated {date}</>}
+    </p>
   );
 }
 

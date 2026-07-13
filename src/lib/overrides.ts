@@ -21,7 +21,7 @@ export function getAgentOverride(slug: string) {
 /**
  * A reference page is only indexable once someone has written real content for it.
  *
- * Without this gate we would ship 88 auto-generated skill pages and 13 agent pages
+ * Without this gate we would ship 91 auto-generated skill pages and 16 agent pages
  * whose only content is a paraphrase of upstream metadata. Google classifies that
  * as scaled content abuse, and the penalty lands on the whole domain — not just the
  * thin pages. So: stubs exist (the routes are real, the data is accurate, users can

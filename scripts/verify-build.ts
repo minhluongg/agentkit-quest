@@ -181,7 +181,55 @@ if (existsSync(sitemapPath)) {
     }
   }
 } else {
-  notes.push('sitemap.xml.body not found in build output — skipped sitemap/noindex cross-check.');
+  // Not a note. A check that cannot find its input has not passed — it has not run,
+  // and a silently-skipped assertion is worse than no assertion, because the green
+  // tick still gets read as "the sitemap is clean".
+  fail(
+    'sitemap.xml.body not found in build output — the sitemap/noindex cross-check could not run.',
+  );
+}
+
+// --- The kit version must not rot -------------------------------------------
+//
+// Every page once declared `kitVersion: '2.20.0'` — a number from the superseded
+// ClaudeKit-era kit — and nothing rendered it, so nothing caught it. It reached the
+// site's top commercial page as prose ("the kit is on version 2.20.0") and sat there.
+//
+// So the stale version is now a build failure. The allowlist below is the one place
+// `2.20.0` is legitimate: a *captured* `ck --version` transcript, where it is the
+// legacy CLI's true output. That file is evidence, not error — a blanket sweep would
+// falsify it, which is why this is an allowlist and not a blanket ban.
+
+const STALE_VERSION = '2.20.0';
+
+/** Files where `2.20.0` is correct. Repo-relative, forward slashes. */
+const STALE_VERSION_ALLOWLIST = new Set([
+  // A real `ck --version` transcript: claudekit-cli 4.5.0 does report engineer@v2.20.0.
+  'content/guides/install-agentkit.mdx',
+  // The public correction callout, which must quote the wrong number to correct it.
+  'content/guides/agentkit-vs-free-alternatives.mdx',
+]);
+
+function contentFiles(dir: string, acc: string[] = []): string[] {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) contentFiles(path, acc);
+    else if (entry.name.endsWith('.mdx')) acc.push(path);
+  }
+  return acc;
+}
+
+for (const path of contentFiles(join(ROOT, 'content'))) {
+  const rel = path.replace(ROOT, '').replace(/\\/g, '/').replace(/^\//, '');
+  if (STALE_VERSION_ALLOWLIST.has(rel)) continue;
+
+  if (readFileSync(path, 'utf8').includes(STALE_VERSION)) {
+    fail(
+      `${rel} still cites the superseded kit version ${STALE_VERSION}. ` +
+        'The Engineer kit is v0.2.0 (`ak kit list-kits`). If this occurrence is a captured ' +
+        'transcript rather than a claim, add it to STALE_VERSION_ALLOWLIST with a reason.',
+    );
+  }
 }
 
 // --- Report -----------------------------------------------------------------

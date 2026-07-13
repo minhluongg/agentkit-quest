@@ -49,7 +49,7 @@ export const docs = defineDocs({
  *
  * A skill page with an override here is real content and gets indexed. A skill
  * page without one renders a factual stub and is `noindex`. That gate is the
- * whole defence against shipping 88 thin auto-generated pages, which Google
+ * whole defence against shipping 91 thin auto-generated pages, which Google
  * treats as spam — and one such penalty would poison the entire domain.
  *
  * File name must match the generated slug (see skills.generated.json), e.g. the
@@ -59,7 +59,10 @@ export const docs = defineDocs({
 const overrideSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
-  updated: z.string().optional(),
+  // Strict date, matching the guide schema above. This is rendered as provenance
+  // ("examples run against v0.2.0, 13 July 2026"), so a loose string would ship
+  // `Invalid Date` to a live page with a green build.
+  updated: z.iso.date().optional(),
   // Overrides the vendor's invocation-flavoured keywords. A page that targets the
   // *job* ("claude code code review") must not ship the invocation keyword
   // ("ck:code-review") that nobody searches — see the content-map targeting rule.
