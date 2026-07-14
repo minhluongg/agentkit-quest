@@ -26,11 +26,17 @@ Last verified: **2026-07-13**, by installing the `ak` CLI and running it on Wind
 
 ```
 $ ak kit list-kits
-NAME       VERSION  EXTENDS  AGENTS  SKILLS  COMMANDS  HOOKS  RULES
-core       0.1.0    -            10      54         0     30      7
-engineer   0.2.0    core         16      91         0     17      7
-marketing  0.2.0    core         32      73         0      3      7
+NAME       VERSION  EXTENDS  AGENTS  SKILLS  COMMANDS  HOOKS  RULES  OUTPUT-STYLES  SCRIPTS
+core       0.1.0    -        10      54      0         30     7      6              2
+engineer   0.2.0    core     16      91      0         17     7      6              10
+marketing  0.2.0    core     32      73      0         3      7      6              9
 ```
+
+> **Re-captured 2026-07-14.** The earlier block here was missing the `OUTPUT-STYLES` and `SCRIPTS`
+> columns — the counts were right, the *shape* was stale. A reader who ran the command would not have
+> got what we printed. On a site whose whole argument is "we show you the terminal", a terminal block
+> nobody can reproduce is the one thing we cannot ship. **Re-capture the whole block, not the
+> numbers.**
 
 Both product kits **extend `core`**, which is why the numbers overlap rather than add up. Do not
 sum them.
@@ -185,6 +191,49 @@ Agents are **workers a skill delegates to**, not commands you type.
 
 ---
 
+## Criticising the kit — the bar, and why it is this high
+
+**Nothing below is published on the site. It is the record of a plan that was killed before it
+shipped**, and it exists so nobody rebuilds that plan from the same broken evidence. A red team on
+2026-07-14 blocked a plan to publish four flaws on the commercial pages. **Three of the four were
+wrong**, and the fourth was about our own repo.
+
+We earn a commission on this kit. That does not forbid criticism — it raises the bar for it.
+
+### What we thought we had, and what we actually had
+
+| The claim we nearly published | What verification found |
+|---|---|
+| *"`/ak:git`'s secret scan is one grep for five English words."* | **False.** A second scan exists at `skills/ak-git/references/safety-protocols.md:7` — 11 patterns, including the `AKIA` **shape**, `-----BEGIN`, and DB connection strings. `SKILL.md:118` links to it. We read the summary and never opened the reference. |
+| *"It does not catch an OpenAI-shaped `sk-` key."* | **False.** It catches it whenever the variable is named conventionally. Our probe was `KEY = "sk-…"` — the one naming that evades `api[_-]?key`. `OPENAI_API_KEY` and `openaiApiKey` are both **blocked**, by both scans. |
+| *"We ran it and the gate reported clean."* | **We never captured that.** The transcript's "evidence" is a grep we typed by hand. The skill's own output format defines a `✓ security:` line (`SKILL.md:97`) that appears **nowhere** in our run, and the four commits it produced **do not contain the secret file at all** — so the skill may well have blocked or skipped it, and we did not notice. |
+| *"`agent-browser`'s ~280 chars/snapshot measures 18,098 — worse than the tool it claims to beat."* | **Wrong mode.** Every invocation in the skill's own docs uses `snapshot -i`. On that: **8,169 chars** — level with the 8K+ Playwright figure, not worse. Our 18,098 came from a flag the docs never tell you to use. |
+| *"5 of 20 skills could not be exercised — an honest ceiling on 91 skills."* | **A fact about our repo, not the product.** `runs/not-run.md` says so itself: no database, no Docker, no auth. A backend engineer would find them fine. Republishing that as a product limit is a checkable lie. |
+
+### The one criticism that survived, and it is stronger than the ones that did not
+
+> **The scan matches variable *names*, not secret *values*.** Rename `OPENAI_API_KEY` to `KEY` and the
+> identical live key passes **both** of the kit's greps.
+
+True, mechanical, reproducible, and unrebuttable — because it is about how the check works, not about
+whether it got lucky. **It is still not published**, because we have never captured the skill's own
+output saying so. Inference is not evidence.
+
+### The bar, before any criticism of this kit ships
+
+1. **Read every `references/` file the skill links to.** Not the summary. The summary is not the gate.
+2. **Capture the skill's own output**, including the line where it reports its own verdict. A command
+   we ran by hand next to a skill is not the skill.
+3. **Run it the way the docs say to run it.** A flag we chose is a result we manufactured.
+4. **A property of our repo is not a property of the product.** We are a static MDX site. Most of what
+   we cannot exercise, we cannot exercise because of us.
+5. **Pin the version and the date on the page**, next to the claim. A criticism with no date is a
+   grudge; the kit ships fixes, and being wrong about a flaw is worse than never raising it.
+6. **We have been publicly wrong about this vendor twice already** (the `2.20.0` version, the
+   88/13 counts). Both were low-stakes numbers. A security accusation is not.
+
+---
+
 ## Content rules that follow from all of this
 
 1. **Lead with `ak:`, name `ck:` as the legacy alias.** Both appear in the wild; the kit's own
@@ -194,3 +243,6 @@ Agents are **workers a skill delegates to**, not commands you type.
 4. **Do not "correct" the vendor from stale data.** We did that. It was wrong. If our number
    disagrees with theirs, state ours, state the version, and leave it there.
 5. **If we got it wrong in public, correct it in public** — a callout, not a quiet edit.
+6. **Re-capture the whole terminal block, not the numbers.** A block whose *shape* is stale is a
+   block no reader can reproduce — and reproducibility is the only thing that separates this site
+   from an affiliate blog.
